@@ -8,6 +8,7 @@ public class Bullet : MonoBehaviour
     public float force;
     public float torque;
     private void Awake() {
+    
         bulletRigidbody = GetComponent<Rigidbody>();
     }
 
