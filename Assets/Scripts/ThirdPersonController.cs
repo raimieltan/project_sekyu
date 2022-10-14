@@ -76,6 +76,11 @@ namespace StarterAssets
         [Tooltip("For locking the camera position on all axis")]
         public bool LockCameraPosition = false;
 
+        //healthbar temp
+        [SerializeField] private float _maxHealth = 100;
+        [SerializeField] private HealthBar _healthBar;
+        private float _currentHealth;
+
         // cinemachine
         private float _cinemachineTargetYaw;
         private float _cinemachineTargetPitch;
@@ -152,6 +157,10 @@ namespace StarterAssets
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
+
+            //temp healthbar
+            _currentHealth = _maxHealth;
+            _healthBar.UpdateHealthBar(_maxHealth, _currentHealth);
         }
 
         private void Update()
@@ -404,6 +413,11 @@ namespace StarterAssets
             {
                 MoveSpeed = 0.5f;
                 SprintSpeed = 0.5f;
+            }
+            else if (other.gameObject.name == "SpikeTrapPoison")
+            {
+                _currentHealth -= 10;
+                _healthBar.UpdateHealthBar(_maxHealth, _currentHealth);
             }
         }
 
