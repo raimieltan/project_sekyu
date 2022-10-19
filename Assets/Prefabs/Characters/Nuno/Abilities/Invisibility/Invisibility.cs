@@ -1,84 +1,98 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Invisibility : MonoBehaviour
 {
-    // // Start is called before the first frame update
-    // void Start()
-    // {
-        
-    // }
+    public float cooldownTime = 3;
+    private float nextActiveAbilityTime = 0;
+    private List<Material[]> _materials;
 
-    // // Update is called once per frame
-    // void Update()
-    // {
-        
-    // }
-  public int healAmount = 20;
-  public float cooldownTime = 3;
-  private float nextHealTime = 0;
-//   public float range = 7f;
-//   public Image abilityImage;
-//   public AudioClip healSound;
-//   AudioSource audioSource;
+    public Material transparentMaterial;
+    public Image abilityImage;
 
-  void Start()
-  {
-    // abilityImage.fillAmount = 0;
-    // audioSource = GetComponent<AudioSource>();
-  }
-
-  void Update()
-  {
-    if (Time.time > nextHealTime)
+    void Start()
     {
-        // Debug.Log("INSIDE");
-        // Debug.Log(Time.time);
-      if (Input.GetKeyDown(KeyCode.I))
-      {
-        Debug.Log("I is pressed");
-        // nextHealTime = Time.time + cooldownTime;
-        // abilityImage.fillAmount = 1;
-        // audioSource.PlayOneShot(healSound);
-        GoInvisible();
-      }
+        abilityImage.fillAmount = 0;
+        _materials = GetAllObjectsWithMeshMaterial();
     }
-    else
+
+    void Update()
     {
-        // Debug.Log("outSIDE");
-        // Debug.Log(Time.time);
-    //   abilityImage.fillAmount -= 1 / cooldownTime * Time.deltaTime;
+        if (Time.time > nextActiveAbilityTime)
+        {
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                Debug.Log("I is pressed");
+                nextActiveAbilityTime = Time.time + cooldownTime;
+                abilityImage.fillAmount = 1;
+                GoInvisible();
+            } else {
+                RemoveInvisibility();
+            }
+        }
+        else
+        {
+            abilityImage.fillAmount -= 1 / cooldownTime * Time.deltaTime;
 
-    //   if (abilityImage.fillAmount <= 0)
-    //   {
-    //     abilityImage.fillAmount = 0;
-    //   }
+            if (abilityImage.fillAmount <= 0)
+            {
+                abilityImage.fillAmount = 0;
+                RemoveInvisibility();
+            }
+        }
     }
 
+    private List<Material[]> GetAllObjectsWithMeshMaterial()
+    {
+        List<Material[]> materials = new List<Material[]>();
 
-  }
+        Transform[] limbs = GetComponentsInChildren<Transform>();
 
-    private void GoInvisible() {
+        foreach (Transform child in limbs)
+        {
+            Renderer renderer = child.GetComponent<Renderer>();
 
+            if (renderer != null)
+            {
+                materials.Add(renderer.materials);
+            } else {
+                materials.Add(null);
+            }
+        }
+
+        return materials;
     }
 
-//   private void HealNearbyAllies()
-//   {
-//     Collider[] colliders = Physics.OverlapSphere(transform.position, range);
-//     foreach (Collider c in colliders)
-//     {
-//       if (c.TryGetComponent<Tags>(out var tags))
-//       {
-//         if (tags.HasTag("Ally"))
-//         {
-//           if (c.GetComponent<Health>())
-//           {
-//             float maxHealth = c.GetComponent<Health>().maxHealth;
-//             c.GetComponent<Health>().RestoreHealth(maxHealth * 0.3f);
-//           }
-//         }
-//       }
-//     }
-//   }
+    private void RemoveInvisibility()
+    {
+        Transform[] limbs = GetComponentsInChildren<Transform>();
+
+        for (int child = 0; child < limbs.Length; child++)
+        {
+            Renderer renderer = limbs[child].GetComponent<Renderer>();
+
+            if (renderer != null)
+            {
+                renderer.materials = _materials[child];
+            }
+        }
+    }
+
+    private void GoInvisible()
+    {
+        Transform[] limbs = GetComponentsInChildren<Transform>();
+        Material[] _replacement = new Material[1]{ transparentMaterial };
+
+        for (int child = 0; child < limbs.Length; child++)
+        {
+            Renderer renderer = limbs[child].GetComponent<Renderer>();
+
+            if (renderer != null)
+            {
+                renderer.materials = _replacement;
+            }
+        }
+    }
 }
