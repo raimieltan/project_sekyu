@@ -159,8 +159,10 @@ namespace StarterAssets
         private void Update()
         {
             // dead
-            if (health.currentHealth <= 0) {
-                return;
+            if (health != null) {
+                if (health.currentHealth <= 0) {
+                    return;
+                }
             }
 
             _hasAnimator = TryGetComponent(out _animator);

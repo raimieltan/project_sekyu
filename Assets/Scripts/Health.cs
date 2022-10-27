@@ -12,7 +12,10 @@ public class Health : MonoBehaviour
   void Start()
   {
     currentHealth = maxHealth;
-    healthBar.SetMaxHealth(maxHealth);
+    if (healthBar != null)
+    {
+      healthBar.SetMaxHealth(maxHealth);
+    }
   }
 
   // Update is called once per frame
@@ -40,8 +43,10 @@ public class Health : MonoBehaviour
       currentHealth -= damage;
     }
 
-
-    healthBar.SetHealth(currentHealth);
+    if (healthBar != null)
+    {
+      healthBar.SetHealth(currentHealth);
+    }
   }
 
   public void RestoreHealth(float healAmount)
@@ -54,7 +59,9 @@ public class Health : MonoBehaviour
     {
       currentHealth += healAmount;
     }
-
-    healthBar.SetHealth(currentHealth);
+    if (healthBar != null)
+    {
+      healthBar.SetHealth(currentHealth);
+    }
   }
 }
