@@ -77,9 +77,9 @@ namespace StarterAssets
         public bool LockCameraPosition = false;
 
         //healthbar temp
-        [SerializeField] private float _maxHealth = 100;
-        [SerializeField] private HealthBar _healthBar;
-        private float _currentHealth;
+        [SerializeField] public float maxHealth = 100;
+        [SerializeField] public HealthBar healthBar;
+        public float currentHealth;
 
         // cinemachine
         private float _cinemachineTargetYaw;
@@ -159,8 +159,8 @@ namespace StarterAssets
             _fallTimeoutDelta = FallTimeout;
 
             //temp healthbar
-            _currentHealth = _maxHealth;
-            _healthBar.UpdateHealthBar(_maxHealth, _currentHealth);
+            currentHealth = maxHealth;
+            healthBar.UpdateHealthBar(maxHealth, currentHealth);
         }
 
         private void Update()
@@ -407,27 +407,27 @@ namespace StarterAssets
             }
         }
 
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.gameObject.name == "SpikeTrapD")
-            {
-                MoveSpeed = 0.5f;
-                SprintSpeed = 0.5f;
-            }
-            else if (other.gameObject.name == "SpikeTrapPoison")
-            {
-                _currentHealth -= 10;
-                _healthBar.UpdateHealthBar(_maxHealth, _currentHealth);
-            }
-        }
+        // private void OnTriggerEnter(Collider other)
+        // {
+        //     if (other.gameObject.name == "SpikeTrapD")
+        //     {
+        //         MoveSpeed = 0.5f;
+        //         SprintSpeed = 0.5f;
+        //     }
+        //     else if (other.gameObject.name == "SpikeTrapPoison")
+        //     {
+        //         _currentHealth -= 10;
+        //         _healthBar.UpdateHealthBar(_maxHealth, _currentHealth);
+        //     }
+        // }
 
-        private void OnTriggerExit(Collider other)
-        {
-            if (other.gameObject.name == "SpikeTrapD")
-            {
-                MoveSpeed = 2f;
-                SprintSpeed = 5.335f;
-            }
-        }
+        // private void OnTriggerExit(Collider other)
+        // {
+        //     if (other.gameObject.name == "SpikeTrapD")
+        //     {
+        //         MoveSpeed = 2f;
+        //         SprintSpeed = 5.335f;
+        //     }
+        // }
     }
 }
