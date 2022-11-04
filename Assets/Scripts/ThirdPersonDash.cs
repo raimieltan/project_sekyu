@@ -20,10 +20,10 @@ public class ThirdPersonDash : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(starterAssetsInputs.dash)
-        {
-            StartCoroutine(Dash());
-        }
+        // if(starterAssetsInputs.dash)
+        // {
+        //     StartCoroutine(Dash());
+        // }
     }
 
     IEnumerator Dash()
