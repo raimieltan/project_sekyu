@@ -19,8 +19,9 @@ public class reviveOrb : MonoBehaviour
         transform.SetParent(null);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
+        // Debug.Log("Hit");
         Destroy(gameObject);
     }
 }

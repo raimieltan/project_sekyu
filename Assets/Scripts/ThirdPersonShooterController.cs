@@ -13,15 +13,25 @@ public class ThirdPersonShooterController : MonoBehaviour
     [SerializeField] private Transform debugTransform;
     [SerializeField] private Transform pfBulletProj;
     [SerializeField] private Transform spawnBulletPos;
+    [SerializeField] private Transform reviveOrb;
 
     private ThirdPersonController thirdPersonController;
     private StarterAssetsInputs starterAssetsInputs;
 
+    private bool isReviving;
 
+    private Transform currentBullet;
+    private string animationTrigger;
+
+    private Animator animator;
     private void Awake()
     {
         thirdPersonController = GetComponent<ThirdPersonController>();
         starterAssetsInputs = GetComponent<StarterAssetsInputs>();
+        isReviving = false;
+        currentBullet = pfBulletProj;
+        animator = GetComponent<Animator>();
+        animationTrigger = "Shoot";
     }
     private void Update()
     {
@@ -34,6 +44,18 @@ public class ThirdPersonShooterController : MonoBehaviour
             mouseWorldPosition = raycastHit.point;
         }
 
+        if (Input.GetButtonDown("ToggleRevive")){
+            if(!isReviving) {
+                isReviving = true;
+                currentBullet = reviveOrb;
+                animationTrigger = "Revive";
+
+            } else {
+                isReviving = false;
+                currentBullet = pfBulletProj;
+                animationTrigger = "Shoot";
+            }
+        }
 
         if(starterAssetsInputs.aim){
             aimVirtualCamera.gameObject.SetActive(true);
@@ -45,10 +67,10 @@ public class ThirdPersonShooterController : MonoBehaviour
             transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime * 20f);
 
             if(starterAssetsInputs.shoot) {
-
                 Vector3 aimDir = (mouseWorldPosition - spawnBulletPos.position).normalized;
-                Instantiate(pfBulletProj, spawnBulletPos.position, Quaternion.LookRotation(aimDir, Vector3.up));
+                Instantiate(currentBullet, spawnBulletPos.position, Quaternion.LookRotation(aimDir, Vector3.up));
                 starterAssetsInputs.shoot = false;
+                animator.SetTrigger(animationTrigger);
             }
         }
         else {

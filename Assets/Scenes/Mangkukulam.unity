@@ -223,6 +223,40 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &103150224 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1953271650171834, guid: dbf7a0c9d76b77a40af3104feac0641d,
+    type: 3}
+  m_PrefabInstance: {fileID: 853354584}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &103150228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 103150224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a500af5f154634646a990520001c8321, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!54 &103150229
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 103150224}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &401556695
 GameObject:
   m_ObjectHideFlags: 0
@@ -585,6 +619,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 23345256735768492, guid: dbf7a0c9d76b77a40af3104feac0641d,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6abde3b11fb69099d9454de267c6c7c0, type: 2}
+    - target: {fileID: 136275810615880682, guid: dbf7a0c9d76b77a40af3104feac0641d,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.4529469
+      objectReference: {fileID: 0}
+    - target: {fileID: 136275810615880682, guid: dbf7a0c9d76b77a40af3104feac0641d,
+        type: 3}
+      propertyPath: m_Center.x
+      value: -0.02841258
+      objectReference: {fileID: 0}
+    - target: {fileID: 136275810615880682, guid: dbf7a0c9d76b77a40af3104feac0641d,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 137047875659472788, guid: dbf7a0c9d76b77a40af3104feac0641d,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6abde3b11fb69099d9454de267c6c7c0, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dbf7a0c9d76b77a40af3104feac0641d, type: 3}
 --- !u!1 &874605735
@@ -929,7 +988,7 @@ PrefabInstance:
     - target: {fileID: 7268588322839368792, guid: a8cf938c7321b1d3e9e3689f47f3077b,
         type: 3}
       propertyPath: m_Lens.m_SensorSize.x
-      value: 2.2162416
+      value: 2.0425298
       objectReference: {fileID: 0}
     - target: {fileID: 7268588322839368793, guid: a8cf938c7321b1d3e9e3689f47f3077b,
         type: 3}
@@ -949,7 +1008,7 @@ PrefabInstance:
     - target: {fileID: 7268588323759914296, guid: a8cf938c7321b1d3e9e3689f47f3077b,
         type: 3}
       propertyPath: m_Lens.m_SensorSize.x
-      value: 2.2162416
+      value: 2.0425298
       objectReference: {fileID: 0}
     - target: {fileID: 7268588323759914297, guid: a8cf938c7321b1d3e9e3689f47f3077b,
         type: 3}
