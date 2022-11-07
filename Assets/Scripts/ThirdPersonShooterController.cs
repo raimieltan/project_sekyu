@@ -4,6 +4,12 @@ using UnityEngine;
 using Cinemachine;
 using StarterAssets;
 
+public enum AttackType {
+    MELEE,
+    MAGIC
+}
+
+
 public class ThirdPersonShooterController : MonoBehaviour
 {
     [SerializeField] private CinemachineVirtualCamera aimVirtualCamera;
@@ -16,15 +22,20 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     private ThirdPersonController thirdPersonController;
     private StarterAssetsInputs starterAssetsInputs;
-
+    bool canAttack;
+    public AttackType type;
+    private Animator animator;
 
     private void Awake()
     {
         thirdPersonController = GetComponent<ThirdPersonController>();
         starterAssetsInputs = GetComponent<StarterAssetsInputs>();
+        animator = GetComponent<Animator>();
+        canAttack = true;
     }
     private void Update()
     {
+        
         Vector3 mouseWorldPosition = Vector3.zero;
 
         Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
@@ -34,30 +45,59 @@ public class ThirdPersonShooterController : MonoBehaviour
             mouseWorldPosition = raycastHit.point;
         }
 
+        if(type == AttackType.MAGIC){
+            if(starterAssetsInputs.aim){
+                aimVirtualCamera.gameObject.SetActive(true);
+                thirdPersonController.SetSensitivity(aimSensitivity);
 
-        if(starterAssetsInputs.aim){
-            aimVirtualCamera.gameObject.SetActive(true);
-            thirdPersonController.SetSensitivity(aimSensitivity);
-
-            Vector3 worldAimTarget = mouseWorldPosition;
-            worldAimTarget.y = transform.position.y;
-            Vector3 aimDirection = (worldAimTarget - transform.position).normalized;
-            transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime * 20f);
-
-            if(starterAssetsInputs.shoot) {
-
+                Vector3 worldAimTarget = mouseWorldPosition;
+                worldAimTarget.y = transform.position.y;
+                Vector3 aimDirection = (worldAimTarget - transform.position).normalized;
+                transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime * 20f);
                 Vector3 aimDir = (mouseWorldPosition - spawnBulletPos.position).normalized;
-                Instantiate(pfBulletProj, spawnBulletPos.position, Quaternion.LookRotation(aimDir, Vector3.up));
-                starterAssetsInputs.shoot = false;
+
+                if(starterAssetsInputs.shoot && canAttack) {
+
+                    StartCoroutine(attackMagic(aimDir)); 
+                    
+                }
             }
+            else {
+                aimVirtualCamera.gameObject.SetActive(false);
+                thirdPersonController.SetSensitivity(normalSensitivity);
+            }
+
         }
         else {
-            aimVirtualCamera.gameObject.SetActive(false);
-            thirdPersonController.SetSensitivity(normalSensitivity);
+            if(starterAssetsInputs.shoot && canAttack) {
+                StartCoroutine(attackMelee());
+            }
         }
 
+    }
 
+    IEnumerator attackMelee() {
+        canAttack = false;
 
+        animator.Play("Attack", 0, 0.25f);
+        yield return new WaitForSeconds(1.3f);
+
+        canAttack = true;
 
     }
+
+    IEnumerator attackMagic(Vector3 aimDir) {
+        canAttack = false;
+
+        animator.Play("SpellAttack", 0, 0.15f);
+        yield return new WaitForSeconds(0.3f);
+
+        Instantiate(pfBulletProj, spawnBulletPos.position, Quaternion.LookRotation(aimDir, Vector3.up));
+        starterAssetsInputs.shoot = false;
+     
+
+        canAttack = true;
+
+    }
+
 }
