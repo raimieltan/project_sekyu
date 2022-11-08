@@ -6,14 +6,17 @@ using UnityEngine.UI;
 public class Invisibility : MonoBehaviour
 {
     public float cooldownTime = 3;
-    private float nextActiveAbilityTime = 0;
-    private List<Material[]> _materials;
-
+    public bool isVisible = true;
     public Material transparentMaterial;
     public Image abilityImage;
 
+    private Copycat copycat;
+    private float nextActiveAbilityTime = 0;
+    private List<Material[]> _materials;
+
     void Start()
     {
+        copycat = gameObject.GetComponent<Copycat>();
         abilityImage.fillAmount = 0;
         _materials = GetAllObjectsWithMeshMaterial();
     }
@@ -25,11 +28,22 @@ public class Invisibility : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.I))
             {
                 Debug.Log("I is pressed");
+
+                if (copycat.isSwapped)
+                {
+                    // TODO: Show panel? Ask Sean
+                    copycat.Swap(0);
+                }
+
                 nextActiveAbilityTime = Time.time + cooldownTime;
                 abilityImage.fillAmount = 1;
+
                 GoInvisible();
             } else {
-                RemoveInvisibility();
+                if (!copycat.isSwapped)
+                {
+                    RemoveInvisibility();
+                }
             }
         }
         else
@@ -78,6 +92,8 @@ public class Invisibility : MonoBehaviour
                 renderer.materials = _materials[child];
             }
         }
+
+        isVisible = true;
     }
 
     private void GoInvisible()
@@ -94,5 +110,7 @@ public class Invisibility : MonoBehaviour
                 renderer.materials = _replacement;
             }
         }
+
+        isVisible = false;
     }
 }

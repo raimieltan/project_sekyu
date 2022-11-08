@@ -98,6 +98,9 @@ namespace StarterAssets
         private int _animIDFreeFall;
         private int _animIDMotionSpeed;
 
+        // health
+        public Health health;
+
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
         private PlayerInput _playerInput;
 #endif
@@ -155,6 +158,13 @@ namespace StarterAssets
 
         private void Update()
         {
+            // dead
+            if (health != null) {
+                if (health.currentHealth <= 0) {
+                    return;
+                }
+            }
+
             _hasAnimator = TryGetComponent(out _animator);
 
             JumpAndGravity();
