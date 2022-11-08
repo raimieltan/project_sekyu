@@ -257,6 +257,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &386852217 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7268588323759914296, guid: a8cf938c7321b1d3e9e3689f47f3077b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1128422281}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &401556695
 GameObject:
   m_ObjectHideFlags: 0
@@ -988,7 +1000,7 @@ PrefabInstance:
     - target: {fileID: 7268588322839368792, guid: a8cf938c7321b1d3e9e3689f47f3077b,
         type: 3}
       propertyPath: m_Lens.m_SensorSize.x
-      value: 2.0425298
+      value: 1.9403508
       objectReference: {fileID: 0}
     - target: {fileID: 7268588322839368793, guid: a8cf938c7321b1d3e9e3689f47f3077b,
         type: 3}
@@ -1008,7 +1020,7 @@ PrefabInstance:
     - target: {fileID: 7268588323759914296, guid: a8cf938c7321b1d3e9e3689f47f3077b,
         type: 3}
       propertyPath: m_Lens.m_SensorSize.x
-      value: 2.0425298
+      value: 1.9403508
       objectReference: {fileID: 0}
     - target: {fileID: 7268588323759914297, guid: a8cf938c7321b1d3e9e3689f47f3077b,
         type: 3}
@@ -1091,8 +1103,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7352175125945472106, guid: b533b8bf0623f7c4c9227e2d84561abd,
         type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8674585055965420965, guid: a8cf938c7321b1d3e9e3689f47f3077b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a8cf938c7321b1d3e9e3689f47f3077b, type: 3}
+--- !u!4 &1144290338 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8674585057186689880, guid: a8cf938c7321b1d3e9e3689f47f3077b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1128422281}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1221041499
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1509,6 +1528,36 @@ ReflectionProbe:
   m_UseOcclusionCulling: 1
   m_Importance: 1
   m_CustomBakedTexture: {fileID: 0}
+--- !u!1 &1888561342 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4984996572131509873, guid: a8cf938c7321b1d3e9e3689f47f3077b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1128422281}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1888561352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1888561342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5716c11f01a8af845a82e26aa4baf6d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aimVirtualCamera: {fileID: 386852217}
+  normalSensitivity: 1
+  aimSensitivity: 0.5
+  aimColliderMask:
+    serializedVersion: 2
+    m_Bits: 1
+  debugTransform: {fileID: 0}
+  pfBulletProj: {fileID: 1450177959416152937, guid: 66774c20edb53b78aa48cf8481d5fdd0,
+    type: 3}
+  spawnBulletPos: {fileID: 1144290338}
+  reviveOrb: {fileID: 7352175125945472106, guid: b533b8bf0623f7c4c9227e2d84561abd,
+    type: 3}
 --- !u!1 &1969194602
 GameObject:
   m_ObjectHideFlags: 0
