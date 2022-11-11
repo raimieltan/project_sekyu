@@ -264,6 +264,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2019262581}
     m_Modifications:
+    - target: {fileID: 1841129276477373973, guid: 9a115671ba2c27f41826a41a8717a721,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2237136542671183303, guid: 9a115671ba2c27f41826a41a8717a721,
         type: 3}
       propertyPath: m_Pivot.x
@@ -378,6 +383,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Itemslot2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9132739702715099999, guid: 9a115671ba2c27f41826a41a8717a721,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a115671ba2c27f41826a41a8717a721, type: 3}
@@ -594,6 +604,45 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1511556553}
+        m_TargetAssemblyTypeName: ShopManagerScript, Assembly-CSharp
+        m_MethodName: Buy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+--- !u!114 &144436848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 144436837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3079d4e437c443d46912647b132e4900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemID: 4
+  PriceText: {fileID: 1659757343}
+  ShopManager: {fileID: 1511556551}
+--- !u!114 &146234883 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4945176161052375580, guid: 9a115671ba2c27f41826a41a8717a721,
+    type: 3}
+  m_PrefabInstance: {fileID: 4887221153551783675}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &172408116
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -601,6 +650,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2019262581}
     m_Modifications:
+    - target: {fileID: 1841129276477373973, guid: 9a115671ba2c27f41826a41a8717a721,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2237136542671183303, guid: 9a115671ba2c27f41826a41a8717a721,
         type: 3}
       propertyPath: m_Pivot.x
@@ -715,6 +769,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Itemslot1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9132739702715099999, guid: 9a115671ba2c27f41826a41a8717a721,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a115671ba2c27f41826a41a8717a721, type: 3}
@@ -847,7 +906,7 @@ PrefabInstance:
       propertyPath: m_text
       value: 'Dark Mountain
 
-        $60'
+'
       objectReference: {fileID: 0}
     - target: {fileID: 7674494458624856346, guid: 9a115671ba2c27f41826a41a8717a721,
         type: 3}
@@ -859,6 +918,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Itemslot2
       objectReference: {fileID: 0}
+    - target: {fileID: 9132739702715099999, guid: 9a115671ba2c27f41826a41a8717a721,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a115671ba2c27f41826a41a8717a721, type: 3}
 --- !u!224 &197402474 stripped
@@ -867,6 +931,141 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 197402473}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &213203656
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 213203657}
+  - component: {fileID: 213203659}
+  - component: {fileID: 213203658}
+  m_Layer: 5
+  m_Name: Coins
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &213203657
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 213203656}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 971243556}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -227, y: -317}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &213203658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 213203656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 'Coins: 1000'
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 36
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &213203659
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 213203656}
+  m_CullTransparentMesh: 1
 --- !u!1 &228320717
 GameObject:
   m_ObjectHideFlags: 0
@@ -1417,6 +1616,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eca83a2dd20ebcc4d830a2517f01428a, type: 3}
+--- !u!114 &478086020 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4945176161052375580, guid: 9a115671ba2c27f41826a41a8717a721,
+    type: 3}
+  m_PrefabInstance: {fileID: 197402473}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &486641012
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1534,7 +1745,7 @@ PrefabInstance:
       propertyPath: m_text
       value: 'Explosive Trap
 
-        $120'
+'
       objectReference: {fileID: 0}
     - target: {fileID: 7674494458624856346, guid: 9a115671ba2c27f41826a41a8717a721,
         type: 3}
@@ -1545,6 +1756,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Itemslot5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9132739702715099999, guid: 9a115671ba2c27f41826a41a8717a721,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a115671ba2c27f41826a41a8717a721, type: 3}
@@ -2263,6 +2479,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1511556553}
+        m_TargetAssemblyTypeName: ShopManagerScript, Assembly-CSharp
+        m_MethodName: Buy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &697381463 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4782391001485956910, guid: fd4038a1974a1b443beb817bc4865442,
@@ -2275,6 +2503,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &697381466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697381459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3079d4e437c443d46912647b132e4900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemID: 0
+  PriceText: {fileID: 146234883}
+  ShopManager: {fileID: 1511556551}
 --- !u!1 &708290276 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3297143476866443939, guid: 9d2722eeb8c8774429d641ad3bd1a8f6,
@@ -2363,6 +2606,33 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1511556553}
+        m_TargetAssemblyTypeName: ShopManagerScript, Assembly-CSharp
+        m_MethodName: Buy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+--- !u!114 &708290287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 708290276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3079d4e437c443d46912647b132e4900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemID: 3
+  PriceText: {fileID: 1313735610}
+  ShopManager: {fileID: 1511556551}
 --- !u!1 &795186412
 GameObject:
   m_ObjectHideFlags: 0
@@ -2675,6 +2945,7 @@ RectTransform:
   - {fileID: 670408389}
   - {fileID: 509594908}
   - {fileID: 228320718}
+  - {fileID: 213203657}
   m_Father: {fileID: 1370808460}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2870,6 +3141,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b90a1d7fbd5400e4e87652c2756284b8, type: 3}
+--- !u!114 &1003286440 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4945176161052375580, guid: 9a115671ba2c27f41826a41a8717a721,
+    type: 3}
+  m_PrefabInstance: {fileID: 1664181423}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1012705773
 GameObject:
   m_ObjectHideFlags: 0
@@ -3255,6 +3538,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2019262581}
     m_Modifications:
+    - target: {fileID: 1841129276477373973, guid: 9a115671ba2c27f41826a41a8717a721,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2237136542671183303, guid: 9a115671ba2c27f41826a41a8717a721,
         type: 3}
       propertyPath: m_Pivot.x
@@ -3371,6 +3659,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Itemslot6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9132739702715099999, guid: 9a115671ba2c27f41826a41a8717a721,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a115671ba2c27f41826a41a8717a721, type: 3}
@@ -3522,7 +3815,7 @@ PrefabInstance:
     - target: {fileID: 190884170733484042, guid: 1a90c9f1ed084304f94188b3a8475e4a,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 190884170733484042, guid: 1a90c9f1ed084304f94188b3a8475e4a,
         type: 3}
@@ -3577,27 +3870,27 @@ PrefabInstance:
     - target: {fileID: 190884170733484042, guid: 1a90c9f1ed084304f94188b3a8475e4a,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 190884170733484042, guid: 1a90c9f1ed084304f94188b3a8475e4a,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 190884170733484042, guid: 1a90c9f1ed084304f94188b3a8475e4a,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 190884170733484042, guid: 1a90c9f1ed084304f94188b3a8475e4a,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 0.00014442205
       objectReference: {fileID: 0}
     - target: {fileID: 190884170733484042, guid: 1a90c9f1ed084304f94188b3a8475e4a,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 30.2
+      value: 30.199982
       objectReference: {fileID: 0}
     - target: {fileID: 190884170733484042, guid: 1a90c9f1ed084304f94188b3a8475e4a,
         type: 3}
@@ -3833,6 +4126,45 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1511556553}
+        m_TargetAssemblyTypeName: ShopManagerScript, Assembly-CSharp
+        m_MethodName: Buy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+--- !u!114 &1282347713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1282347702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3079d4e437c443d46912647b132e4900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemID: 2
+  PriceText: {fileID: 1003286440}
+  ShopManager: {fileID: 1511556551}
+--- !u!114 &1313735610 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4945176161052375580, guid: 9a115671ba2c27f41826a41a8717a721,
+    type: 3}
+  m_PrefabInstance: {fileID: 1513032456}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1317763396 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3297143476866443939, guid: 1a90c9f1ed084304f94188b3a8475e4a,
@@ -3927,6 +4259,33 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1511556553}
+        m_TargetAssemblyTypeName: ShopManagerScript, Assembly-CSharp
+        m_MethodName: Buy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+--- !u!114 &1326029907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1326029896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3079d4e437c443d46912647b132e4900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemID: 1
+  PriceText: {fileID: 478086020}
+  ShopManager: {fileID: 1511556551}
 --- !u!1 &1370808456
 GameObject:
   m_ObjectHideFlags: 0
@@ -4288,6 +4647,52 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd4038a1974a1b443beb817bc4865442, type: 3}
+--- !u!1 &1511556551
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1511556552}
+  - component: {fileID: 1511556553}
+  m_Layer: 0
+  m_Name: ShopManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1511556552
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1511556551}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 315.74908, y: 196.22853, z: 73.50995}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1511556553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1511556551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a517f4c14fb12544d876f10bf6684a06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coins: 1000
+  CoinsTxt: {fileID: 213203658}
 --- !u!1001 &1513032456
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4405,7 +4810,7 @@ PrefabInstance:
       propertyPath: m_text
       value: 'Flashbang
 
-        $50'
+'
       objectReference: {fileID: 0}
     - target: {fileID: 7674494458624856346, guid: 9a115671ba2c27f41826a41a8717a721,
         type: 3}
@@ -4417,6 +4822,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Itemslot4
       objectReference: {fileID: 0}
+    - target: {fileID: 9132739702715099999, guid: 9a115671ba2c27f41826a41a8717a721,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a115671ba2c27f41826a41a8717a721, type: 3}
 --- !u!224 &1513032457 stripped
@@ -4425,6 +4835,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1513032456}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1517551611 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4945176161052375580, guid: 9a115671ba2c27f41826a41a8717a721,
+    type: 3}
+  m_PrefabInstance: {fileID: 1574208618}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1574208618
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4445,7 +4867,7 @@ PrefabInstance:
     - target: {fileID: 2237136542671183303, guid: 9a115671ba2c27f41826a41a8717a721,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2237136542671183303, guid: 9a115671ba2c27f41826a41a8717a721,
         type: 3}
@@ -4542,7 +4964,7 @@ PrefabInstance:
       propertyPath: m_text
       value: 'Poison Trap
 
-        $120'
+'
       objectReference: {fileID: 0}
     - target: {fileID: 7674494458624856346, guid: 9a115671ba2c27f41826a41a8717a721,
         type: 3}
@@ -4553,6 +4975,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Itemslot6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9132739702715099999, guid: 9a115671ba2c27f41826a41a8717a721,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a115671ba2c27f41826a41a8717a721, type: 3}
@@ -4569,6 +4996,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2019262581}
     m_Modifications:
+    - target: {fileID: 1841129276477373973, guid: 9a115671ba2c27f41826a41a8717a721,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2237136542671183303, guid: 9a115671ba2c27f41826a41a8717a721,
         type: 3}
       propertyPath: m_Pivot.x
@@ -4685,6 +5117,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Itemslot5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9132739702715099999, guid: 9a115671ba2c27f41826a41a8717a721,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a115671ba2c27f41826a41a8717a721, type: 3}
@@ -4821,7 +5258,7 @@ GameObject:
   - component: {fileID: 1625665150}
   m_Layer: 0
   m_Name: EventSystem
-  m_TagString: Untagged
+  m_TagString: Event
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4904,6 +5341,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2019262581}
     m_Modifications:
+    - target: {fileID: 1841129276477373973, guid: 9a115671ba2c27f41826a41a8717a721,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2237136542671183303, guid: 9a115671ba2c27f41826a41a8717a721,
         type: 3}
       propertyPath: m_Pivot.x
@@ -5021,6 +5463,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Itemslot4
       objectReference: {fileID: 0}
+    - target: {fileID: 9132739702715099999, guid: 9a115671ba2c27f41826a41a8717a721,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a115671ba2c27f41826a41a8717a721, type: 3}
 --- !u!224 &1636737867 stripped
@@ -5035,6 +5482,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1478310381}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1659757343 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4945176161052375580, guid: 9a115671ba2c27f41826a41a8717a721,
+    type: 3}
+  m_PrefabInstance: {fileID: 486641012}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1664181423
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5152,7 +5611,7 @@ PrefabInstance:
       propertyPath: m_text
       value: 'Smoke Grenade
 
-        $50'
+'
       objectReference: {fileID: 0}
     - target: {fileID: 7674494458624856346, guid: 9a115671ba2c27f41826a41a8717a721,
         type: 3}
@@ -5163,6 +5622,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Itemslot3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9132739702715099999, guid: 9a115671ba2c27f41826a41a8717a721,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a115671ba2c27f41826a41a8717a721, type: 3}
@@ -5303,6 +5767,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2019262581}
     m_Modifications:
+    - target: {fileID: 1841129276477373973, guid: 9a115671ba2c27f41826a41a8717a721,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2237136542671183303, guid: 9a115671ba2c27f41826a41a8717a721,
         type: 3}
       propertyPath: m_Pivot.x
@@ -5420,6 +5889,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Itemslot3
       objectReference: {fileID: 0}
+    - target: {fileID: 9132739702715099999, guid: 9a115671ba2c27f41826a41a8717a721,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a115671ba2c27f41826a41a8717a721, type: 3}
 --- !u!224 &1803803941 stripped
@@ -5516,6 +5990,33 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1511556553}
+        m_TargetAssemblyTypeName: ShopManagerScript, Assembly-CSharp
+        m_MethodName: Buy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+--- !u!114 &1899667432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1899667421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3079d4e437c443d46912647b132e4900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemID: 5
+  PriceText: {fileID: 1517551611}
+  ShopManager: {fileID: 1511556551}
 --- !u!1 &2019262580
 GameObject:
   m_ObjectHideFlags: 0
@@ -5673,9 +6174,7 @@ PrefabInstance:
     - target: {fileID: 7674494458624856346, guid: 9a115671ba2c27f41826a41a8717a721,
         type: 3}
       propertyPath: m_text
-      value: 'Battle Guard
-
-        $100'
+      value: Battle Guard
       objectReference: {fileID: 0}
     - target: {fileID: 7674494458624856346, guid: 9a115671ba2c27f41826a41a8717a721,
         type: 3}
@@ -5686,6 +6185,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Itemslot1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9132739702715099999, guid: 9a115671ba2c27f41826a41a8717a721,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a115671ba2c27f41826a41a8717a721, type: 3}
