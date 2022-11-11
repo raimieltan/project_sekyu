@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - CinemachineTarget
+  - bullet
+  - revive
+  - root
   - Heal Projectile
   layers:
   - Default
@@ -15,8 +18,8 @@ TagManager:
   - UI
   - 
   - 
-  - Character
-  - Ground
+  - 
+  - 
   - 
   - 
   - 
