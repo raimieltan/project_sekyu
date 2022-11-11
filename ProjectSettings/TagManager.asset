@@ -8,6 +8,7 @@ TagManager:
   - bullet
   - revive
   - root
+  - Heal Projectile
   layers:
   - Default
   - TransparentFX
@@ -17,8 +18,8 @@ TagManager:
   - UI
   - 
   - 
-  - Character
-  - Ground
+  - 
+  - 
   - 
   - 
   - 
