@@ -1,20 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Tags : MonoBehaviour
-{
-  [SerializeField] private List<Tag> _tags;
-
-  public List<Tag> All => _tags;
-
-  public bool HasTag(Tag t)
-  {
-    return _tags.Contains(t);
-  }
-
-  public bool HasTag(string tagName)
-  {
-    return _tags.Exists(t => t.Name == tagName);
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:d6ae3922842a289b58f8b989499fe188aa8acad13421a9b7639b265b5f2acf55
+size 358

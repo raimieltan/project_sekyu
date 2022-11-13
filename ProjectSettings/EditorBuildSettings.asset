@@ -1,19 +1,3 @@
-%YAML 1.1
-%TAG !u! tag:unity3d.com,2011:
---- !u!1045 &1
-EditorBuildSettings:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/Character.unity
-    guid: e9017d5f96b9f09489b4b37e1d6eb914
-  - enabled: 1
-    path: Assets/Scenes/Multiplayer.unity
-    guid: 6e9f55d9e3da3e4499b575d1a1589055
-  - enabled: 1
-    path: Assets/Prefabs/Characters/Encanto/Abilities/AoeHeal/AoeHeal.unity
-    guid: 23828de4ebdc57949a5a833512cdbb98
-  m_configObjects:
-    com.unity.input.settings: {fileID: 11400000, guid: 9e7be553448fa2546aea5752021cbcf7,
-      type: 2}
+version https://git-lfs.github.com/spec/v1
+oid sha256:fb78181fa1952bbffe3e812f8a298459a1dd871854d531e5b4de5bc67f11b211
+size 540
