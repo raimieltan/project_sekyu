@@ -6,71 +6,80 @@ using CartoonFX;
 
 public class Traps : MonoBehaviour
 {
-    float interval = 5;
-    float poisonDmg = 10f;
-    float poisonTime = 3f;
-    bool insideTrap;
+    private float waitTime = 3;
+    private float poisonDmg = 10f;
+    private float poisonTime = 3f;
+    private float explosiveDmg = 30f;
+    private bool insideTrap;
     // float dmgInterval = 3;
-    [SerializeField] private ThirdPersonController _player;
-    // [SerializeField] private CFXR_Effect _effects;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (GameObject.Find("SlowTrap") == null) {
-            returnMovementSpeed();
-        }
-    }
+    private ThirdPersonController player;
+    [SerializeField] private ParticleSystem poisonAnim;
+    [SerializeField] private ParticleSystem virusAnim;
+    [SerializeField] private ParticleSystem slowAnim;
+    [SerializeField] private ParticleSystem explosiveAnim;
 
     void OnTriggerEnter(Collider col) {
-        if(transform.name == "SlowTrap") {
-            if(col.gameObject.name == "PlayerArmature") {
-                _player.MoveSpeed = 0.5f;
-                _player.SprintSpeed = 0.5f;
-                Destroy(transform.gameObject, interval);
+        if(col.gameObject.name == "PlayerArmature") {
+            ThirdPersonController player = col.gameObject.GetComponent<ThirdPersonController>();
+            if(transform.name == "SlowCol") {
+                player.MoveSpeed = 0.5f;
+                player.SprintSpeed = 0.5f;
+                slowAnim.Play();
+                StartCoroutine(ReturnMovementSpeed(waitTime, player, transform.parent.gameObject));
+            } else if (transform.name == "PoisonCol"){
+                poisonAnim.Play();
+                virusAnim.Play();
+                DamageOverTime(poisonDmg, poisonTime, player);
+            } else if (transform.name == "ExplosiveCol") {
+                // Rigidbody rigg = col.GetComponent<Rigidbody>();
+                // print(rigg);
+                // rigg.AddExplosionForce(5, transform.position, 5);
+                explosiveAnim.Play();
+                player.currentHealth -= explosiveDmg;
+                player.healthBar.UpdateHealthBar(player.maxHealth, player.currentHealth);
             }
-        } else if (transform.name == "DarkMagic" || transform.name == "FireTrap"){
-            if(col.gameObject.name == "PlayerArmature") {
-                DamageOverTime(poisonDmg, poisonTime);
-            }
+        } else if (col.gameObject.name == "Bullet(Clone)") {
+            transform.gameObject.SetActive(false);
+            MonoBehaviour camMono = Camera.main.GetComponent<MonoBehaviour>();
+            camMono.StartCoroutine(DisableTrap(3f, transform.gameObject));
+            transform.gameObject.SetActive(false);
         }
     }
 
     void OnTriggerExit(Collider col) {
-        if(transform.name == "SpikeTrapD") {
-            if(col.gameObject.name == "PlayerArmature") {
-                _player.MoveSpeed = 2f;
-                _player.SprintSpeed = 5.335f;
-            }
-        } else if (transform.name == "SpikeTrapPoison" || transform.name == "DarkMagic"){
-            if(col.gameObject.name == "PlayerArmature") {
-                DamageOverTime(poisonDmg, poisonTime);
-            }
-        }
+        // ThirdPersonController player = col.gameObject.GetComponent<ThirdPersonController>();
+        // if (transform.name == "SpikeTrapPoison" || transform.name == "DarkMagic"){
+        //     if(col.gameObject.name == "PlayerArmature") {
+        //         DamageOverTime(poisonDmg, poisonTime, player);
+        //     }
+        // }
     }
 
-    public void DamageOverTime(float dmgAmount, float dmgTime) {
-        StartCoroutine(DamageOverTimeCoroutine(dmgAmount, dmgTime));
+    public void DamageOverTime(float dmgAmount, float dmgTime, ThirdPersonController player) {
+        StartCoroutine(DamageOverTimeCoroutine(dmgAmount, dmgTime, player));
     }
 
-    IEnumerator DamageOverTimeCoroutine(float dmgAmount, float duration)  {
+    IEnumerator DamageOverTimeCoroutine(float dmgAmount, float duration, ThirdPersonController player)  {
         float amountDamaged = 0;
         float damagePerLoop = dmgAmount / duration;
         while (amountDamaged < dmgAmount) {
-            _player.currentHealth -= damagePerLoop;
-            _player.healthBar.UpdateHealthBar(_player.maxHealth, _player.currentHealth);
+            player.currentHealth -= damagePerLoop;
+            player.healthBar.UpdateHealthBar(player.maxHealth, player.currentHealth);
             amountDamaged += damagePerLoop;
             yield return new WaitForSeconds(1f);
         }
     }
 
-    void returnMovementSpeed() {
-        _player.MoveSpeed = 2f;
-        _player.SprintSpeed = 5.335f;
+    IEnumerator DisableTrap(float waitTime, GameObject trap)
+    {
+        yield return new WaitForSeconds(waitTime);
+        trap.SetActive(true);
+    }
+
+    IEnumerator ReturnMovementSpeed(float waitTime, ThirdPersonController player, GameObject trap) {
+        yield return new WaitForSeconds(waitTime);
+        Destroy(trap);
+        player.MoveSpeed = 2f;
+        player.SprintSpeed = 5.335f;
     }
 }
