@@ -1,27 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Bullet : MonoBehaviour
-{
-    private Rigidbody bulletRigidbody;
-    public float force;
-    public float torque;
-    private void Awake() {
-    
-        bulletRigidbody = GetComponent<Rigidbody>();
-    }
-
-    private void Start() {
-
-        // bulletRigidbody.velocity = transform.forward * speed;
-        bulletRigidbody.AddForce(transform.forward * force, ForceMode.Impulse);
-        bulletRigidbody.AddTorque(transform.right * torque);
-        transform.SetParent(null);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        Destroy(gameObject);
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:f0997a18279c14ddf5b84e0355fa6bb74ad7276dc53469cd3a88bd5246563042
+size 697
