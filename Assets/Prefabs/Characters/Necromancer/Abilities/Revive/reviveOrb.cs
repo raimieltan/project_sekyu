@@ -1,27 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class reviveOrb : MonoBehaviour
-{
-    private Rigidbody orbRigidBody;
-    public float force;
-    public float torque;
-    private void Awake() {
-    
-        orbRigidBody = GetComponent<Rigidbody>();
-    }
-
-    private void Start() {
-
-        orbRigidBody.AddForce(transform.forward * force, ForceMode.Impulse);
-        orbRigidBody.AddTorque(transform.right * torque);
-        transform.SetParent(null);
-    }
-
-    private void OnCollisionEnter(Collision other)
-    {
-        // Debug.Log("Hit");
-        Destroy(gameObject);
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:07c04ea0a33f92612ba0f088ed1d35836dce55ec4d99b638925b37d12b61df8f
+size 623

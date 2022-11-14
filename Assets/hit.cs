@@ -1,27 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class hit : MonoBehaviour
-{
-    public float health;
-
-
-    private void OnCollisionEnter(Collision collision)
-    {
-
-        if (collision.gameObject.tag == "Weapon") {
-
-            Damage();
-        }
-
-    }
-
-    private void Damage() {
-        health -= 50;
-        if(health <= 0) {
-            Destroy(this.gameObject);
-        }
-        Debug.Log(health);
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:e50e85329f0aa08257c6180827c33bf3ca161b59ee1c4575d3e36e390fd6b117
+size 456
