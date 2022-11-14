@@ -8,7 +8,7 @@ public class Bullet : MonoBehaviour
     public float force;
     public float torque;
     private void Awake() {
-    
+
         bulletRigidbody = GetComponent<Rigidbody>();
     }
 
@@ -22,6 +22,8 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Destroy(gameObject);
+        if(other.gameObject.tag != "trap") {
+            Destroy(gameObject);
+        }
     }
 }
