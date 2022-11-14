@@ -34,7 +34,7 @@ public class Health : MonoBehaviour
     }
   }
 
-  void TakeDamage(float damage)
+  public void TakeDamage(float damage)
   {
     if (currentHealth - damage <= 0)
     {
