@@ -5,79 +5,146 @@ using UnityEngine.AI;
 
 public class Summoned : MonoBehaviour
 {
-  private NavMeshAgent character;
+    private NavMeshAgent character;
+    public Transform PlayerTarget;
+    public float sightRange;
+    public float attackRange;
+    public float followDistance;
+    public float attackCooldown;
+    public float nextAttackTime;
 
-  public Transform PlayerTarget;
-  // Start is called before the first frame update
+    public bool
 
-  public float sightRange = 50f;
-  public float attackRange = 1f;
-  public bool enemyInSightRange, enemyInAttackRange;
+            enemyInSightRange,
+            enemyInAttackRange;
 
-  public LayerMask whatIsGround, whatIsPlayer;
+    public LayerMask
 
+            whatIsGround,
+            whatIsPlayer;
 
+    private Animator animator;
 
-  void Start()
-  {
-    character = GetComponent<NavMeshAgent>();
-  }
+    public bool isAttacking;
 
-  // Update is called once per frame
-  void Update()
-  {
+    public AudioClip skeletonSound1;
+    public AudioClip skeletonSound2;
+    private bool toggleSound = true;
+    private AudioClip idleSoundToPlay;
 
-    Collider[] colliders = Physics.OverlapSphere(transform.position, sightRange);
-    foreach (Collider c in colliders)
+    void Start()
     {
-      if (c.TryGetComponent<Tags>(out var tags))
-      {
-        if (tags.HasTag("Enemy"))
-        {
-          ChaseEnemy(c);
-          return;
-          //   if (c.GetComponent<Health>())
-          //   {
-          //     float maxHealth = c.GetComponent<Health>().maxHealth;
-          //     c.GetComponent<Health>().RestoreHealth(maxHealth * 0.3f);
-          //   }
-        }
-      }
+        character = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
+        sightRange = 20f;
+        attackRange = 1.5f;
+        followDistance = 3f;
+        attackCooldown = 2f;
+        nextAttackTime = 0f;
+        InvokeRepeating("PlaySound", 0.001f, 10f);
     }
 
-    FollowPlayer();
+    void PlaySound()
+    {
+        if (toggleSound)
+        {
+            idleSoundToPlay = skeletonSound1;
+        }
+        else
+        {
+            idleSoundToPlay = skeletonSound2;
+        }
 
+        AudioSource.PlayClipAtPoint(idleSoundToPlay, transform.position);
+        toggleSound = !toggleSound;
+    }
 
-    // enemyInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
-    // enemyInAttackRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
+    void Update()
+    {
+        Collider[] colliders =
+            Physics.OverlapSphere(PlayerTarget.position, sightRange);
+        foreach (Collider c in colliders)
+        {
+            if (c.TryGetComponent<Tags>(out var tags))
+            {
+                if (tags.HasTag("Enemy"))
+                {
+                    character.speed = 5f;
 
-    // if (!enemyInSightRange && !enemyInAttackRange) FollowPlayer();
-    // if (enemyInSightRange && !enemyInAttackRange) ChaseEnemy();
-    // if (enemyInSightRange && enemyInAttackRange) AttackEnemy();
-  }
+                    float distance =
+                        Vector3
+                            .Distance(transform.position, c.transform.position);
 
-  private void ChaseEnemy(Collider enemy)
-  {
-    Debug.Log("chase enemy");
-    character.SetDestination(enemy.transform.position);
-  }
+                    if (distance <= attackRange)
+                    {
+                        isAttacking = true;
+                        AttackEnemy(c);
+                        return;
+                    }
+                    else
+                    {
+                        isAttacking = false;
+                        ChaseEnemy(c);
+                        return;
+                    }
+                }
+            }
+        }
 
-  private void AttackEnemy()
-  {
-    Debug.Log("attack");
-    // character.SetDestination(enemy.position);
-    // transform.LookAt(enemy);
+        character.speed = 3.5f;
+        isAttacking = false;
+        character.SetDestination(PlayerTarget.position);
+        FollowPlayer();
+    }
 
-    // if (!)
+    void FixedUpdate()
+    {
+        animator.SetFloat("Speed", character.velocity.magnitude);
+        animator.SetBool("Attacking", isAttacking);
+    }
 
+    private void ChaseEnemy(Collider enemy)
+    {
+        character.SetDestination(enemy.transform.position);
+    }
 
+    private void AttackEnemy(Collider enemy)
+    {
+        character.SetDestination(transform.position);
 
-  }
+        Health enemyHealth = enemy.gameObject.GetComponent<Health>();
 
-  private void FollowPlayer()
-  {
-    character.SetDestination(PlayerTarget.position);
-  }
+        LookCharacter(enemy.transform);
+
+        if (Time.time > nextAttackTime)
+        {
+            enemyHealth.TakeDamage(5);
+            nextAttackTime = Time.time + attackCooldown;
+        }
+    }
+
+    private void FollowPlayer()
+    {
+        float distance =
+            Vector3
+                .Distance(transform.position, PlayerTarget.position);
+
+        if (distance < followDistance)
+        {
+            LookCharacter(PlayerTarget);
+            character.SetDestination(transform.position);
+        }
+        else
+        {
+            isAttacking = false;
+            character.SetDestination(PlayerTarget.position);
+        }
+
+    }
+
+    private void LookCharacter(Transform charTransform)
+    {
+        Vector3 targetPosition = new Vector3(charTransform.position.x, this.transform.position.y, charTransform.position.z);
+        transform.LookAt(targetPosition);
+    }
 }
-
-

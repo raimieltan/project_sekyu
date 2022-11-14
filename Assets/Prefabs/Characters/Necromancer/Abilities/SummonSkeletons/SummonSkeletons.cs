@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 #endif
 
-
 namespace StarterAssets
 {
     public class SummonSkeletons : MonoBehaviour
@@ -23,11 +22,14 @@ namespace StarterAssets
 
         private float timer = 0;
 
+        private int skeletonCount = 0;
+
         void Awake()
         {
             summoned = skeleton.GetComponent<Summoned>();
             anim = skeleton.GetComponent<Animator>();
             _input = GetComponent<StarterAssetsInputs>();
+            skeletonCount = 0;
         }
 
         void Update()
@@ -43,7 +45,10 @@ namespace StarterAssets
 
             if (timer > 2 && timer < 4 && castingSpell)
             {
-                summonGameObject();
+                if (skeletonCount < 4)
+                {
+                    summonGameObject();
+                }
             }
 
             timer += Time.deltaTime;
@@ -51,6 +56,7 @@ namespace StarterAssets
 
         void summonGameObject()
         {
+            skeletonCount++;
             Vector3 randomSpawnPosition =
                 new Vector3(transform.position.x + Random.Range(-3, 3),
                     2,
