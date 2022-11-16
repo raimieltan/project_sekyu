@@ -9,6 +9,7 @@ public class ButtonInfo : MonoBehaviour
 
     public int ItemID;
     public TextMeshProUGUI PriceText;
+    public TextMeshProUGUI QuantityText;
     public GameObject ShopManager;
 
     // Update is called once per frame
@@ -17,6 +18,7 @@ public class ButtonInfo : MonoBehaviour
         int [,] shopItems = ShopManager.GetComponent<ShopManagerScript>().shopItems;
         Debug.Log(shopItems[2,1]);
         PriceText.text = "Price: $" + ShopManager.GetComponent<ShopManagerScript>().shopItems[2, ItemID].ToString();
+        QuantityText.text = ShopManager.GetComponent<ShopManagerScript>().shopItems[3, ItemID].ToString();
         //Debug.Log(PriceText.text = "Price: $" + ShopManager.GetComponent<ShopManagerScript>().shopItems[2, ItemID].ToString());
     }
 }
