@@ -31,9 +31,8 @@ public class Traps : MonoBehaviour
                 virusAnim.Play();
                 DamageOverTime(poisonDmg, poisonTime, player);
             } else if (transform.name == "ExplosiveCol") {
-                // Rigidbody rigg = col.GetComponent<Rigidbody>();
-                // print(rigg);
-                // rigg.AddExplosionForce(5, transform.position, 5);
+                Rigidbody rigg = col.GetComponent<Rigidbody>();
+                rigg.AddForce(-transform.forward * 200, ForceMode.Acceleration);
                 explosiveAnim.Play();
                 player.currentHealth -= explosiveDmg;
                 player.healthBar.UpdateHealthBar(player.maxHealth, player.currentHealth);
@@ -44,15 +43,6 @@ public class Traps : MonoBehaviour
             camMono.StartCoroutine(DisableTrap(3f, transform.gameObject));
             transform.gameObject.SetActive(false);
         }
-    }
-
-    void OnTriggerExit(Collider col) {
-        // ThirdPersonController player = col.gameObject.GetComponent<ThirdPersonController>();
-        // if (transform.name == "SpikeTrapPoison" || transform.name == "DarkMagic"){
-        //     if(col.gameObject.name == "PlayerArmature") {
-        //         DamageOverTime(poisonDmg, poisonTime, player);
-        //     }
-        // }
     }
 
     public void DamageOverTime(float dmgAmount, float dmgTime, ThirdPersonController player) {
