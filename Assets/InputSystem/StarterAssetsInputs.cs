@@ -14,6 +14,8 @@ namespace StarterAssets
 		public bool sprint;
 		public bool aim;
 		public bool shoot;
+		public bool dash;
+		public bool openshop;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -55,6 +57,16 @@ namespace StarterAssets
 		{
 			ShootInput(value.isPressed);
 		}
+
+		public void OnDash(InputValue value)
+		{
+			DashInput(value.isPressed);
+		}
+
+		public void OnOpenShop(InputValue value)
+		{
+			OpenShopInput(value.isPressed);
+		}
 #endif
 
 
@@ -85,6 +97,14 @@ namespace StarterAssets
 
 		public void ShootInput(bool newShootState) {
 			shoot = newShootState;
+		}
+
+		public void DashInput(bool newDashstate) {
+			dash = newDashstate;
+		}
+
+		public void OpenShopInput(bool newOpenShopState) {
+			openshop = newOpenShopState;
 		}
 
 		private void OnApplicationFocus(bool hasFocus)
