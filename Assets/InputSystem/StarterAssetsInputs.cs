@@ -16,12 +16,14 @@ namespace StarterAssets
 		public bool shoot;
 		public bool dash;
 		public bool openshop;
+		public bool useItem1;
+		public bool useItem2;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
 
-		[Header("Mouse Cursor Settings")]
-		public bool cursorLocked = true;
+		// [Header("Mouse Cursor Settings")]
+		// public bool cursorLocked = true;
 		public bool cursorInputForLook = true;
 
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
@@ -67,6 +69,16 @@ namespace StarterAssets
 		{
 			OpenShopInput(value.isPressed);
 		}
+
+		public void OnUseItem1(InputValue value)
+		{
+			UseItem1(value.isPressed);
+		}
+
+		public void OnUseItem2(InputValue value)
+		{
+			UseItem2(value.isPressed);
+		}
 #endif
 
 
@@ -107,15 +119,23 @@ namespace StarterAssets
 			openshop = newOpenShopState;
 		}
 
-		private void OnApplicationFocus(bool hasFocus)
-		{
-			SetCursorState(cursorLocked);
+		public void UseItem1(bool newUseItem1State) {
+			useItem1 = newUseItem1State;
 		}
 
-		private void SetCursorState(bool newState)
-		{
-			Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
+			public void UseItem2(bool newUseItem2State) {
+			useItem2 = newUseItem2State;
 		}
+
+		// private void OnApplicationFocus(bool hasFocus)
+		// {
+		// 	SetCursorState(cursorLocked);
+		// }
+
+		// private void SetCursorState(bool newState)
+		// {
+		// 	Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
+		// }
 	}
 	
 }
