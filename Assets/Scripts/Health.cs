@@ -35,8 +35,8 @@ public class Health : MonoBehaviour
         maxHealth = 200;
         initialHealth = 100;
         currentHealth = initialHealth;
-        AddArmor(100);
-        AddArmor (armorAmount);
+
+        StartCoroutine(ApplyArmor());
         // playerInventory = GetComponent<PlayerInventory>();
     }
 
@@ -100,7 +100,11 @@ public class Health : MonoBehaviour
         }
 
         TriggerUpdateHealth(currentHealth);
+    }
 
+    IEnumerator ApplyArmor() {
+        yield return new WaitForSeconds(2f);
+        AddArmor(100);
     }
 
     // public void AddArmor(float armorAmount)
