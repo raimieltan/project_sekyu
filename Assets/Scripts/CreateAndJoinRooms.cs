@@ -1,3 +1,41 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:73e5dbe77957734c4c217bd52a7ad843d79c83da0ea1a75aa43d5bd5bd701c08
-size 1275
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using Photon.Pun;
+using Photon.Realtime;
+using TMPro;
+
+public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
+{
+    void Start(){
+       DontDestroyOnLoad(gameObject);
+       PhotonNetwork.AutomaticallySyncScene = true;
+    }
+
+
+    public void CreateRoom() {
+        string mes="Trying to create a room";
+        Debug.Log(mes);
+        int randomRoomName = Random.Range(0,10000);
+        RoomOptions roompos = new RoomOptions(){IsVisible=true,IsOpen=true,MaxPlayers=6};
+        roompos.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable();
+        roompos.CustomRoomProperties.Add("offsetX", Random.Range(0f, 9999f));
+        roompos.CustomRoomProperties.Add("offsetY", Random.Range(0f, 9999f));
+        PhotonNetwork.CreateRoom("Room" +randomRoomName.ToString(), roompos);
+    }
+
+    public void JoinRoom() {
+        PhotonNetwork.JoinRandomRoom();
+    }
+
+    public override void OnJoinedRoom() {
+        PhotonNetwork.LoadLevel("Room");
+    }
+
+    public override void OnCreateRoomFailed(short returnCode, string message){
+       string mes="Create Room Failed";
+       Debug.Log(mes);
+       CreateRoom();
+   }
+}
