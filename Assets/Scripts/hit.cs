@@ -12,7 +12,10 @@ public class hit : MonoBehaviour
     public bool damageTaken;
 
     void Awake(){
-        bloodAura = transform.Find("Geometry/BloodAura").GetComponent<ParticleSystem>();
+        bloodAura = transform.Find("Geometry/BloodAura")?.GetComponent<ParticleSystem>();
+        if (bloodAura == null) {
+            Debug.LogError("Failed to find BloodAura particle system");
+        }
     }
 
     private void OnTriggerEnter(Collider other)
