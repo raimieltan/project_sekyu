@@ -107,7 +107,7 @@ public PhotonView view;
         currentProperties["Team_1_score"] = currentScore + 1;
 
      }
-     else if((string)PhotonNetwork.CurrentRoom.CustomProperties["WinningTeamID"] == "team2"){
+     else {
         int currentScore = (int)PhotonNetwork.CurrentRoom.CustomProperties["Team_2_score"];
         currentProperties["Team_2_score"] = currentScore + 1;
      }
