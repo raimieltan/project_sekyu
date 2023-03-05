@@ -137,9 +137,4 @@ public PhotonView view;
         }
     }
 
-    // IEnumerator EndDamageTaken()
-    // {
-    //     yield return new WaitForSeconds(10.0f);
-    //     damageTaken = false;
-    // }
 }
