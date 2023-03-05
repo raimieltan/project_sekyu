@@ -52,9 +52,9 @@ public class PlayerInventory : MonoBehaviour
     {
         if (view.IsMine)
         {
-
             if (starterAssetsInputs.throwFlashbang && flashbangItem.activeSelf && Time.time > nextFlashbangTime)
             {
+                nextFlashbangTime = Time.time + itemCooldown;
                 // Get the player's position and forward direction
                 Vector3 playerPosition = transform.position;
                 Vector3 playerForward = transform.forward;
@@ -104,7 +104,6 @@ public class PlayerInventory : MonoBehaviour
                 PhotonNetwork.Instantiate(explosiveTrap.name, transform.position, Quaternion.identity);
                 OnPlaceExplosiveTrap();
             }
-
 
             if (starterAssetsInputs.placePoisonTrap && poisonTrapItem.activeSelf && Time.time > nextPoisonTrapTime)
             {
