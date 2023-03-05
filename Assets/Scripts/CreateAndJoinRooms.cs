@@ -25,6 +25,9 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
         roompos.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable();
         roompos.CustomRoomProperties.Add("offsetX", Random.Range(0f, 9999f));
         roompos.CustomRoomProperties.Add("offsetY", Random.Range(0f, 9999f));
+        roompos.CustomRoomProperties.Add("Team_1_score", 0);
+        roompos.CustomRoomProperties.Add("Team_2_score", 0);
+        roompos.CustomRoomProperties.Add("game_rounds", 0);
         PhotonNetwork.CreateRoom("Room" + randomRoomName.ToString(), roompos);
     }
 
@@ -36,6 +39,7 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         PhotonNetwork.LocalPlayer.NickName = nameInput.text;
+        
         PhotonNetwork.LoadLevel("Room");
     }
 

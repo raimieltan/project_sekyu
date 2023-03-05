@@ -85,30 +85,35 @@ public PhotonView view;
     
         ExitGames.Client.Photon.Hashtable currentProperties = PhotonNetwork.CurrentRoom.CustomProperties;
         string winningTeamName = (string)PhotonNetwork.LocalPlayer.CustomProperties["team"];
+        Debug.Log("XXXX");
+        Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties["WinningTeamID"]);
+        Debug.Log("________");
+        Debug.Log(PhotonNetwork.LocalPlayer.CustomProperties["team"]);
+        Debug.Log("XXXX");
         if(PhotonNetwork.CurrentRoom.CustomProperties["WinningTeamID"] == PhotonNetwork.LocalPlayer.CustomProperties["team"] as string) {
          
             victoryUI.SetActive(true);
-         
             
         } else {
             
             defeatUI.SetActive(true);
-           
           
         }
 
         // currentProperties.Add("Team_1_score", 0);
         // currentProperties.Add("Team_2_score", 0);
-     if(winningTeamName == "team1") {
+     if((string)PhotonNetwork.CurrentRoom.CustomProperties["WinningTeamID"] == "team1") {
         int currentScore = (int)PhotonNetwork.CurrentRoom.CustomProperties["Team_1_score"];
         currentProperties["Team_1_score"] = currentScore + 1;
 
      }
-     else {
+     else if((string)PhotonNetwork.CurrentRoom.CustomProperties["WinningTeamID"] == "team2"){
         int currentScore = (int)PhotonNetwork.CurrentRoom.CustomProperties["Team_2_score"];
         currentProperties["Team_2_score"] = currentScore + 1;
      }
 
+     int rounds = (int)currentProperties["game_rounds"];
+     currentProperties["game_rounds"] = rounds + 1;
      PhotonNetwork.CurrentRoom.SetCustomProperties(currentProperties);
      Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties);
      PhotonNetwork.LoadLevel("Game");
