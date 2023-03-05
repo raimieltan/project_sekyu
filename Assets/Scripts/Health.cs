@@ -36,7 +36,7 @@ public class Health : MonoBehaviour
         initialHealth = 100;
         currentHealth = initialHealth;
 
-        StartCoroutine(ApplyArmor());
+        // StartCoroutine(ApplyArmor());
         // playerInventory = GetComponent<PlayerInventory>();
     }
 
@@ -59,11 +59,7 @@ public class Health : MonoBehaviour
 
         Debug.Log("TAKE DAMAGE:" + currentHealth);
 
-        // if (currentHealth <= initialHealth) {
-        //     // Debug.Log("HEALTH IS BELOW 100");
-            TriggerUpdateHealth(currentHealth);
-        //     Debug.Log("DMG HEALTH: " + currentHealth);
-        // }
+        TriggerUpdateHealth(currentHealth);
     }
 
     public void TakeDamage(float damage)
@@ -102,10 +98,10 @@ public class Health : MonoBehaviour
         TriggerUpdateHealth(currentHealth);
     }
 
-    IEnumerator ApplyArmor() {
-        yield return new WaitForSeconds(2f);
-        AddArmor(100);
-    }
+    // IEnumerator ApplyArmor() {
+    //     yield return new WaitForSeconds(2f);
+    //     AddArmor(100);
+    // }
 
     // public void AddArmor(float armorAmount)
     // {
