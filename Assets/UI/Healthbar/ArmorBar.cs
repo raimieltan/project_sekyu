@@ -1,3 +1,41 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:746c250dc59e94a4098e8dd1fd1e8e65e27d643314272c536fef2e4a7a1d9041
-size 907
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class ArmorBar : MonoBehaviour
+{
+
+    public Slider slider;
+    public Gradient gradient;
+    public Image fill;
+    public Health healthReference;
+
+    void Start()
+    {
+        slider.maxValue = 100f;
+        slider.value = 0;
+        healthReference.TriggerUpdateHealth += SetArmor;
+    }
+
+
+    public void SetArmor(float health)
+    {
+        float armorValue = health - 100;
+
+        if (armorValue > 100)
+        {
+            slider.value = 100;
+        }
+        else if (armorValue < 0)
+        {
+            slider.value = 0;
+        }
+        else
+        {
+            slider.value = armorValue;
+        }
+
+        Debug.Log("slider value: " + slider.value);
+    }
+}
