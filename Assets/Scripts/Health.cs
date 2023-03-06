@@ -82,14 +82,16 @@ public class Health : MonoBehaviour
 
     public void RestoreHealth(float healAmount)
     {
-        if (currentHealth + healAmount >= initialHealth)
-        {
-            currentHealth = initialHealth;
-        }
-        else
-        {
-            currentHealth += healAmount;
-        }
+       if (currentHealth <= initialHealth) {
+            if (currentHealth + healAmount >= initialHealth)
+            {
+                currentHealth = initialHealth;
+            }
+            else
+            {
+                currentHealth += healAmount;
+            }
+       }
 
         TriggerUpdateHealth(currentHealth);
     }
