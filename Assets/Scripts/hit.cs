@@ -38,7 +38,7 @@ public class hit : MonoBehaviour
 
         if (health.currentHealth <= 0)
         {
-            PhotonNetwork.Destroy(this.gameObject);
+            // PhotonNetwork.Destroy(this.gameObject);
         }
 
 	}
