@@ -22,6 +22,10 @@ public class Health : MonoBehaviour
 
     private PhotonView view;
 
+    private Animator animator;
+    private StarterAssets.ThirdPersonController thirdPersonController;
+    [SerializeField] private GameObject playerHud;
+
     // private PlayerArmor playerArmor;
     // void Awake()
     // {
@@ -35,6 +39,9 @@ public class Health : MonoBehaviour
         maxHealth = 200;
         initialHealth = 100;
         currentHealth = initialHealth;
+        animator = GetComponent<Animator>();
+        thirdPersonController = GetComponent<StarterAssets.ThirdPersonController>();
+        view = GetComponent<PhotonView>();
 
         // StartCoroutine(ApplyArmor());
         // playerInventory = GetComponent<PlayerInventory>();
@@ -42,6 +49,12 @@ public class Health : MonoBehaviour
 
     void Update()
     {
+        if(currentHealth <= 0)
+        {
+            animator.SetTrigger("Die");
+            thirdPersonController.enabled = false;
+            playerHud.SetActive(false);
+        }
         // Debug.Log("CURRENT HEALTH: " + currentHealth);
     }
 
@@ -64,7 +77,7 @@ public class Health : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        view.RPC(nameof(RPC_TakeDamage), RpcTarget.All, damage);
+        view.RPC(nameof(RPC_TakeDamage), PhotonNetwork.LocalPlayer, damage);
     }
 
     public void RestoreHealth(float healAmount)
