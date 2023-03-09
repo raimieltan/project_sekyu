@@ -76,14 +76,6 @@ public class PlayerInventory : MonoBehaviour
 
                 if (flashBang != null)
                 {
-                    // Set the team origin if the player has a TeamTag component
-                    TeamTag teamTag = GetComponent<TeamTag>();
-
-                    if (teamTag != null)
-                    {
-                        flashBang.teamOrigin = teamTag.team;
-                    }
-
                     flashBang.SetThrowDirection(playerForward);
                 }
 

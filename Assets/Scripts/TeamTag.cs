@@ -1,3 +1,39 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ac5a7826f88bf945e7bb24e31e55e84d1c8ff8986b68e32e1869788a6435973f
-size 853
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
+
+public enum Team
+{
+    TEAM1,
+    TEAM2
+}
+public class TeamTag : MonoBehaviour
+{
+    public Team team;
+    public PhotonView view;
+
+    void Awake() {
+        if( view.IsMine && PhotonNetwork.IsConnected == true )
+	    {
+            string chosenTeam = (string)PhotonNetwork.LocalPlayer.CustomProperties["team"];
+            Debug.Log(chosenTeam);
+            if(chosenTeam == "team1") {
+                team = Team.TEAM1;
+            }else {
+                team = Team.TEAM2;
+            }
+	            
+	    }
+    }
+    public bool isAlly(Team compareTo)
+    {
+        return compareTo == team;
+    }
+
+    public bool isEnemy(Team compareTo)
+    {
+        return compareTo != team;
+    }
+}
