@@ -10,14 +10,9 @@ public class hit : MonoBehaviour
     public PhotonView view;
     private ParticleSystem bloodAura;
     public bool damageTaken;
-    public bool isDead;
-    Player sender;
 
     void Awake(){
-        bloodAura = transform.Find("Geometry/BloodAura")?.GetComponent<ParticleSystem>();
-        if (bloodAura == null) {
-            Debug.LogError("Failed to find BloodAura particle system");
-        }
+        bloodAura = transform.Find("Geometry/BloodAura").GetComponent<ParticleSystem>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -46,6 +41,20 @@ public class hit : MonoBehaviour
             StartCoroutine(EndDamageTaken());
             PhotonView attackerView = other.transform.root.GetComponent<PhotonView>();
             sender = attackerView.Owner;
+            Player player = other.gameObject.transform.root.gameObject.GetComponent<PhotonView>().Owner;
+
+        if (player.CustomProperties != null)
+        {
+            // Get the value of a specific custom property
+            object targetTeam = player.CustomProperties["team"];
+
+            // Do something with the custom property value
+            Debug.Log("Player has custom property " + targetTeam);
+            if((string)PhotonNetwork.LocalPlayer.CustomProperties["team"] != (string)targetTeam ) {
+
+            Damage damage = other.gameObject.GetComponent<Damage>();
+        
+            StartCoroutine(EndDamageTaken());
             applyDamage(damage.value);
             }
         }
@@ -62,6 +71,9 @@ public class hit : MonoBehaviour
     [PunRPC]
     public void RPC_applyDamage(float value, Player sender, PhotonMessageInfo info)
     {
+
+        Debug.Log(health.currentHealth);
+        // view.RPC("emitAuraBlood",RpcTarget.All);
         health.TakeDamage(value);
 
         if (health.currentHealth <= 0)
@@ -77,6 +89,9 @@ public class hit : MonoBehaviour
                 isDead = true;
             }
         }
+            PhotonNetwork.Destroy(this.gameObject);
+        }
+
 	}
 
     // [PunRPC]
