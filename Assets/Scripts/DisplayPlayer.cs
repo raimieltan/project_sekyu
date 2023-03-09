@@ -72,8 +72,6 @@ public class DisplayPlayer : MonoBehaviourPunCallbacks
     public void StartGame() {
         PhotonNetwork.SetPlayerCustomProperties(character);
         ExitGames.Client.Photon.Hashtable currentProperties = PhotonNetwork.CurrentRoom.CustomProperties;
-        currentProperties.Add("Team_1_score", 0);
-        currentProperties.Add("Team_2_score", 0);
         currentProperties.Add("WinningTeamID", "");
         PhotonNetwork.CurrentRoom.SetCustomProperties(currentProperties);
         PhotonNetwork.LoadLevel("Game");
