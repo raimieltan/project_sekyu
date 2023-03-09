@@ -24,6 +24,7 @@ public class Health : MonoBehaviour
 
     private Animator animator;
     private StarterAssets.ThirdPersonController thirdPersonController;
+    public bool isDead;
     [SerializeField] private GameObject playerHud;
 
     // private PlayerArmor playerArmor;
@@ -64,6 +65,15 @@ public class Health : MonoBehaviour
         if (currentHealth - damage <= 0)
         {
             currentHealth = 0;
+            if(!isDead && view.IsMine)
+            {
+                LeaderboardData data = LeaderboardManager.manager.GetPlayerLeaderboardData(PhotonNetwork.LocalPlayer.ActorNumber);
+                data.deathCount++;
+                data.killStreak = 0;
+                LeaderboardManager.manager.SetPlayerLeaderboardData(PhotonNetwork.LocalPlayer.ActorNumber, data);
+                LeaderboardManager.manager.RefreshLeaderboardData();
+                isDead = true;
+            }
         }
         else
         {
