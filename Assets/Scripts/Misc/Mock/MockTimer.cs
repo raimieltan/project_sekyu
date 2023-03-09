@@ -41,6 +41,7 @@ public class MockTimer : MonoBehaviourPun, IPunObservable
                     minutes = 0;
                     timerIsRunning = false;
                     draw.SetActive(true);
+                    PhotonNetwork.LoadLevel("Game");
                 }
 
                 string formattedTime = string.Format("{0:0}:{1:00}", minutes, seconds);
