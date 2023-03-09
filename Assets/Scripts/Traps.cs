@@ -82,8 +82,8 @@ public class Traps : MonoBehaviour
                         explosiveAnim.Play();
                         meteorAura.Play();
                         StartCoroutine(PlayPoisonAnimation(meteorAura));
-                        player.currentHealth -= explosiveDmg;
-                        player.healthBar.UpdateHealthBar(player.maxHealth, player.currentHealth);
+                        // player.currentHealth -= explosiveDmg;
+                        // player.healthBar.UpdateHealthBar(player.maxHealth, player.currentHealth);
                     }
                 }
 

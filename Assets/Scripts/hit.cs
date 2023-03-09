@@ -10,7 +10,11 @@ public class hit : MonoBehaviour
     public PhotonView view;
     private ParticleSystem bloodAura;
     public bool damageTaken;
+    public bool isDead;
+    Player sender;
 
+
+    
     void Awake(){
         bloodAura = transform.Find("Geometry/BloodAura").GetComponent<ParticleSystem>();
     }
@@ -90,9 +94,8 @@ public class hit : MonoBehaviour
             }
         }
             PhotonNetwork.Destroy(this.gameObject);
-        }
+    }
 
-	}
 
     // [PunRPC]
     // void emitAuraBlood() {
