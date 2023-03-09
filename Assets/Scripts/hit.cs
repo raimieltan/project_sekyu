@@ -41,32 +41,17 @@ public class hit : MonoBehaviour
             Debug.Log("Player has custom property " + targetTeam);
             if((string)PhotonNetwork.LocalPlayer.CustomProperties["team"] != (string)targetTeam ) {
 
-            Damage damage = other.gameObject.GetComponent<Damage>();
-        
-            StartCoroutine(EndDamageTaken());
-            PhotonView attackerView = other.transform.root.GetComponent<PhotonView>();
-            sender = attackerView.Owner;
-            Player player = other.gameObject.transform.root.gameObject.GetComponent<PhotonView>().Owner;
-
-        if (player.CustomProperties != null)
-        {
-            // Get the value of a specific custom property
-            object targetTeam = player.CustomProperties["team"];
-
-            // Do something with the custom property value
-            Debug.Log("Player has custom property " + targetTeam);
-            if((string)PhotonNetwork.LocalPlayer.CustomProperties["team"] != (string)targetTeam ) {
-
-            Damage damage = other.gameObject.GetComponent<Damage>();
-            StartCoroutine(EndDamageTaken());
-            PhotonView attackerView = other.transform.root.GetComponent<PhotonView>();
-            sender = attackerView.Owner;
-            applyDamage(damage.value);
+                Damage damage = other.gameObject.GetComponent<Damage>();
+                StartCoroutine(EndDamageTaken());
+                PhotonView attackerView = other.transform.root.GetComponent<PhotonView>();
+                sender = attackerView.Owner;
+                applyDamage(damage.value);
             }
         }
 
         }
     }
+
 
     private void applyDamage(float value)
     {
@@ -100,21 +85,6 @@ public class hit : MonoBehaviour
     }
 
 
-
-    // [PunRPC]
-    // void emitAuraBlood() {
-
-    //         bloodAura.Play();
-    //         StartCoroutine(EndBlood());
-
-    // }
-
-    // IEnumerator EndBlood()
-    // {
-    //     yield return new WaitForSeconds(0.5f);
-    //     bloodAura.Stop();
-
-    // }
 
     IEnumerator EndDamageTaken()
     {
