@@ -126,7 +126,6 @@ public class hit : MonoBehaviour
                 isDead = true;
             }
         }
-        PhotonNetwork.Destroy(this.gameObject);
 	}
 
     IEnumerator EndDamageTaken()
