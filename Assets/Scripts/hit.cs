@@ -11,11 +11,28 @@ public class hit : MonoBehaviour
     private ParticleSystem bloodAura;
     public bool damageTaken;
 
+    private CharacterController characterController;
+
+    private float originalRadius;
+    private StarterAssets.ThirdPersonController thirdPersonController;
+    public GameObject playerHud;
+
+    public Copycat copyCat;
+
+    public Animator animator;
+
     void Awake(){
+        animator = GetComponent<Animator>();
+        characterController = GetComponent<CharacterController>();
+        originalRadius = health.originalRadius;
+        copyCat = GetComponent<Copycat>();
+
         bloodAura = transform.Find("Geometry/BloodAura")?.GetComponent<ParticleSystem>();
         if (bloodAura == null) {
             Debug.LogError("Failed to find BloodAura particle system");
         }
+
+        thirdPersonController = GetComponent<StarterAssets.ThirdPersonController>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -26,7 +43,36 @@ public class hit : MonoBehaviour
             Damage damage = other.gameObject.GetComponent<Damage>();
             StartCoroutine(EndDamageTaken());
             applyDamage(damage.value);
+
+            if (copyCat) {
+                copyCat.Revert();
+            }
         }
+
+        if (other.gameObject.tag == "revive")
+        {
+            if(health.isDead) {
+                revivePlayer();
+            }
+        }
+    }
+
+    private void revivePlayer()
+    {
+        health.RestoreHealth(100);
+        health.isDead = false;
+
+        animator.SetBool("isDead", false);
+        animator.SetBool("isRevive", true);
+        thirdPersonController.enabled = true;
+        playerHud.SetActive(true);
+
+        // characterController.direction = 1;
+            
+        characterController.radius = originalRadius;
+        // animator.SetBool("isDead", false);
+        // animator.SetBool("isRevive", false);
+
     }
 
     private void applyDamage(float value)
@@ -40,7 +86,6 @@ public class hit : MonoBehaviour
         {
             // PhotonNetwork.Destroy(this.gameObject);
         }
-
 	}
 
     // [PunRPC]
