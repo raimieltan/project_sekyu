@@ -10,6 +10,8 @@ public class hit : MonoBehaviour
     public PhotonView view;
     private ParticleSystem bloodAura;
     public bool damageTaken;
+    public bool isDead;
+    Player sender;
 
     private CharacterController characterController;
 
@@ -44,6 +46,29 @@ public class hit : MonoBehaviour
             StartCoroutine(EndDamageTaken());
             applyDamage(damage.value);
 
+            Debug.Log("Test");
+            Debug.Log(other.gameObject.transform.root.gameObject.GetComponent<PhotonView>());
+
+
+            Player player = other.gameObject.transform.root.gameObject.GetComponent<PhotonView>().Owner;
+
+            if (player.CustomProperties != null)
+            {
+                // Get the value of a specific custom property
+                object targetTeam = player.CustomProperties["team"];
+
+                // Do something with the custom property value
+                Debug.Log("Player has custom property " + targetTeam);
+                if((string)PhotonNetwork.LocalPlayer.CustomProperties["team"] != (string)targetTeam ) {
+
+                    Damage damage = other.gameObject.GetComponent<Damage>();
+                    StartCoroutine(EndDamageTaken());
+                    PhotonView attackerView = other.transform.root.GetComponent<PhotonView>();
+                    sender = attackerView.Owner;
+                    applyDamage(damage.value);
+                }
+            }
+
             if (copyCat) {
                 copyCat.Revert();
             }
@@ -77,31 +102,33 @@ public class hit : MonoBehaviour
 
     private void applyDamage(float value)
     {
+        view.RPC(nameof(RPC_applyDamage), PhotonNetwork.LocalPlayer, value, sender);
+	}
+
+    [PunRPC]
+    public void RPC_applyDamage(float value, Player sender, PhotonMessageInfo info)
+    {
 
         Debug.Log(health.currentHealth);
         // view.RPC("emitAuraBlood",RpcTarget.All);
+
         health.TakeDamage(value);
 
         if (health.currentHealth <= 0)
         {
-            // PhotonNetwork.Destroy(this.gameObject);
+            if(!isDead && view.IsMine)
+            {
+                LeaderboardData data = LeaderboardManager.manager.GetPlayerLeaderboardData(sender.ActorNumber);
+                data.killCount++;
+                data.currentScore+=50;
+                data.killStreak++;
+                LeaderboardManager.manager.SetPlayerLeaderboardData(sender.ActorNumber, data);
+                LeaderboardManager.manager.RefreshLeaderboardData();
+                isDead = true;
+            }
         }
+        PhotonNetwork.Destroy(this.gameObject);
 	}
-
-    // [PunRPC]
-    // void emitAuraBlood() {
-
-    //         bloodAura.Play();
-    //         StartCoroutine(EndBlood());
-
-    // }
-
-    // IEnumerator EndBlood()
-    // {
-    //     yield return new WaitForSeconds(0.5f);
-    //     bloodAura.Stop();
-
-    // }
 
     IEnumerator EndDamageTaken()
     {
