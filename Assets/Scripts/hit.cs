@@ -42,12 +42,9 @@ public class hit : MonoBehaviour
 
         if (other.gameObject.tag == "Weapon")
         {
-            Damage damage = other.gameObject.GetComponent<Damage>();
-            StartCoroutine(EndDamageTaken());
-            applyDamage(damage.value);
 
             Debug.Log("Test");
-            Debug.Log(other.gameObject.transform.root.gameObject.GetComponent<PhotonView>());
+            Debug.Log("PHOTON VIEW: " + other.gameObject.transform.root.gameObject.GetComponent<PhotonView>());
 
 
             Player player = other.gameObject.transform.root.gameObject.GetComponent<PhotonView>().Owner;
@@ -61,6 +58,7 @@ public class hit : MonoBehaviour
                 Debug.Log("Player has custom property " + targetTeam);
                 if((string)PhotonNetwork.LocalPlayer.CustomProperties["team"] != (string)targetTeam ) {
 
+                    Damage damage = other.gameObject.GetComponent<Damage>();
                     StartCoroutine(EndDamageTaken());
                     PhotonView attackerView = other.transform.root.GetComponent<PhotonView>();
                     sender = attackerView.Owner;
@@ -85,6 +83,7 @@ public class hit : MonoBehaviour
     {
         health.RestoreHealth(100);
         health.isDead = false;
+        isDead = false;
 
         animator.SetBool("isDead", false);
         animator.SetBool("isRevive", true);
