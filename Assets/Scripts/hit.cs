@@ -10,6 +10,8 @@ public class hit : MonoBehaviour
     public PhotonView view;
     private ParticleSystem bloodAura;
     public bool damageTaken;
+    public bool isDead;
+    Player sender;
 
     void Awake(){
         bloodAura = transform.Find("Geometry/BloodAura")?.GetComponent<ParticleSystem>();
@@ -42,6 +44,8 @@ public class hit : MonoBehaviour
             Damage damage = other.gameObject.GetComponent<Damage>();
         
             StartCoroutine(EndDamageTaken());
+            PhotonView attackerView = other.transform.root.GetComponent<PhotonView>();
+            sender = attackerView.Owner;
             applyDamage(damage.value);
             }
         }
@@ -52,16 +56,27 @@ public class hit : MonoBehaviour
 
     private void applyDamage(float value)
     {
+        view.RPC(nameof(RPC_applyDamage), PhotonNetwork.LocalPlayer, value, sender);
+	}
 
-        Debug.Log(health.currentHealth);
-        // view.RPC("emitAuraBlood",RpcTarget.All);
+    [PunRPC]
+    public void RPC_applyDamage(float value, Player sender, PhotonMessageInfo info)
+    {
         health.TakeDamage(value);
 
         if (health.currentHealth <= 0)
         {
-            // PhotonNetwork.Destroy(this.gameObject);
+            if(!isDead && view.IsMine)
+            {
+                LeaderboardData data = LeaderboardManager.manager.GetPlayerLeaderboardData(sender.ActorNumber);
+                data.killCount++;
+                data.currentScore+=50;
+                data.killStreak++;
+                LeaderboardManager.manager.SetPlayerLeaderboardData(sender.ActorNumber, data);
+                LeaderboardManager.manager.RefreshLeaderboardData();
+                isDead = true;
+            }
         }
-
 	}
 
     // [PunRPC]
