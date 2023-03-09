@@ -1,55 +1,83 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using System;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class HudManager : MonoBehaviour
 {
     // player variables
     Health playerHealth;
+
     Ability ability1;
+
     Ability ability2;
+
     PlayerInventory playerInventory;
+
+
     PlayerHudVariables hudVariables;
 
     // canvas variables
     public GameObject player;
+
     public Image ability1BackgroundImg;
+
     public Image ability1FilledImg;
+
     public TMP_Text ability1CooldownText;
+
     public Image ability2BackgroundImg;
+
     public Image ability2FilledImg;
+
     public TMP_Text ability2CooldownText;
+
     public Image flashbangFilledImg;
+
     public TMP_Text flashbangCooldownText;
+
     public TMP_Text flashbangQuantityText;
+
     public Image smokeFilledImg;
+
     public TMP_Text smokeCooldownText;
+
     public TMP_Text smokeQuantityText;
+
     public Image explosiveTrapFilledImg;
+
     public TMP_Text explosiveTrapCooldownText;
+
     public TMP_Text explosiveQuantityText;
+
     public Image poisonTrapFilledImg;
+
     public TMP_Text poisonTrapCooldownText;
+
     public TMP_Text poisonQuantityText;
+
     public Image slowTrapFilledImg;
+
     public TMP_Text slowTrapCooldownText;
+
     public TMP_Text slowQuantityText;
+
     public Image playerImg;
+
     public HealthBar healthbar;
+
     public GameObject[] playerPrefab;
 
     // public HealthBar armorBar;
-
     // Start is called before the first frame update
     void Awake()
     {
+        Debug.Log (player);
 
-        Debug.Log(player);
         hudVariables = player.GetComponent<PlayerHudVariables>();
 
         // setup character icon
@@ -69,14 +97,13 @@ public class HudManager : MonoBehaviour
         ability2FilledImg.sprite = hudVariables.Ability2Image;
         ability2FilledImg.fillAmount = 0;
 
-
         // setup healthbar
         playerHealth = player.GetComponent<Health>();
         healthbar.healthReference = playerHealth;
 
         // setup armor bar
         // armorBar.healthReference = playerHealth;
-
+        
         // setup inventory variables
         playerInventory = player.GetComponent<PlayerInventory>();
         playerInventory.OnFlashbangFired += StartFlashbangCooldown;
@@ -90,32 +117,68 @@ public class HudManager : MonoBehaviour
     void Update()
     {
         // handle ability 1 cooldown
-        handleImageCooldown(ability1.cooldownTime, ability1.nextFireTime, ability1FilledImg, ability1CooldownText);
+
+        handleImageCooldown(ability1.cooldownTime,
+        ability1.nextFireTime,
+        ability1FilledImg,
+        ability1CooldownText);
 
         // handle ability 2 cooldown
-        handleImageCooldown(ability2.cooldownTime, ability2.nextFireTime, ability2FilledImg, ability2CooldownText);
+        handleImageCooldown(ability2.cooldownTime,
+        ability2.nextFireTime,
+        ability2FilledImg,
+        ability2CooldownText);
 
         // handle inventory items cooldowns
-        handleImageCooldown(playerInventory.itemCooldown, playerInventory.nextFlashbangTime, flashbangFilledImg, flashbangCooldownText);
-        handleImageCooldown(playerInventory.itemCooldown, playerInventory.nextSmokeTime, smokeFilledImg, smokeCooldownText);
-        handleImageCooldown(playerInventory.itemCooldown, playerInventory.nextExplosiveTrapTime, explosiveTrapFilledImg, explosiveTrapCooldownText);
-        handleImageCooldown(playerInventory.itemCooldown, playerInventory.nextPoisonTrapTime, poisonTrapFilledImg, poisonTrapCooldownText);
-        handleImageCooldown(playerInventory.itemCooldown, playerInventory.nextSlowTrapTime, slowTrapFilledImg, slowTrapCooldownText);
+        handleImageCooldown(playerInventory.itemCooldown,
+        playerInventory.nextFlashbangTime,
+        flashbangFilledImg,
+        flashbangCooldownText);
+        handleImageCooldown(playerInventory.itemCooldown,
+        playerInventory.nextSmokeTime,
+        smokeFilledImg,
+        smokeCooldownText);
+        handleImageCooldown(playerInventory.itemCooldown,
+        playerInventory.nextExplosiveTrapTime,
+        explosiveTrapFilledImg,
+        explosiveTrapCooldownText);
+        handleImageCooldown(playerInventory.itemCooldown,
+        playerInventory.nextPoisonTrapTime,
+        poisonTrapFilledImg,
+        poisonTrapCooldownText);
+        handleImageCooldown(playerInventory.itemCooldown,
+        playerInventory.nextSlowTrapTime,
+        slowTrapFilledImg,
+        slowTrapCooldownText);
     }
 
-    private void handleImageCooldown(float cooldownTime, float nextFireTime, Image filledImg, TMP_Text cooldownText)
+    private void handleImageCooldown(
+        float cooldownTime,
+        float nextFireTime,
+        Image filledImg,
+        TMP_Text cooldownText
+    )
     {
-        if (Time.time < nextFireTime)
+        if (
+            cooldownTime == 0f // check for division by zero
+        )
         {
-            filledImg.fillAmount -= 1 / cooldownTime * Time.deltaTime;
-            cooldownText.text = Math.Abs(Time.time - nextFireTime).ToString("0.0");
-            if (filledImg.fillAmount <= 0)
-            {
-                // cooldownText.text = "";
-                filledImg.fillAmount = 0;
-            }
+            return;
         }
-        else
+
+        float fillAmount = (nextFireTime - Time.time) / cooldownTime;
+        fillAmount = Mathf.Clamp(fillAmount, 0f, 1f); // clamp the fill amount between 0 and 1
+
+        filledImg.fillAmount = fillAmount;
+
+        if (
+            cooldownText != null && fillAmount > 0f // check for null cooldownText
+        )
+        {
+            cooldownText.text = ((nextFireTime - Time.time)).ToString("F1"); // simplify string formatting
+        }
+        else if (cooldownText != null)
+
         {
             cooldownText.text = "";
         }
@@ -135,25 +198,29 @@ public class HudManager : MonoBehaviour
     {
         flashbangFilledImg.fillAmount = 1;
     }
+
     private void StartSmokeCooldown()
     {
         smokeFilledImg.fillAmount = 1;
     }
+
     private void StartPlaceExplosiveCooldown()
     {
         explosiveTrapFilledImg.fillAmount = 1;
     }
+
     private void StartPlacePoisonCooldown()
     {
         poisonTrapFilledImg.fillAmount = 1;
     }
+
     private void StartPlaceSlowCooldown()
     {
         slowTrapFilledImg.fillAmount = 1;
     }
+
     private void UpdateHealthBar(float newHealthValue)
     {
-
-        healthbar.SetHealth(newHealthValue);
+        healthbar.SetHealth (newHealthValue);
     }
 }

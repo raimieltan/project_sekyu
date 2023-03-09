@@ -165,3 +165,4 @@ public class Scoreboard : MonoBehaviour
         public float streak;
     }
 }
+

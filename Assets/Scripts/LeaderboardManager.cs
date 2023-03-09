@@ -113,3 +113,4 @@ public class LeaderboardManager : MonoBehaviourPunCallbacks
         RefreshLeaderboardData();
     }
 }
+

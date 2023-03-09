@@ -29,6 +29,7 @@ public class PlayerInventory : MonoBehaviour
     public event PlaceSlowTrapFired OnPlaceSlowTrap;
     public PhotonView view;
     public GameObject smoke;
+    public GameObject flashbang;
     public GameObject explosiveTrap;
     public GameObject poisonTrap;
     public GameObject slowTrap;
@@ -44,6 +45,7 @@ public class PlayerInventory : MonoBehaviour
     public GameObject slowTrapItemBox;
     private Team trapTeam;
 
+
     void Awake()
     {
         starterAssetsInputs = GetComponent<StarterAssetsInputs>();
@@ -51,26 +53,55 @@ public class PlayerInventory : MonoBehaviour
 
     void Update()
     {
-        if (view.IsMine) {
-
-  
-
-        if (starterAssetsInputs.throwFlashbang && flashbangItem.activeSelf && Time.time > nextFlashbangTime)
+        if (view.IsMine)
         {
-            nextFlashbangTime = Time.time + itemCooldown;
-            OnFlashbangFired();
-        }
 
-        if (starterAssetsInputs.throwSmoke && smokeItem.activeSelf && Time.time > nextSmokeTime)
-        {
-            nextSmokeTime = Time.time + itemCooldown;
-            
-            PhotonNetwork.Instantiate(smoke.name, transform.position, Quaternion.identity);
-          
-            OnSmokeFired();
-        }
+            if (starterAssetsInputs.throwFlashbang && flashbangItem.activeSelf && Time.time > nextFlashbangTime)
+            {
+                // Get the player's position and forward direction
+                Vector3 playerPosition = transform.position;
+                Vector3 playerForward = transform.forward;
 
-        if (starterAssetsInputs.placeExplosiveTrap && explosiveTrapItem.activeSelf && Time.time > nextExplosiveTrapTime)
+                // Calculate the position to spawn the object
+                float spawnDistance = 1f;
+                float spawnHeight = 1f;
+                Vector3 spawnPosition = playerPosition + playerForward * spawnDistance;
+                RaycastHit hit;
+
+                if (Physics.Raycast(spawnPosition, Vector3.down, out hit))
+                {
+                    spawnPosition.y = hit.point.y + spawnHeight;
+                }
+
+                // Instantiate the object and set its properties
+                GameObject flashbangObject = PhotonNetwork.Instantiate(flashbang.name, spawnPosition, Quaternion.identity);
+                FlashBang flashBang = flashbangObject.GetComponent<FlashBang>();
+
+                if (flashBang != null)
+                {
+                    // Set the team origin if the player has a TeamTag component
+                    TeamTag teamTag = GetComponent<TeamTag>();
+
+                    if (teamTag != null)
+                    {
+                        flashBang.teamOrigin = teamTag.team;
+                    }
+
+                    flashBang.SetThrowDirection(playerForward);
+                }
+
+                // Trigger the OnFlashbangFired event
+                OnFlashbangFired();
+            }
+
+            if (starterAssetsInputs.throwSmoke && smokeItem.activeSelf && Time.time > nextSmokeTime)
+            {
+                nextSmokeTime = Time.time + itemCooldown;
+                PhotonNetwork.Instantiate(smoke.name, transform.position, Quaternion.identity);
+                OnSmokeFired();
+            }
+
+if (starterAssetsInputs.placeExplosiveTrap && explosiveTrapItem.activeSelf && Time.time > nextExplosiveTrapTime)
         {
             nextExplosiveTrapTime = Time.time + itemCooldown;
         if (PhotonNetwork.LocalPlayer.CustomProperties["team"].ToString() == "team1")
@@ -113,50 +144,50 @@ public class PlayerInventory : MonoBehaviour
             OnPlaceSlowTrap();
         }
 
-        if (!flashbangItem.activeSelf)
-        {
-            flashbangItemBox.SetActive(true);
-        }
-        else 
-        {
-            flashbangItemBox.SetActive(false);
-        }
+            if (!flashbangItem.activeSelf)
+            {
+                flashbangItemBox.SetActive(true);
+            }
+            else
+            {
+                flashbangItemBox.SetActive(false);
+            }
 
-        if(!smokeItem.activeSelf)
-        {
-            smokeItemBox.SetActive(true);
-        }
-        else
-        {
-            smokeItemBox.SetActive(false);
-        }
+            if (!smokeItem.activeSelf)
+            {
+                smokeItemBox.SetActive(true);
+            }
+            else
+            {
+                smokeItemBox.SetActive(false);
+            }
 
-        if(!explosiveTrapItem.activeSelf)
-        {
-            explosiveItemBox.SetActive(true);
-        }
-        else
-        {
-            explosiveItemBox.SetActive(false);
-        }
+            if (!explosiveTrapItem.activeSelf)
+            {
+                explosiveItemBox.SetActive(true);
+            }
+            else
+            {
+                explosiveItemBox.SetActive(false);
+            }
 
-        if(!poisonTrapItem.activeSelf)
-        {
-            poisonTrapItemBox.SetActive(true);
-        }
-        else
-        {
-            poisonTrapItemBox.SetActive(false);
-        }
+            if (!poisonTrapItem.activeSelf)
+            {
+                poisonTrapItemBox.SetActive(true);
+            }
+            else
+            {
+                poisonTrapItemBox.SetActive(false);
+            }
 
-        if(!slowTrapItem.activeSelf)
-        {
-            slowTrapItemBox.SetActive(true);
-        }
-        else
-        {
-            slowTrapItemBox.SetActive(false);
-        }
+            if (!slowTrapItem.activeSelf)
+            {
+                slowTrapItemBox.SetActive(true);
+            }
+            else
+            {
+                slowTrapItemBox.SetActive(false);
+            }
 
         }
     }
