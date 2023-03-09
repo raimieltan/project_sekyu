@@ -35,6 +35,13 @@ public class FlashBang : MonoBehaviour
 
     public void SetThrowDirection(Vector3 throwDirection)
     {
+        // Raise an event to notify the server that the player has thrown the flashbang
+        view.RPC("ThrowFlashbang", RpcTarget.All, throwDirection);
+    }
+
+    [PunRPC]
+    void ThrowFlashbang(Vector3 throwDirection)
+    {
         // Set the velocity of the rigidbody to throw the object in front of the player
         rigidbodyComponent.velocity = throwDirection * throwSpeed;
     }
@@ -160,7 +167,7 @@ public class FlashBang : MonoBehaviour
     {
         yield return new WaitForSeconds(3.5f);
 
-        Canvas playerCanvas = other.GetComponentInChildren<Canvas>();
+        // Canvas playerCanvas = other.GetComponentInChildren<Canvas>();
         TeamTag teamTag = other.GetComponent<TeamTag>();
 
         // Get the GameObject associated with the collider
@@ -168,9 +175,11 @@ public class FlashBang : MonoBehaviour
 
         // Get the PhotonView component attached to the GameObject
         PhotonView photonView = playerObject.GetComponent<PhotonView>();
+        Debug.Log("Photon view name: " + photonView.Owner.NickName);
 
-        if (playerCanvas != null && photonView.IsMine)
+        if (photonView.IsMine)
         {
+            Canvas playerCanvas = other.GetComponentInChildren<Canvas>();
             // Get the "Geometry" child object's transform and calculate the direction vector
             Transform geometryTransform = playerObject.transform.Find("Geometry");
             Vector3 direction = transform.position - geometryTransform.position;
