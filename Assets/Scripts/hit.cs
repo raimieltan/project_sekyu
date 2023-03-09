@@ -26,7 +26,6 @@ public class hit : MonoBehaviour
 
         if (other.gameObject.tag == "Weapon")
         {
-            Debug.Log("Test");
             Debug.Log(other.gameObject.transform.root.gameObject.GetComponent<PhotonView>());
 
 
@@ -39,7 +38,7 @@ public class hit : MonoBehaviour
 
             // Do something with the custom property value
             Debug.Log("Player has custom property " + targetTeam);
-            if((string)PhotonNetwork.LocalPlayer.CustomProperties["team"] != (string)targetTeam ) {
+            if((string)PhotonNetwork.LocalPlayer.CustomProperties["team"] != (string)targetTeam) {
 
                 Damage damage = other.gameObject.GetComponent<Damage>();
                 StartCoroutine(EndDamageTaken());
@@ -47,9 +46,12 @@ public class hit : MonoBehaviour
                 sender = attackerView.Owner;
                 applyDamage(damage.value);
             }
+            else {
+                Debug.Log("Apinay");
+            }
         }
 
-        }
+        } 
     }
 
 
@@ -81,7 +83,6 @@ public class hit : MonoBehaviour
             }
         }
 
-            PhotonNetwork.Destroy(this.gameObject);
     }
 
 

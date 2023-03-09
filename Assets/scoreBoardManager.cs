@@ -12,7 +12,6 @@ public class scoreBoardManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     public TextMeshProUGUI score1;
     public TextMeshProUGUI score2;
-    public TextMeshProUGUI result;
     [SerializeField] GameObject victoryUI;
     [SerializeField] GameObject defeatUI;
 
