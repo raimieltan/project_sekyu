@@ -1,3 +1,29 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3dc79a79ce3106bf553cffee0d686028e4df88b8232f74562ce8172b6eca025e
-size 783
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using StarterAssets;
+
+public class ScoreboardCanvas : MonoBehaviour
+{
+    private StarterAssetsInputs starterAssetsInputs;
+    [SerializeField] private GameObject scoreBoardTable;
+    public Scoreboard scoreboard;
+
+    void Start()
+    {
+        starterAssetsInputs = transform.root.GetComponent<StarterAssetsInputs>();
+        scoreboard = scoreBoardTable.GetComponent<Scoreboard>();
+    }
+
+    void Update()
+    {
+        if(starterAssetsInputs.openScoreboard){
+            scoreboard.UpdateScoreboard();
+            scoreBoardTable.SetActive(true);
+        } else {
+            scoreboard.UpdateScoreboard();
+            scoreBoardTable.SetActive(false);
+        }
+    }
+}
+
