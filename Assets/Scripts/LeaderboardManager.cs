@@ -17,10 +17,10 @@ public class LeaderboardManager : MonoBehaviourPunCallbacks
             manager = this;
             DontDestroyOnLoad(this);
         }
-        else if (manager != this)
-        {
-            Destroy(gameObject);
-        }
+        // else if (manager != this)
+        // {
+        //     Destroy(gameObject);
+        // }
     }
 
     public void InitializeLeaderboardData()
