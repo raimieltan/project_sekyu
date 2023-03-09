@@ -31,7 +31,6 @@ public class Health : MonoBehaviour
     public float originalRadius;
     private Animator animator;
     private StarterAssets.ThirdPersonController thirdPersonController;
-    public bool isDead;
     [SerializeField] private GameObject playerHud;
 
     // private PlayerArmor playerArmor;

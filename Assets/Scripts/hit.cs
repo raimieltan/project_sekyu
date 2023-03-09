@@ -61,7 +61,6 @@ public class hit : MonoBehaviour
                 Debug.Log("Player has custom property " + targetTeam);
                 if((string)PhotonNetwork.LocalPlayer.CustomProperties["team"] != (string)targetTeam ) {
 
-                    Damage damage = other.gameObject.GetComponent<Damage>();
                     StartCoroutine(EndDamageTaken());
                     PhotonView attackerView = other.transform.root.GetComponent<PhotonView>();
                     sender = attackerView.Owner;
