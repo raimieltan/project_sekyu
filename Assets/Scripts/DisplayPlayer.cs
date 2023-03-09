@@ -10,6 +10,7 @@ public class DisplayPlayer : MonoBehaviourPunCallbacks
 {
  
     public TextMeshProUGUI numberOfPlayers;
+    public GameObject startButton;
     ExitGames.Client.Photon.Hashtable character = new ExitGames.Client.Photon.Hashtable();
 
     void Start () {
@@ -17,6 +18,13 @@ public class DisplayPlayer : MonoBehaviourPunCallbacks
         Debug.Log(PhotonNetwork.LocalPlayer.NickName);
         DontDestroyOnLoad(gameObject);
         PhotonNetwork.AutomaticallySyncScene = true;
+        Debug.Log("________Actor");
+        Debug.Log(PhotonNetwork.LocalPlayer.ActorNumber);
+        Debug.Log("________Room");
+        Debug.Log((int)PhotonNetwork.CurrentRoom.CustomProperties["room_creator"] * -1);
+        if((int)PhotonNetwork.LocalPlayer.ActorNumber == (int)PhotonNetwork.CurrentRoom.CustomProperties["room_creator"] * -1) {
+            startButton.SetActive(true);
+        }
     }
     void Update()
     {

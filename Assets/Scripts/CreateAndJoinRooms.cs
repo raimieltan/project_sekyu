@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
 {
@@ -28,19 +29,33 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
         roompos.CustomRoomProperties.Add("Team_1_score", 0);
         roompos.CustomRoomProperties.Add("Team_2_score", 0);
         roompos.CustomRoomProperties.Add("game_rounds", 0);
+        
+        roompos.CustomRoomProperties.Add("room_creator", PhotonNetwork.LocalPlayer.ActorNumber);
+
         PhotonNetwork.CreateRoom("Room" + randomRoomName.ToString(), roompos);
+        Debug.Log("Testttt");
     }
+    //  public override void OnCreateRoom()
+    // {
+    //     Debug.Log("Room created: " + PhotonNetwork.CurrentRoom.Name);
+    //     PhotonNetwork.LoadLevel("Room");
+    //     // Code to execute after creating the room
+    // }
 
     public void JoinRoom()
     {
         PhotonNetwork.JoinRandomRoom();
     }
 
+
+
     public override void OnJoinedRoom()
+
     {
+        Debug.Log("Joined Room");
         PhotonNetwork.LocalPlayer.NickName = nameInput.text;
         
-        PhotonNetwork.LoadLevel("Room");
+        SceneManager.LoadScene("Room");
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)

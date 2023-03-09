@@ -1,3 +1,85 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:93f3f6959adc99228dca044d503b5dc52e69b293cba26bf1a52850a26938626c
-size 1381
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
+
+public class hit : MonoBehaviour
+{
+    public Health health;
+    public PhotonView view;
+    private ParticleSystem bloodAura;
+    public bool damageTaken;
+
+    void Awake(){
+        bloodAura = transform.Find("Geometry/BloodAura").GetComponent<ParticleSystem>();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+
+        if (other.gameObject.tag == "Weapon")
+        {
+            
+            Debug.Log("Test");
+            Debug.Log(other.gameObject.transform.root.gameObject.GetComponent<PhotonView>());
+
+
+        Player player = other.gameObject.transform.root.gameObject.GetComponent<PhotonView>().Owner;
+
+        if (player.CustomProperties != null)
+        {
+            // Get the value of a specific custom property
+            object targetTeam = player.CustomProperties["team"];
+
+            // Do something with the custom property value
+            Debug.Log("Player has custom property " + targetTeam);
+            if((string)PhotonNetwork.LocalPlayer.CustomProperties["team"] != (string)targetTeam ) {
+
+            Damage damage = other.gameObject.GetComponent<Damage>();
+        
+            StartCoroutine(EndDamageTaken());
+            applyDamage(damage.value);
+            }
+        }
+
+
+        }
+    }
+
+    private void applyDamage(float value)
+    {
+
+        Debug.Log(health.currentHealth);
+        // view.RPC("emitAuraBlood",RpcTarget.All);
+        health.TakeDamage(value);
+
+        if (health.currentHealth <= 0)
+        {
+            PhotonNetwork.Destroy(this.gameObject);
+        }
+
+	}
+
+    // [PunRPC]
+    // void emitAuraBlood() {
+
+    //         bloodAura.Play();
+    //         StartCoroutine(EndBlood());
+
+    // }
+
+    // IEnumerator EndBlood()
+    // {
+    //     yield return new WaitForSeconds(0.5f);
+    //     bloodAura.Stop();
+
+    // }
+
+    IEnumerator EndDamageTaken()
+    {
+        damageTaken = true;
+        yield return new WaitForSeconds(2.0f);
+        damageTaken = false;
+    }
+}

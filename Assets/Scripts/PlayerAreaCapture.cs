@@ -115,8 +115,13 @@ public PhotonView view;
      int rounds = (int)currentProperties["game_rounds"];
      currentProperties["game_rounds"] = rounds + 1;
      PhotonNetwork.CurrentRoom.SetCustomProperties(currentProperties);
-     Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties);
-     PhotonNetwork.LoadLevel("Game");
+     
+     if((int)PhotonNetwork.CurrentRoom.CustomProperties["game_rounds"] >= 1 ) {
+        PhotonNetwork.LoadLevel("ScoreBoard");
+     } else {
+        PhotonNetwork.LoadLevel("Game");
+     }
+     
     }
 
     
