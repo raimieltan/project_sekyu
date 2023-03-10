@@ -14,21 +14,23 @@ public class SummonSkeletons : Ability
 
     private int skeletonCount = 0;
 
-    private float cooldownTime = 8f;
-
     private bool isOnCooldown = false;
 
     void Awake()
     {
         anim = GetComponent<Animator>();
         _input = GetComponent<StarterAssetsInputs>();
+        cooldownTime = 5;
+        nextFireTime = 0;
     }
 
     void Update()
     {
-        if (_input.firstAbility && !isOnCooldown)
+        if (_input.firstAbility && Time.time > nextFireTime)
         {
             StartCoroutine(CastSummonSkeletons());
+            nextFireTime = Time.time + cooldownTime;
+                TriggerFireEvent();
         }
     }
 
