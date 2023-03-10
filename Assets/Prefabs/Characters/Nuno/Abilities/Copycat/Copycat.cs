@@ -24,8 +24,11 @@ private float nextActiveAbilityTime = 0;
 private StarterAssetsInputs starterAssetsInputs;
 private IEnumerator coroutine;
 public PhotonView view;
-
+public ParticleSystem particleSystem;
+public Color team1Color = Color.red;
+public Color team2Color = Color.blue;
 public Health health;
+public TeamAura auraRef;
 
 void Awake()
 {
@@ -95,6 +98,22 @@ void emitSwap() {
 
 public void Swap()
 {
+    if(characterIndex == 0) {
+        auraRef.enabled = true;
+    } else {
+        auraRef.enabled = true;
+    }
+
+    if ((string)PhotonNetwork.LocalPlayer.CustomProperties["team"] == "team1")
+    {
+        particleSystem.startColor = team1Color;
+    }
+
+    else if ((string)PhotonNetwork.LocalPlayer.CustomProperties["team"] == "team2")
+    {
+        particleSystem.startColor = team2Color;
+    }
+
     Destroy(_animator);
 
     characterIndex++;
@@ -102,10 +121,12 @@ public void Swap()
     if (characterIndex == _characters.Length)
     {
         characterIndex = 0;
+        auraRef.enabled = true;
         invisibility.enabled = true;
     }
     else
     {
+        auraRef.enabled = false;
         invisibility.enabled = false;
 
     };
@@ -130,7 +151,7 @@ public void Revert() {
 void emitRevert() 
 {
     Destroy(_animator);
-
+    auraRef.enabled = true;
     characterIndex = 0;
     selectedCharacter.SetActive(false);
     _characters[characterIndex].SetActive(true);
