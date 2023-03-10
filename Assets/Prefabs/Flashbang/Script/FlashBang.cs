@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
-
+using System.Collections.Generic;
 
 public class FlashBang : MonoBehaviour
 {
@@ -175,17 +175,17 @@ public class FlashBang : MonoBehaviour
 
         // Get the PhotonView component attached to the GameObject
         PhotonView photonView = playerObject.GetComponent<PhotonView>();
-        Debug.Log("Photon view name: " + photonView.Owner.NickName);
+        Debug.Log("Player will get blind: " + photonView.Owner.NickName);
+
+        Canvas playerCanvas = other.GetComponentInChildren<Canvas>();
+        // Get the "Geometry" child object's transform and calculate the direction vector
+        Transform geometryTransform = playerObject.transform.Find("Geometry");
+        Vector3 direction = transform.position - geometryTransform.position;
+        float angle = Vector3.Angle(direction, geometryTransform.forward);
+        Debug.Log("angle: " + angle);
 
         if (photonView.IsMine)
         {
-            Canvas playerCanvas = other.GetComponentInChildren<Canvas>();
-            // Get the "Geometry" child object's transform and calculate the direction vector
-            Transform geometryTransform = playerObject.transform.Find("Geometry");
-            Vector3 direction = transform.position - geometryTransform.position;
-            float angle = Vector3.Angle(direction, geometryTransform.forward);
-            Debug.Log("angle: " + angle);
-
             // Check if the angle is within the allowed angle range
             if (angle <= 60f)
             {
