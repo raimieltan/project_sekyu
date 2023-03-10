@@ -85,11 +85,6 @@ public PhotonView view;
     
         ExitGames.Client.Photon.Hashtable currentProperties = PhotonNetwork.CurrentRoom.CustomProperties;
         string winningTeamName = (string)PhotonNetwork.LocalPlayer.CustomProperties["team"];
-        Debug.Log("XXXX");
-        Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties["WinningTeamID"]);
-        Debug.Log("________");
-        Debug.Log(PhotonNetwork.LocalPlayer.CustomProperties["team"]);
-        Debug.Log("XXXX");
         if(PhotonNetwork.CurrentRoom.CustomProperties["WinningTeamID"] == PhotonNetwork.LocalPlayer.CustomProperties["team"] as string) {
           
             victoryUI.SetActive(true);
