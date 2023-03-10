@@ -20,11 +20,11 @@ public class scoreBoardManager : MonoBehaviourPunCallbacks
         score1.text = (string)PhotonNetwork.CurrentRoom.CustomProperties["Team_1_score"].ToString();
         score2.text = (string)PhotonNetwork.CurrentRoom.CustomProperties["Team_2_score"].ToString();
         if(PhotonNetwork.CurrentRoom.CustomProperties["WinningTeamID"] == PhotonNetwork.LocalPlayer.CustomProperties["team"] as string) {
-         
+            AudioManager.instance.PlayVictorySound();
             victoryUI.SetActive(true);
             
         } else {
-            
+            AudioManager.instance.PlayDefeatSound();
             defeatUI.SetActive(true);
           
         }

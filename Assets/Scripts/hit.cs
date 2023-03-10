@@ -74,16 +74,12 @@ public class hit : MonoBehaviour
             }
         }
 
-<<<<<<< HEAD
-        } 
-=======
         if (other.gameObject.tag == "revive")
         {
             if(health.isDead) {
                 revivePlayer();
             }
         }
->>>>>>> b11e4b73b64f409ed426c42d7d66a6de59cf06a4
     }
 
     private void revivePlayer()
