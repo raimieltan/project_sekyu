@@ -55,7 +55,6 @@ public class hit : MonoBehaviour
                 object targetTeam = player.CustomProperties["team"];
 
                 // Do something with the custom property value
-                Debug.Log("Player has custom property " + targetTeam);
                 if((string)PhotonNetwork.LocalPlayer.CustomProperties["team"] != (string)targetTeam ) {
 
                     Damage damage = other.gameObject.GetComponent<Damage>();
@@ -66,18 +65,25 @@ public class hit : MonoBehaviour
                 }
             }
 
-            if (copyCat) {
+            if (copyCat && copyCat.characterIndex != 0) {
                 copyCat.Revert();
-            }
-            else {
-                Debug.Log("Apinay");
             }
         }
 
         if (other.gameObject.tag == "revive")
         {
-            if(health.isDead) {
-                revivePlayer();
+            Player player = other.gameObject.transform.root.gameObject.GetComponent<PhotonView>().Owner;
+
+            if (player.CustomProperties != null)
+            {
+                object targetTeam = player.CustomProperties["team"];
+
+                // Do something with the custom property value
+                if((string)PhotonNetwork.LocalPlayer.CustomProperties["team"] == (string)targetTeam ) {
+                    if(health.isDead) {
+                        revivePlayer();
+                    }
+                }
             }
         }
     }
