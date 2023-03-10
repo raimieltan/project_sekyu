@@ -55,9 +55,9 @@ public class PlayerInventory : MonoBehaviour
     {
         if (view.IsMine)
         {
-
             if (starterAssetsInputs.throwFlashbang && flashbangItem.activeSelf && Time.time > nextFlashbangTime)
             {
+                nextFlashbangTime = Time.time + itemCooldown;
                 // Get the player's position and forward direction
                 Vector3 playerPosition = transform.position;
                 Vector3 playerForward = transform.forward;
@@ -79,14 +79,6 @@ public class PlayerInventory : MonoBehaviour
 
                 if (flashBang != null)
                 {
-                    // Set the team origin if the player has a TeamTag component
-                    TeamTag teamTag = GetComponent<TeamTag>();
-
-                    if (teamTag != null)
-                    {
-                        flashBang.teamOrigin = teamTag.team;
-                    }
-
                     flashBang.SetThrowDirection(playerForward);
                 }
 

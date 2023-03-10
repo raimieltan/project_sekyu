@@ -27,36 +27,36 @@ public class Traps : MonoBehaviour
 
 
     void Awake() {
-      
+
         trapTeam = (string)photonView.InstantiationData[1];
         Debug.Log(trapTeam);
     }
-    
+
 
     void OnTriggerEnter(Collider col)
-    {   
+    {
         PhotonView photonView = GetComponentInParent<PhotonView>();
         if (photonView != null)
         {
-            
-            string trapTeam = (string)photonView.InstantiationData[1]; 
+
+            string trapTeam = (string)photonView.InstantiationData[1];
             if (col.gameObject.tag == "Player")
             {
-            
+
                 ThirdPersonController player = col.gameObject.GetComponent<ThirdPersonController>();
                 TeamTag playerTeamScipt = col.gameObject.GetComponent<TeamTag>();
                 poisonAura = col.transform.Find("Geometry/PoisonAura").GetComponent<ParticleSystem>();
                 meteorAura = col.transform.Find("Geometry/MeteorAura").GetComponent<ParticleSystem>();
 
                 Player enemy = col.gameObject.GetComponent<PhotonView>().Owner;
-                
+
                 Debug.Log(enemy.CustomProperties);
-                
-        
+
+
                 Debug.Log("trap team: " + trapTeam);
                 Debug.Log("Player team: " + (string)enemy.CustomProperties["team"]);
-                
-            
+
+
                 if (trapTeam != (string)enemy.CustomProperties["team"])
                 {
                     Debug.Log("Activated");
