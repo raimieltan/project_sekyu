@@ -28,7 +28,7 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
         roompos.CustomRoomProperties.Add("offsetY", Random.Range(0f, 9999f));
         roompos.CustomRoomProperties.Add("Team_1_score", 0);
         roompos.CustomRoomProperties.Add("Team_2_score", 0);
-        roompos.CustomRoomProperties.Add("game_rounds", 0);
+        roompos.CustomRoomProperties.Add("game_rounds", 1);
         
         roompos.CustomRoomProperties.Add("room_creator", PhotonNetwork.LocalPlayer.ActorNumber);
 
