@@ -22,7 +22,6 @@ public class SpawnPlayers : MonoBehaviour
     private LeaderboardManager leaderboardManager;
 
     private void Start() {
-        Debug.Log((int)PhotonNetwork.LocalPlayer.CustomProperties["chosen"]);
         string chosenTeam = (string)PhotonNetwork.LocalPlayer.CustomProperties["team"];
         if(chosenTeam == "team1") {
             randomPosition = new Vector3(Random.Range(-13.2f, 9f), Random.Range(5, 5), Random.Range(27f, 35f));

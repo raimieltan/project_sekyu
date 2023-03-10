@@ -68,6 +68,9 @@ public class hit : MonoBehaviour
             if (copyCat && copyCat.characterIndex != 0) {
                 copyCat.Revert();
             }
+            else {
+                Debug.Log("Apinay");
+            }
         }
 
         if (other.gameObject.tag == "revive")
