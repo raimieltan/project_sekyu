@@ -85,17 +85,12 @@ public PhotonView view;
     
         ExitGames.Client.Photon.Hashtable currentProperties = PhotonNetwork.CurrentRoom.CustomProperties;
         string winningTeamName = (string)PhotonNetwork.LocalPlayer.CustomProperties["team"];
-        Debug.Log("XXXX");
-        Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties["WinningTeamID"]);
-        Debug.Log("________");
-        Debug.Log(PhotonNetwork.LocalPlayer.CustomProperties["team"]);
-        Debug.Log("XXXX");
         if(PhotonNetwork.CurrentRoom.CustomProperties["WinningTeamID"] == PhotonNetwork.LocalPlayer.CustomProperties["team"] as string) {
-         
+          
             victoryUI.SetActive(true);
             
         } else {
-            
+           
             defeatUI.SetActive(true);
           
         }
@@ -115,13 +110,21 @@ public PhotonView view;
      int rounds = (int)currentProperties["game_rounds"];
      currentProperties["game_rounds"] = rounds + 1;
      PhotonNetwork.CurrentRoom.SetCustomProperties(currentProperties);
+      StartCoroutine(DelayedFunction(5f));
+
      
-     if((int)PhotonNetwork.CurrentRoom.CustomProperties["game_rounds"] >= 1 ) {
-        PhotonNetwork.LoadLevel("ScoreBoard");
-     } else {
-        PhotonNetwork.LoadLevel("Game");
-     }
-     
+    }
+
+   
+
+    IEnumerator DelayedFunction(float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
+        if((int)PhotonNetwork.CurrentRoom.CustomProperties["game_rounds"] >= 2 ) {
+            PhotonNetwork.LoadLevel("ScoreBoard");
+        } else {
+            PhotonNetwork.LoadLevel("Game");
+        }
     }
 
     

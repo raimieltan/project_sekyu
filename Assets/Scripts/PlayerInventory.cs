@@ -93,18 +93,18 @@ public class PlayerInventory : MonoBehaviour
                 OnSmokeFired();
             }
 
-if (starterAssetsInputs.placeExplosiveTrap && explosiveTrapItem.activeSelf && Time.time > nextExplosiveTrapTime)
+        if (starterAssetsInputs.placeExplosiveTrap && explosiveTrapItem.activeSelf && Time.time > nextExplosiveTrapTime)
         {
-            nextExplosiveTrapTime = Time.time + itemCooldown;
-        if (PhotonNetwork.LocalPlayer.CustomProperties["team"].ToString() == "team1")
-        {
-            GameObject instantiatedGameObject = PhotonNetwork.Instantiate(explosiveTrap.name, transform.position, Quaternion.identity, 0, new object[] { "team", "team1" });
-        }
-        else
-        {
-            GameObject instantiatedGameObject = PhotonNetwork.Instantiate(explosiveTrap.name, transform.position, Quaternion.identity, 0, new object[] { "team", "team2" });
-        }
-            OnPlaceExplosiveTrap();
+                nextExplosiveTrapTime = Time.time + itemCooldown;
+            if (PhotonNetwork.LocalPlayer.CustomProperties["team"].ToString() == "team1")
+            {
+                GameObject instantiatedGameObject = PhotonNetwork.Instantiate(explosiveTrap.name, transform.position, Quaternion.identity, 0, new object[] { "team", "team1" });
+            }
+            else
+            {
+                GameObject instantiatedGameObject = PhotonNetwork.Instantiate(explosiveTrap.name, transform.position, Quaternion.identity, 0, new object[] { "team", "team2" });
+            }
+                OnPlaceExplosiveTrap();
         }
 
 

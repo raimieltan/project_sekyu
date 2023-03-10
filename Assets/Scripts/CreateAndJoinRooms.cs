@@ -54,7 +54,6 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     {
         Debug.Log("Joined Room");
         PhotonNetwork.LocalPlayer.NickName = nameInput.text;
-        
         SceneManager.LoadScene("Room");
     }
 
