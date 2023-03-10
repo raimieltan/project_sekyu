@@ -38,7 +38,7 @@ public class Stun : Ability
         if (Time.time > nextFireTime && starterAssetsInputs.secondAbility)
         {   
             if (view.IsMine){
-               
+                view.RPC("emitAura", RpcTarget.All);
                 view.RPC("StunNearbyEnemies", RpcTarget.All);
             }      
         }
@@ -50,29 +50,39 @@ public class Stun : Ability
         nextFireTime = Time.time + cooldownTime;
         TriggerFireEvent();
         Collider[] colliders = Physics.OverlapSphere(transform.position, range);
+        
+        //TODO: REFACTOR ANIMATION AND COLLIDERS
         foreach (Collider c in colliders)
         {
             if (c.TryGetComponent<TeamTag>(out var allyTeamScript))
             {
                 Team playerTeam = starterAssetsInputs.gameObject.GetComponent<TeamTag>().team;
-                ParticleSystem otherSleepAura = c.transform.Find("Geometry/SleepAura").GetComponent<ParticleSystem>();
-                    
-                WhiteAura.Play();
-                StartCoroutine(StopAura(WhiteAura));
-
-                otherSleepAura.Play();
-                StartCoroutine(StopAura(otherSleepAura));
 
                 if (allyTeamScript.team != playerTeam)
                 {
                     
+                    
+
                     if (c.GetComponent<CharacterController>())
                     {
+                        ParticleSystem otherSleepAura = c.transform.Find("Geometry/SleepAura").GetComponent<ParticleSystem>();
+                        Animator animator = c.transform.GetComponent<Animator>();
+                        animator.Play("Stun", 0, 3.0f);
+                        otherSleepAura.Play();
+                        StartCoroutine(StopAura(otherSleepAura));
                         StartCoroutine(StunEnemy(otherSleepAura, c.gameObject.GetComponent<PlayerInput>(), c.gameObject.GetComponent<CharacterController>())); 
-                    }        
+                    }    
                 }
             }
         }
+    }
+
+    [PunRPC]
+    private void emitAura() {
+        nextFireTime = Time.time + cooldownTime;
+        TriggerFireEvent();
+        WhiteAura.Play();
+        StartCoroutine(StopAura(WhiteAura));
     }
 
     // [PunRPC]

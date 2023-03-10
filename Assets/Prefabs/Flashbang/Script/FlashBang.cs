@@ -2,6 +2,9 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
+using Photon.Realtime;
+using System.Collections.Generic;
 
 public class FlashBang : MonoBehaviour
 {
@@ -28,7 +31,16 @@ public class FlashBang : MonoBehaviour
 
     private AudioSource bangAudioSource;
 
+    public PhotonView view;
+
     public void SetThrowDirection(Vector3 throwDirection)
+    {
+        // Raise an event to notify the server that the player has thrown the flashbang
+        view.RPC("ThrowFlashbang", RpcTarget.All, throwDirection);
+    }
+
+    [PunRPC]
+    void ThrowFlashbang(Vector3 throwDirection)
     {
         // Set the velocity of the rigidbody to throw the object in front of the player
         rigidbodyComponent.velocity = throwDirection * throwSpeed;
@@ -86,6 +98,7 @@ public class FlashBang : MonoBehaviour
     {
         InitAudioSource();
         rigidbodyComponent = gameObject.GetComponent<Rigidbody>();
+        // view = gameObject.GetComponent<PhotonView>();
     }
 
     private void Start()
@@ -123,7 +136,7 @@ public class FlashBang : MonoBehaviour
                 whiteNoiseAudioSource.volume -= 0.05f;
                 yield return new WaitForSeconds(WaitTime);
             }
-            Destroy(whiteImage.gameObject, 10f);
+            Destroy(whiteImage.gameObject);
         }
 
         whiteNoiseAudioSource.Stop();
@@ -137,24 +150,51 @@ public class FlashBang : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Canvas playerCanvas = other.GetComponentInChildren<Canvas>();
-            TeamTag teamTag = other.GetComponent<TeamTag>();
+            // view.RPC("RPC_InitOnFacingPlayers", RpcTarget.All, other);
+            // view.RPC(nameof(RPC_InitOnFacingPlayers), RpcTarget.All, other);
+            view.RPC(nameof(RPC_InitOnFacingPlayers), PhotonNetwork.LocalPlayer, other);
+        }
+    }
 
-            Debug.Log("triggers");
-            Debug.Log(teamOrigin);
+    [PunRPC]
+    public void RPC_InitOnFacingPlayers(Collider other)
+    {
 
-            if (
-                playerCanvas != null &&
-                playerCanvas.gameObject.name == "PlayerHud" &&
-                teamTag.team != teamOrigin
-            )
+        StartCoroutine(InitOnFacingPlayers(other));
+    }
+
+    private IEnumerator InitOnFacingPlayers(Collider other)
+    {
+        yield return new WaitForSeconds(3.5f);
+
+        // Canvas playerCanvas = other.GetComponentInChildren<Canvas>();
+        TeamTag teamTag = other.GetComponent<TeamTag>();
+
+        // Get the GameObject associated with the collider
+        GameObject playerObject = other.gameObject;
+
+        // Get the PhotonView component attached to the GameObject
+        PhotonView photonView = playerObject.GetComponent<PhotonView>();
+        Debug.Log("Player will get blind: " + photonView.Owner.NickName);
+
+        Canvas playerCanvas = other.GetComponentInChildren<Canvas>();
+        // Get the "Geometry" child object's transform and calculate the direction vector
+        Transform geometryTransform = playerObject.transform.Find("Geometry");
+        Vector3 direction = transform.position - geometryTransform.position;
+        float angle = Vector3.Angle(direction, geometryTransform.forward);
+        Debug.Log("angle: " + angle);
+
+        if (photonView.IsMine)
+        {
+            // Check if the angle is within the allowed angle range
+            if (angle <= 60f)
             {
-                InitWhiteFlashImage (playerCanvas);
+                InitWhiteFlashImage(playerCanvas);
             }
-            else
-            {
-                Debug.LogWarning("Could not find player canvas or team tag.");
-            }
+        }
+        else
+        {
+            Debug.LogWarning("Could not find player canvas or team tag.");
         }
     }
 }
