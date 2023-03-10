@@ -120,7 +120,7 @@ public PhotonView view;
     IEnumerator DelayedFunction(float delayTime)
     {
         yield return new WaitForSeconds(delayTime);
-        if((int)PhotonNetwork.CurrentRoom.CustomProperties["game_rounds"] >= 2 ) {
+        if((int)PhotonNetwork.CurrentRoom.CustomProperties["game_rounds"] >= 5 ) {
             PhotonNetwork.LoadLevel("ScoreBoard");
         } else {
             PhotonNetwork.LoadLevel("Game");
