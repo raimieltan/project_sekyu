@@ -32,7 +32,7 @@ public class OpenShop : MonoBehaviour
         while (timeRemaining > 0)
         {
             // Update the timer text UI
-            timerText.text = "0:"+timeRemaining.ToString("0");
+            timerText.text = timeRemaining.ToString("0")+"s";
 
             // Wait for one second before subtracting from the time remaining
             yield return new WaitForSeconds(1f);
