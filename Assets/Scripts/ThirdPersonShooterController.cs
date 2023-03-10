@@ -129,7 +129,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         animator.Play("SpellAttack", 0, 0.15f);
         yield return new WaitForSeconds(0.3f);
 
-        PhotonNetwork.Instantiate(pfBulletProj.name, spawnBulletPos.position, Quaternion.LookRotation(aimDir, Vector3.up));
+        PhotonNetwork.Instantiate(pfBulletProj.name, spawnBulletPos.position, Quaternion.LookRotation(aimDir, Vector3.up), 0, new object[] { "team", PhotonNetwork.LocalPlayer.CustomProperties["team"].ToString()  });
         starterAssetsInputs.shoot = false;
      
 

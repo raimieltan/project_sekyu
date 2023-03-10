@@ -23,7 +23,7 @@ public class TeamTag : MonoBehaviour
             }else {
                 team = Team.TEAM2;
             }
-	            
+
 	    }
     }
     public bool isAlly(Team compareTo)

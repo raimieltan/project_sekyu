@@ -25,39 +25,38 @@ public class Traps : MonoBehaviour
     private string teamOwner;
     private Team playerTeam;
 
- 
 
     void Awake() {
-      
+
         trapTeam = (string)photonView.InstantiationData[1];
         Debug.Log(trapTeam);
     }
-    
+
 
     void OnTriggerEnter(Collider col)
-    {   
+    {
         PhotonView photonView = GetComponentInParent<PhotonView>();
         if (photonView != null)
         {
-            
-            string trapTeam = (string)photonView.InstantiationData[1]; 
+
+            string trapTeam = (string)photonView.InstantiationData[1];
             if (col.gameObject.tag == "Player")
             {
-            
+
                 ThirdPersonController player = col.gameObject.GetComponent<ThirdPersonController>();
                 TeamTag playerTeamScipt = col.gameObject.GetComponent<TeamTag>();
                 poisonAura = col.transform.Find("Geometry/PoisonAura").GetComponent<ParticleSystem>();
                 meteorAura = col.transform.Find("Geometry/MeteorAura").GetComponent<ParticleSystem>();
 
                 Player enemy = col.gameObject.GetComponent<PhotonView>().Owner;
-                
+
                 Debug.Log(enemy.CustomProperties);
-                
-        
+
+
                 Debug.Log("trap team: " + trapTeam);
                 Debug.Log("Player team: " + (string)enemy.CustomProperties["team"]);
-                
-            
+
+
                 if (trapTeam != (string)enemy.CustomProperties["team"])
                 {
                     Debug.Log("Activated");
@@ -78,10 +77,11 @@ public class Traps : MonoBehaviour
                     }
                     else if (transform.name == "ExplosiveCol")
                     {
-                    
+                        Health healthRef = player.GetComponentInParent<Health>();
                         explosiveAnim.Play();
                         meteorAura.Play();
                         StartCoroutine(PlayPoisonAnimation(meteorAura));
+                         healthRef.TakeDamage(explosiveDmg);
                         // player.currentHealth -= explosiveDmg;
                         // player.healthBar.UpdateHealthBar(player.maxHealth, player.currentHealth);
                     }
@@ -111,13 +111,15 @@ public class Traps : MonoBehaviour
     {
         float amountDamaged = 0;
         float damagePerLoop = dmgAmount / duration;
+        Health healthRef = player.GetComponentInParent<Health>();
         while (amountDamaged < dmgAmount)
         {
-            // player.currentHealth -= damagePerLoop;
-            // player.healthBar.UpdateHealthBar(player.maxHealth, player.currentHealth);
+            //healthRef.currentHealth -= damagePerLoop;
+            healthRef.TakeDamage(damagePerLoop);
             amountDamaged += damagePerLoop;
             yield return new WaitForSeconds(1f);
         }
+
     }
 
     IEnumerator DisableTrap(float waitTime, GameObject trap)
