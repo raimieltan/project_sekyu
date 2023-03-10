@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
+using ExitGames.Client.Photon;
 
 public class PlayerInventory : MonoBehaviour
 {
@@ -42,6 +43,8 @@ public class PlayerInventory : MonoBehaviour
     public GameObject explosiveItemBox;
     public GameObject poisonTrapItemBox;
     public GameObject slowTrapItemBox;
+    private Team trapTeam;
+
 
     void Awake()
     {
@@ -52,9 +55,9 @@ public class PlayerInventory : MonoBehaviour
     {
         if (view.IsMine)
         {
-
             if (starterAssetsInputs.throwFlashbang && flashbangItem.activeSelf && Time.time > nextFlashbangTime)
             {
+                nextFlashbangTime = Time.time + itemCooldown;
                 // Get the player's position and forward direction
                 Vector3 playerPosition = transform.position;
                 Vector3 playerForward = transform.forward;
@@ -76,14 +79,6 @@ public class PlayerInventory : MonoBehaviour
 
                 if (flashBang != null)
                 {
-                    // Set the team origin if the player has a TeamTag component
-                    TeamTag teamTag = GetComponent<TeamTag>();
-
-                    if (teamTag != null)
-                    {
-                        flashBang.teamOrigin = teamTag.team;
-                    }
-
                     flashBang.SetThrowDirection(playerForward);
                 }
 
@@ -98,27 +93,48 @@ public class PlayerInventory : MonoBehaviour
                 OnSmokeFired();
             }
 
-            if (starterAssetsInputs.placeExplosiveTrap && explosiveTrapItem.activeSelf && Time.time > nextExplosiveTrapTime)
-            {
+        if (starterAssetsInputs.placeExplosiveTrap && explosiveTrapItem.activeSelf && Time.time > nextExplosiveTrapTime)
+        {
                 nextExplosiveTrapTime = Time.time + itemCooldown;
-                PhotonNetwork.Instantiate(explosiveTrap.name, transform.position, Quaternion.identity);
+            if (PhotonNetwork.LocalPlayer.CustomProperties["team"].ToString() == "team1")
+            {
+                GameObject instantiatedGameObject = PhotonNetwork.Instantiate(explosiveTrap.name, transform.position, Quaternion.identity, 0, new object[] { "team", "team1" });
+            }
+            else
+            {
+                GameObject instantiatedGameObject = PhotonNetwork.Instantiate(explosiveTrap.name, transform.position, Quaternion.identity, 0, new object[] { "team", "team2" });
+            }
                 OnPlaceExplosiveTrap();
-            }
+        }
 
 
-            if (starterAssetsInputs.placePoisonTrap && poisonTrapItem.activeSelf && Time.time > nextPoisonTrapTime)
-            {
-                nextPoisonTrapTime = Time.time + itemCooldown;
-                PhotonNetwork.Instantiate(poisonTrap.name, transform.position, Quaternion.identity);
-                OnPlacePoisonTrap();
-            }
+        if (starterAssetsInputs.placePoisonTrap && poisonTrapItem.activeSelf && Time.time > nextPoisonTrapTime)
+        {
+            nextPoisonTrapTime = Time.time + itemCooldown;
+        if (PhotonNetwork.LocalPlayer.CustomProperties["team"].ToString() == "team1")
+        {
+            GameObject instantiatedGameObject = PhotonNetwork.Instantiate(poisonTrap.name, transform.position, Quaternion.identity, 0, new object[] { "team", "team1" });
+        }
+        else
+        {
+            GameObject instantiatedGameObject = PhotonNetwork.Instantiate(poisonTrap.name, transform.position, Quaternion.identity, 0, new object[] { "team", "team2" });
+        }
+            OnPlacePoisonTrap();
+        }
 
-            if (starterAssetsInputs.placeSlowTrap && slowTrapItem.activeSelf && Time.time > nextSlowTrapTime)
-            {
-                nextSlowTrapTime = Time.time + itemCooldown;
-                PhotonNetwork.Instantiate(slowTrap.name, transform.position, Quaternion.identity);
-                OnPlaceSlowTrap();
-            }
+        if (starterAssetsInputs.placeSlowTrap && slowTrapItem.activeSelf && Time.time > nextSlowTrapTime)
+        {
+            nextSlowTrapTime = Time.time + itemCooldown;
+        if (PhotonNetwork.LocalPlayer.CustomProperties["team"].ToString() == "team1")
+        {
+            GameObject instantiatedGameObject = PhotonNetwork.Instantiate(slowTrap.name, transform.position, Quaternion.identity, 0, new object[] { "team", "team1" });
+        }
+        else
+        {
+            GameObject instantiatedGameObject = PhotonNetwork.Instantiate(slowTrap.name, transform.position, Quaternion.identity, 0, new object[] { "team", "team2" });
+        }
+            OnPlaceSlowTrap();
+        }
 
             if (!flashbangItem.activeSelf)
             {
