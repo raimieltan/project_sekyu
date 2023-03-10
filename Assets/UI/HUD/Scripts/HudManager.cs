@@ -18,6 +18,7 @@ public class HudManager : MonoBehaviour
 
     PlayerInventory playerInventory;
 
+
     PlayerHudVariables hudVariables;
 
     // canvas variables
@@ -76,6 +77,7 @@ public class HudManager : MonoBehaviour
     void Awake()
     {
         Debug.Log (player);
+
         hudVariables = player.GetComponent<PlayerHudVariables>();
 
         // setup character icon
@@ -101,6 +103,7 @@ public class HudManager : MonoBehaviour
 
         // setup armor bar
         // armorBar.healthReference = playerHealth;
+        
         // setup inventory variables
         playerInventory = player.GetComponent<PlayerInventory>();
         playerInventory.OnFlashbangFired += StartFlashbangCooldown;
@@ -114,6 +117,7 @@ public class HudManager : MonoBehaviour
     void Update()
     {
         // handle ability 1 cooldown
+
         handleImageCooldown(ability1.cooldownTime,
         ability1.nextFireTime,
         ability1FilledImg,
@@ -174,6 +178,7 @@ public class HudManager : MonoBehaviour
             cooldownText.text = ((nextFireTime - Time.time)).ToString("F1"); // simplify string formatting
         }
         else if (cooldownText != null)
+
         {
             cooldownText.text = "";
         }

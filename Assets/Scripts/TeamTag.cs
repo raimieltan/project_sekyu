@@ -18,13 +18,12 @@ public class TeamTag : MonoBehaviour
         if( view.IsMine && PhotonNetwork.IsConnected == true )
 	    {
             string chosenTeam = (string)PhotonNetwork.LocalPlayer.CustomProperties["team"];
-            Debug.Log(chosenTeam);
             if(chosenTeam == "team1") {
                 team = Team.TEAM1;
             }else {
                 team = Team.TEAM2;
             }
-	            
+
 	    }
     }
     public bool isAlly(Team compareTo)

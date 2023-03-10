@@ -13,7 +13,7 @@ public class Traps : MonoBehaviour
     private float poisonTime = 3f;
     private float explosiveDmg = 30f;
     private bool insideTrap;
-    public Team trapTeam;
+    public string trapTeam;
     private ThirdPersonController player;
     private ParticleSystem poisonAura;
     private ParticleSystem meteorAura;
@@ -21,65 +21,85 @@ public class Traps : MonoBehaviour
     [SerializeField] private ParticleSystem virusAnim;
     [SerializeField] private ParticleSystem slowAnim;
     [SerializeField] private ParticleSystem explosiveAnim;
+    public PhotonView photonView;
+    private string teamOwner;
+    private Team playerTeam;
 
-    void Awake()
-    {
-        string chosenTeam = (string)PhotonNetwork.LocalPlayer.CustomProperties["team"];
-        if(chosenTeam == "team1") {
-            trapTeam = Team.TEAM1;
-        }else {
-            trapTeam = Team.TEAM2;
-        }
+
+
+    void Awake() {
+
+        trapTeam = (string)photonView.InstantiationData[1];
         Debug.Log(trapTeam);
     }
 
+
     void OnTriggerEnter(Collider col)
-    {   
-        Debug.Log(col.gameObject.tag);
-        if (col.gameObject.tag == "Player")
+    {
+        PhotonView photonView = GetComponentInParent<PhotonView>();
+        if (photonView != null)
         {
-            ThirdPersonController player = col.gameObject.GetComponent<ThirdPersonController>();
-            TeamTag playerTeamScipt = col.gameObject.GetComponent<TeamTag>();
-            poisonAura = col.transform.Find("Geometry/PoisonAura").GetComponent<ParticleSystem>();
-            meteorAura = col.transform.Find("Geometry/MeteorAura").GetComponent<ParticleSystem>();
 
-            if (playerTeamScipt.team == trapTeam)
+            string trapTeam = (string)photonView.InstantiationData[1];
+            if (col.gameObject.tag == "Player")
             {
-                return;
-            }
 
-            if (transform.name == "SlowCol")
-            {
-                player.MoveSpeed = 0.5f;
-                player.SprintSpeed = 0.5f;
-                slowAnim.Play();
-                StartCoroutine(ReturnMovementSpeed(waitTime, player, transform.parent.gameObject));
+                ThirdPersonController player = col.gameObject.GetComponent<ThirdPersonController>();
+                TeamTag playerTeamScipt = col.gameObject.GetComponent<TeamTag>();
+                poisonAura = col.transform.Find("Geometry/PoisonAura").GetComponent<ParticleSystem>();
+                meteorAura = col.transform.Find("Geometry/MeteorAura").GetComponent<ParticleSystem>();
+
+                Player enemy = col.gameObject.GetComponent<PhotonView>().Owner;
+
+                Debug.Log(enemy.CustomProperties);
+
+
+                Debug.Log("trap team: " + trapTeam);
+                Debug.Log("Player team: " + (string)enemy.CustomProperties["team"]);
+
+
+                if (trapTeam != (string)enemy.CustomProperties["team"])
+                {
+                    Debug.Log("Activated");
+                    if (transform.name == "SlowCol")
+                    {
+                        player.MoveSpeed = 0.5f;
+                        player.SprintSpeed = 0.5f;
+                        slowAnim.Play();
+                        StartCoroutine(ReturnMovementSpeed(waitTime, player, transform.parent.gameObject));
+                    }
+                    else if (transform.name == "PoisonCol")
+                    {
+                        poisonAnim.Play();
+                        virusAnim.Play();
+                        poisonAura.Play();
+                        StartCoroutine(PlayPoisonAnimation(poisonAura));
+                        DamageOverTime(poisonDmg, poisonTime, player);
+                    }
+                    else if (transform.name == "ExplosiveCol")
+                    {
+
+                        explosiveAnim.Play();
+                        meteorAura.Play();
+                        StartCoroutine(PlayPoisonAnimation(meteorAura));
+                        // player.currentHealth -= explosiveDmg;
+                        // player.healthBar.UpdateHealthBar(player.maxHealth, player.currentHealth);
+                    }
+                }
+
             }
-            else if (transform.name == "PoisonCol")
+            else if (col.gameObject.name == "Bullet(Clone)")
             {
-                poisonAnim.Play();
-                virusAnim.Play();
-                poisonAura.Play();
-                StartCoroutine(PlayPoisonAnimation(poisonAura));
-                // DamageOverTime(poisonDmg, poisonTime, player);
+                transform.gameObject.SetActive(false);
+                MonoBehaviour camMono = Camera.main.GetComponent<MonoBehaviour>();
+                camMono.StartCoroutine(DisableTrap(3f, transform.gameObject));
+                transform.gameObject.SetActive(false);
             }
-            else if (transform.name == "ExplosiveCol")
-            {
-            
-                explosiveAnim.Play();
-                meteorAura.Play();
-                StartCoroutine(PlayPoisonAnimation(meteorAura));
-                // player.currentHealth -= explosiveDmg;
-                // player.healthBar.UpdateHealthBar(player.maxHealth, player.currentHealth);
-            }
+        } else {
+            Debug.Log(photonView);
         }
-        else if (col.gameObject.name == "Bullet(Clone)")
-        {
-            transform.gameObject.SetActive(false);
-            MonoBehaviour camMono = Camera.main.GetComponent<MonoBehaviour>();
-            camMono.StartCoroutine(DisableTrap(3f, transform.gameObject));
-            transform.gameObject.SetActive(false);
-        }
+
+
     }
 
     public void DamageOverTime(float dmgAmount, float dmgTime, ThirdPersonController player)
