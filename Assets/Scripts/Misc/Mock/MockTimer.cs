@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
+using ExitGames.Client.Photon;
 
 public class MockTimer : MonoBehaviourPun, IPunObservable
 {
@@ -45,7 +46,12 @@ public class MockTimer : MonoBehaviourPun, IPunObservable
                     minutes = 0;
                     timerIsRunning = false;
                     draw.SetActive(true);
+                    ExitGames.Client.Photon.Hashtable currentProperties = PhotonNetwork.CurrentRoom.CustomProperties;
+                    int rounds = (int)currentProperties["game_rounds"];
+                    currentProperties["game_rounds"] = rounds + 1;
+                    PhotonNetwork.CurrentRoom.SetCustomProperties(currentProperties);
                     PhotonNetwork.LoadLevel("Game");
+                    
                 }
 
                 string formattedTime = string.Format("{0:0}:{1:00}", minutes, seconds);
