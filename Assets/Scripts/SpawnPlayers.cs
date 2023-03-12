@@ -29,6 +29,8 @@ public class SpawnPlayers : MonoBehaviour
             randomPosition = new Vector3(Random.Range(-13.2f, 9f), Random.Range(5, 5), Random.Range(135f, 150f));
         }
         PhotonNetwork.Instantiate(playerPrefab[(int)PhotonNetwork.LocalPlayer.CustomProperties["chosen"]].name, randomPosition, Quaternion.identity);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
         leaderboardManager = GetComponent<LeaderboardManager>();
         leaderboardManager.InitializeLeaderboardData();
