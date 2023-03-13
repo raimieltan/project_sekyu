@@ -15,6 +15,12 @@ public class DisplayPlayer : MonoBehaviourPunCallbacks
 
     public TextMeshProUGUI dugoPlayers;
 
+    public TextMeshProUGUI characterNameText;
+
+    public TextMeshProUGUI ability1Text;
+
+    public TextMeshProUGUI ability2Text;
+
     public GameObject teamBanner;
 
     public Material team1BannerMaterial;
@@ -47,6 +53,10 @@ public class DisplayPlayer : MonoBehaviourPunCallbacks
         {
             startButton.SetActive(true);
         }
+
+        character["chosen"] = 0;
+        character["team"] = "team1";
+
         UpdatePlayerList();
     }
 
@@ -110,12 +120,21 @@ public class DisplayPlayer : MonoBehaviourPunCallbacks
     public void ChooseTikbalang()
     {
         character["chosen"] = 0;
+
+        characterNameText.text = "TIKBALANG";
+        ability1Text.text = "KIDLAT";
+        ability2Text.text = "BURNING RAGE";
+
         PhotonNetwork.SetPlayerCustomProperties (character);
     }
 
     public void ChooseMangkukulam()
     {
         character["chosen"] = 1;
+
+        characterNameText.text = "MANGKUKULAM";
+        ability1Text.text = "BANGON";
+        ability2Text.text = "MOMO";
 
         PhotonNetwork.SetPlayerCustomProperties (character);
     }
@@ -124,12 +143,20 @@ public class DisplayPlayer : MonoBehaviourPunCallbacks
     {
         character["chosen"] = 2;
 
+        characterNameText.text = "NUNO";
+        ability1Text.text = "TAKIPSILIM";
+        ability2Text.text = "MALIKMATA";
+
         PhotonNetwork.SetPlayerCustomProperties (character);
     }
 
     public void ChooseEncanto()
     {
         character["chosen"] = 3;
+
+        characterNameText.text = "DIWATA";
+        ability1Text.text = "LUNAS";
+        ability2Text.text = "HYPNOSIS";
 
         PhotonNetwork.SetPlayerCustomProperties (character);
     }
