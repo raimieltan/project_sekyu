@@ -35,7 +35,7 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
         roompos.CustomRoomProperties.Add("room_creator", PhotonNetwork.LocalPlayer.ActorNumber);
 
         PhotonNetwork.JoinOrCreateRoom(roomInput.text, roompos, typedLobby);
-        Debug.Log("Testttt");
+
     }
      public override void OnCreatedRoom()
     {
