@@ -10,6 +10,8 @@ using UnityEngine.SceneManagement;
 public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
 {
     public TMP_InputField nameInput;
+    public TMP_InputField roomInput;
+
     void Start()
     {
         DontDestroyOnLoad(gameObject);
@@ -29,30 +31,25 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
         roompos.CustomRoomProperties.Add("Team_1_score", 0);
         roompos.CustomRoomProperties.Add("Team_2_score", 0);
         roompos.CustomRoomProperties.Add("game_rounds", 1);
-        
+        TypedLobby typedLobby = new TypedLobby("lobbyName", LobbyType.Default);
         roompos.CustomRoomProperties.Add("room_creator", PhotonNetwork.LocalPlayer.ActorNumber);
 
-        PhotonNetwork.CreateRoom("Room" + randomRoomName.ToString(), roompos);
-        Debug.Log("Testttt");
-    }
-    //  public override void OnCreateRoom()
-    // {
-    //     Debug.Log("Room created: " + PhotonNetwork.CurrentRoom.Name);
-    //     PhotonNetwork.LoadLevel("Room");
-    //     // Code to execute after creating the room
-    // }
+        PhotonNetwork.JoinOrCreateRoom(roomInput.text, roompos, typedLobby);
 
-    public void JoinRoom()
+    }
+     public override void OnCreatedRoom()
     {
-        PhotonNetwork.JoinRandomRoom();
+        Debug.Log("Room created: " + PhotonNetwork.CurrentRoom.Name);
+        PhotonNetwork.LoadLevel("Room");
+        // Code to execute after creating the room
     }
-
 
 
     public override void OnJoinedRoom()
 
     {
         Debug.Log("Joined Room");
+        Debug.Log("room joined: " + PhotonNetwork.CurrentRoom.Name);
         PhotonNetwork.LocalPlayer.NickName = nameInput.text;
         SceneManager.LoadScene("Room");
     }
