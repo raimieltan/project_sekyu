@@ -14,17 +14,30 @@ public class scoreBoardManager : MonoBehaviourPunCallbacks
     public TextMeshProUGUI score2;
     [SerializeField] GameObject victoryUI;
     [SerializeField] GameObject defeatUI;
+    [SerializeField] GameObject drawUI;
+
 
     void Start()
     {
+        ExitGames.Client.Photon.Hashtable currentProperties = PhotonNetwork.CurrentRoom.CustomProperties;
         score1.text = (string)PhotonNetwork.CurrentRoom.CustomProperties["Team_1_score"].ToString();
         score2.text = (string)PhotonNetwork.CurrentRoom.CustomProperties["Team_2_score"].ToString();
-        if((string)PhotonNetwork.CurrentRoom.CustomProperties["WinningTeamID"] == (string)PhotonNetwork.LocalPlayer.CustomProperties["team"]) {
+        if((int)PhotonNetwork.CurrentRoom.CustomProperties["Team_1_score"] == (int)PhotonNetwork.CurrentRoom.CustomProperties["Team_2_score"] && (int)currentProperties["game_rounds"] >= 5)
+        {
+            AudioManager.instance.PlayDefeatSound();
+            drawUI.SetActive(true);
+        }
+        else if((string)PhotonNetwork.CurrentRoom.CustomProperties["WinningTeamID"] == (string)PhotonNetwork.LocalPlayer.CustomProperties["team"]) {
             AudioManager.instance.PlayVictorySound();
             victoryUI.SetActive(true);
-        } else {
+            defeatUI.SetActive(false);
+            drawUI.SetActive(false);
+        }
+        else {
             AudioManager.instance.PlayDefeatSound();
             defeatUI.SetActive(true);
+            victoryUI.SetActive(false);
+            drawUI.SetActive(false);
         }
         PhotonNetwork.LeaveRoom();
     }
