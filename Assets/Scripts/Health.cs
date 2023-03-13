@@ -23,6 +23,8 @@ public class Health : MonoBehaviour
 
     private PlayerInventory playerInventory;
 
+    private ParticleSystem healthAura;
+
     private PhotonView view;
 
     private CharacterController characterController;
@@ -53,6 +55,7 @@ public class Health : MonoBehaviour
         radius = characterController.radius;
         originalRadius = characterController.radius;
         isDead = false;
+        // healthAura = this.gameObject.transform.Find("Geometry/HealingAura").GetComponent<ParticleSystem>();
         // isRevive = false;
 
         // StartCoroutine(ApplyArmor());
@@ -71,8 +74,6 @@ public class Health : MonoBehaviour
             radius = 1.05f;
             
             characterController.radius = radius;
-
-            Debug.Log("RADIUS: " + characterController.radius);
             // Debug.Log("ISDEAD: " + isDead);
         }
         // Debug.Log("CURRENT HEALTH: " + currentHealth);
@@ -99,8 +100,6 @@ public class Health : MonoBehaviour
             currentHealth -= damage;
         }
 
-        Debug.Log("TAKE DAMAGE:" + currentHealth);
-
         TriggerUpdateHealth(currentHealth);
     }
 
@@ -122,16 +121,12 @@ public class Health : MonoBehaviour
             }
        }
 
-       Debug.Log("RESTORED HEALTH: " + healAmount);
-
         TriggerUpdateHealth(currentHealth);
+        
     }
 
-    // [PunRPC]
     public void AddArmor(float armorAmount)
     {
-        Debug.Log("ARMOR AMOUNT: " + armorAmount);
-
         if (currentHealth + armorAmount >= maxHealth)
         {
             currentHealth = maxHealth;
