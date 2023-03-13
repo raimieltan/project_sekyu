@@ -14,7 +14,7 @@ public class MockTimer : MonoBehaviourPun, IPunObservable
 
     public TMP_Text roundText;
 
-    public float timeLimit = 180f;
+    public float timeLimit = 300f;
 
     float currentTime;
     private bool timerIsRunning = true;

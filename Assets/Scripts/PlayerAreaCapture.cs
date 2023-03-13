@@ -27,7 +27,9 @@ public class PlayerAreaCapture : MonoBehaviour
     public bool damageTaken;
     private Team tagPlayer;
     private Team winningTeamID;
-public PhotonView view;
+    public PhotonView view;
+    public GameObject pressF;
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -42,6 +44,15 @@ public PhotonView view;
     {
         CaptureArea();
         damageTaken = GetComponent<hit>().damageTaken;
+
+        if(view.IsMine && playerInside && !_input.captureBase && !gameWon)
+        {
+            pressF.SetActive(true);
+        }
+        else
+        {
+            pressF.SetActive(false);
+        }
       
     }
 
@@ -117,15 +128,24 @@ public PhotonView view;
 
    
 
-    IEnumerator DelayedFunction(float delayTime)
+IEnumerator DelayedFunction(float delayTime)
+{
+    yield return new WaitForSeconds(delayTime);
+
+    int team1Score = (int)PhotonNetwork.CurrentRoom.CustomProperties["Team_1_score"];
+    int team2Score = (int)PhotonNetwork.CurrentRoom.CustomProperties["Team_2_score"];
+    int totalRounds = team1Score + team2Score;
+
+    if (team1Score >= 3 || team2Score >= 3 || totalRounds >= 5)
     {
-        yield return new WaitForSeconds(delayTime);
-        if((int)PhotonNetwork.CurrentRoom.CustomProperties["game_rounds"] >= 5 ) {
-            PhotonNetwork.LoadLevel("ScoreBoard");
-        } else {
-            PhotonNetwork.LoadLevel("Game");
-        }
+        PhotonNetwork.LoadLevel("ScoreBoard");
     }
+    else
+    {
+        PhotonNetwork.LoadLevel("Game");
+    }
+}
+
 
     
     private void Show()
@@ -136,6 +156,7 @@ public PhotonView view;
     private void Hide()
     {
         mapAreaCapturingUI.gameObject.SetActive(false);
+        pressF.SetActive(false);
     }
 
     private void CaptureProcess() {
