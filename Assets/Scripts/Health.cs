@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+using StarterAssets;
+using UnityEngine.InputSystem;
 
 public class Health : MonoBehaviour
 {
@@ -29,8 +31,8 @@ public class Health : MonoBehaviour
 
     private CharacterController characterController;
     private float radius;
-
     public float originalRadius;
+    private PlayerInput player;
     private Animator animator;
     private StarterAssets.ThirdPersonController thirdPersonController;
     [SerializeField] private GameObject playerHud;
@@ -52,9 +54,8 @@ public class Health : MonoBehaviour
         thirdPersonController = GetComponent<StarterAssets.ThirdPersonController>();
         view = GetComponent<PhotonView>();
         characterController = GetComponent<CharacterController>();
-        radius = characterController.radius;
-        originalRadius = characterController.radius;
         isDead = false;
+        player = GetComponent<PlayerInput>();
         // healthAura = this.gameObject.transform.Find("Geometry/HealingAura").GetComponent<ParticleSystem>();
         // isRevive = false;
 
@@ -69,11 +70,13 @@ public class Health : MonoBehaviour
             animator.SetBool("isDead", true);
             animator.SetBool("isRevive", false);
             isDead = true;
+            // characterController.enabled = false;
             thirdPersonController.enabled = false;
+            player.enabled = false;
             playerHud.SetActive(false);
-            radius = 1.05f;
-            
-            characterController.radius = radius;
+            // deathCollider.enabled = true;
+
+            // Debug.Log("COLLIDER:" + deathCollider.enabled);
             // Debug.Log("ISDEAD: " + isDead);
         }
         // Debug.Log("CURRENT HEALTH: " + currentHealth);

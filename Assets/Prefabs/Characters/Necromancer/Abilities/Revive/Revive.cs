@@ -19,25 +19,23 @@ public class Revive : Ability
     private CinemachineVirtualCamera aimVirtualCamera;
     private float normalSensitivity;
     private float aimSensitivity;
-    private ParticleSystem goldAura;
+    private ParticleSystem reviveAura;
     public PhotonView view;
 
 
     void Awake()
     {
+        thirdPersonShooterController = this.gameObject.GetComponent<ThirdPersonShooterController>();
+        thirdPersonController = this.gameObject.GetComponent<ThirdPersonController>();
+        starterAssetsInputs = GetComponent<StarterAssetsInputs>();
+        spawnReviveOrb = thirdPersonShooterController.spawnBulletPos;
+        aimVirtualCamera = thirdPersonShooterController.aimVirtualCamera;
+        normalSensitivity = thirdPersonShooterController.normalSensitivity;
+        aimSensitivity = thirdPersonShooterController.aimSensitivity;
+        cooldownTime = 5;
+        nextFireTime = 0;
+        reviveAura = this.gameObject.transform.Find("Geometry/DarknessAura").GetComponent<ParticleSystem>();
 
-        if (view.IsMine) {
-            thirdPersonShooterController = GetComponent<ThirdPersonShooterController>();
-            thirdPersonController = GetComponent<ThirdPersonController>();
-            starterAssetsInputs = GetComponent<StarterAssetsInputs>();
-            spawnReviveOrb = thirdPersonShooterController.spawnBulletPos;
-            aimVirtualCamera = thirdPersonShooterController.aimVirtualCamera;
-            normalSensitivity = thirdPersonShooterController.normalSensitivity;
-            aimSensitivity = thirdPersonShooterController.aimSensitivity;
-            cooldownTime = 5;
-            nextFireTime = 0;
-            goldAura = transform.Find("Geometry/GoldAura")?.GetComponent<ParticleSystem>();
-        }
     }
 
     private void Update()
@@ -45,21 +43,7 @@ public class Revive : Ability
         if (Time.time > nextFireTime && starterAssetsInputs.secondAbility)
         {
             if (view.IsMine) {
-                if (thirdPersonShooterController.inCombat)
-                {
-                    goldAura.Play();    
-                    thirdPersonShooterController.inCombat = false;
-                    starterAssetsInputs.secondAbility = false;
-                }
-                else
-                {
-                    goldAura.Stop();
-                    thirdPersonShooterController.inCombat = true;
-                    starterAssetsInputs.secondAbility = false;
-                }
-
-                nextFireTime = Time.time + cooldownTime;
-                TriggerFireEvent();
+                view.RPC("ReviveToggle", RpcTarget.All);
             }
         }
 
@@ -74,37 +58,72 @@ public class Revive : Ability
         // }
 
         if (view.IsMine) {
-            if (!thirdPersonShooterController.inCombat)
+            view.RPC("ReviveForm", RpcTarget.All, mouseWorldPosition);
+        }
+    }
+
+    [PunRPC]
+    public void ReviveToggle()
+    {
+        if (thirdPersonShooterController.inCombat)
+        {
+            view.RPC("emitAura", RpcTarget.All);
+            thirdPersonShooterController.inCombat = false;
+            starterAssetsInputs.secondAbility = false;
+        }   
+        else
+        {
+            view.RPC("stopAura", RpcTarget.All);
+            thirdPersonShooterController.inCombat = true;
+            starterAssetsInputs.secondAbility = false;
+        }
+    }
+
+    [PunRPC]
+    public void ReviveForm(Vector3 mouseWorldPosition)
+    {
+        if (!thirdPersonShooterController.inCombat)
+        {
+            if (starterAssetsInputs.aim)
             {
+                aimVirtualCamera.gameObject.SetActive(true);
+                thirdPersonController.SetSensitivity(aimSensitivity);
 
-                if (starterAssetsInputs.aim)
+                Vector3 worldAimTarget = mouseWorldPosition;
+                worldAimTarget.y = transform.position.y;
+                Vector3 aimDirection = (worldAimTarget - transform.position).normalized;
+                transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime * 20f);
+
+                if (starterAssetsInputs.shoot)
                 {
-                    aimVirtualCamera.gameObject.SetActive(true);
-                    thirdPersonController.SetSensitivity(aimSensitivity);
+                    nextFireTime = Time.time + cooldownTime;
+                    TriggerFireEvent();
 
-                    Vector3 worldAimTarget = mouseWorldPosition;
-                    worldAimTarget.y = transform.position.y;
-                    Vector3 aimDirection = (worldAimTarget - transform.position).normalized;
-                    transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime * 20f);
-
-                    if (starterAssetsInputs.shoot)
-                    {
-                        Vector3 aimDir = (mouseWorldPosition - spawnReviveOrb.position).normalized;
-                        // Instantiate(reviveOrb, spawnReviveOrb.position, Quaternion.LookRotation(aimDir, Vector3.up));
-                        PhotonNetwork.Instantiate(reviveOrb.name, spawnReviveOrb.position, Quaternion.LookRotation(aimDir, Vector3.up));
-                        goldAura.Stop();
-                        starterAssetsInputs.shoot = false;
-                        thirdPersonShooterController.inCombat = true;
-                        aimVirtualCamera.gameObject.SetActive(false);
-                    }
-
-                }
-                else
-                {
+                    Vector3 aimDir = (mouseWorldPosition - spawnReviveOrb.position).normalized;
+                    // Instantiate(reviveOrb, spawnReviveOrb.position, Quaternion.LookRotation(aimDir, Vector3.up));
+                    PhotonNetwork.Instantiate(reviveOrb.name, spawnReviveOrb.position, Quaternion.LookRotation(aimDir, Vector3.up));
+                    view.RPC("stopAura", RpcTarget.All);
+                    starterAssetsInputs.shoot = false;
+                    thirdPersonShooterController.inCombat = true;
                     aimVirtualCamera.gameObject.SetActive(false);
-                    thirdPersonController.SetSensitivity(normalSensitivity);
                 }
+
+            }
+            else
+            {
+                aimVirtualCamera.gameObject.SetActive(false);
+                thirdPersonController.SetSensitivity(normalSensitivity);
             }
         }
+    }
+
+    [PunRPC]
+    public void emitAura(){
+        reviveAura.Play(); 
+    }
+
+    [PunRPC]
+    public void stopAura(){
+        reviveAura.Stop();
     }
 }
