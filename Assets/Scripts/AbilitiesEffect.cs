@@ -10,7 +10,7 @@ public class AbilitiesEffect : MonoBehaviour
     public bool isHeal;
     private Health health;
     public PhotonView view;
-    public ParticleSystem healAura, stunAura;
+    public ParticleSystem healAura, stunAura, reviveAura;
     private PlayerInput player;
     private Animator animator;
     private CharacterController characterController;
@@ -25,6 +25,7 @@ public class AbilitiesEffect : MonoBehaviour
         thirdPersonController = GetComponent<ThirdPersonController>();
         healAura = this.gameObject.transform.Find("Geometry/HealingAura").GetComponent<ParticleSystem>();
         stunAura = this.gameObject.transform.Find("Geometry/SleepAura").GetComponent<ParticleSystem>();
+        reviveAura = this.gameObject.transform.Find("Geometry/WaterAura").GetComponent<ParticleSystem>();
         animator = this.gameObject.GetComponent<Animator>();
         hit = GetComponent<hit>();
     }
@@ -94,7 +95,6 @@ public class AbilitiesEffect : MonoBehaviour
     [PunRPC]
     public void Revived()
     {   
-        Debug.Log("REVIVED!");
 
         animator.SetBool("isDead", false);
         animator.SetBool("isRevive", true);  
@@ -106,8 +106,7 @@ public class AbilitiesEffect : MonoBehaviour
         thirdPersonController.enabled = true;
         player.enabled = true;
 
-        Debug.Log("Health isdead: " + health.isDead);
-        Debug.Log("Hit isdead: " + hit.isDead);
+        view.RPC("emitReviveAura", RpcTarget.All);
 
         health.RestoreHealth(100);
 
@@ -137,6 +136,11 @@ public class AbilitiesEffect : MonoBehaviour
     void emitStunAura() {
         stunAura.Play();
         StartCoroutine(StopAura(stunAura));
+    }
+
+    void emitReviveAura() {
+        reviveAura.Play();
+        StartCoroutine(StopAura(reviveAura));
     }
 
     [PunRPC]
