@@ -51,16 +51,22 @@ public class OpenShop : MonoBehaviour
         {
             Debug.Log("openshop");
             Inventory.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
         else if (Inventory.activeSelf && Keyboard.current.bKey.wasPressedThisFrame)
         {
             Inventory.SetActive(false);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
         
         if (timer >= 29f) 
         {
             canOpenInventory = false; // set flag to false to prevent inventory from being opened
             Inventory.SetActive(false); // close inventory
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
 
     }

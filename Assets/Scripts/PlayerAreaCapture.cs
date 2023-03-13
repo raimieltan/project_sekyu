@@ -27,7 +27,9 @@ public class PlayerAreaCapture : MonoBehaviour
     public bool damageTaken;
     private Team tagPlayer;
     private Team winningTeamID;
-public PhotonView view;
+    public PhotonView view;
+    public GameObject pressF;
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -42,6 +44,15 @@ public PhotonView view;
     {
         CaptureArea();
         damageTaken = GetComponent<hit>().damageTaken;
+
+        if(view.IsMine && playerInside && !_input.captureBase && !gameWon)
+        {
+            pressF.SetActive(true);
+        }
+        else
+        {
+            pressF.SetActive(false);
+        }
       
     }
 
@@ -136,6 +147,7 @@ public PhotonView view;
     private void Hide()
     {
         mapAreaCapturingUI.gameObject.SetActive(false);
+        pressF.SetActive(false);
     }
 
     private void CaptureProcess() {
