@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class Berserk : Ability
 {
-    private ThirdPersonController player;
+    public ThirdPersonController player;
 
     private StarterAssetsInputs starterAssetsInputs;
 
@@ -26,11 +26,12 @@ public class Berserk : Ability
     {
         cooldownTime = 5;
         nextFireTime = 0;
-        player = GetComponent<ThirdPersonController>();
+        
         starterAssetsInputs = GetComponent<StarterAssetsInputs>();
+        player = this.gameObject.GetComponent<ThirdPersonController>();
         audioSource = GetComponent<AudioSource>();
         fireAura =
-            transform.Find("Geometry/FireAura").GetComponent<ParticleSystem>();
+            this.gameObject.transform.Find("Geometry/FireAura").GetComponent<ParticleSystem>();
     }
 
     void Update()
@@ -40,28 +41,34 @@ public class Berserk : Ability
             if (view.IsMine)
             {
                 //call this method for all other players in the current room:
-                view.RPC("emitAura", RpcTarget.All);
-                audioSource.PlayOneShot (berserkSound);
+                view.RPC("GoBerserk", RpcTarget.All);
+                audioSource.PlayOneShot(berserkSound);
             }
         }
     }
 
     [PunRPC]
-    void emitAura()
-    {
-        berserk = true;
-        player.MoveSpeed = 10.0f;
-        player.SprintSpeed = 8.335f;
-
-        fireAura.Play();
+    public void GoBerserk()
+    {  
         nextFireTime = Time.time + cooldownTime;
         TriggerFireEvent();
-        StartCoroutine(ReturnMovementSpeed());
+
+        berserk = true;
+        player.MoveSpeed = 200.0f;
+        Debug.Log("Player MoveSpeed: " + player.MoveSpeed);
+        
+        player.SprintSpeed = 200f;
+
+        Debug.Log("Player MoveSpeed: " + player.SprintSpeed);
+
+        fireAura.Play();
+        StartCoroutine(ApplyBerserk());
     }
 
-    IEnumerator ReturnMovementSpeed()
+    IEnumerator ApplyBerserk()
     {
         yield return new WaitForSeconds(5f);
+
         player.MoveSpeed = 2.0f;
         player.SprintSpeed = 5.335f;
         fireAura.Stop();
