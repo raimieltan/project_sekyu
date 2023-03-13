@@ -36,6 +36,13 @@ public class Scoreboard : MonoBehaviour
             }
         }
 
+        if(team1Players.Count == 3)
+        {
+            entryTeam2Container.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, -111f);
+        } else if(team1Players.Count == 2) {
+            entryTeam2Container.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, -75f);
+        }
+
         playerScoreEntryList = new List<PlayerScoreEntry>();
         foreach (Photon.Realtime.Player player in team1Players)
         {
@@ -90,7 +97,7 @@ public class Scoreboard : MonoBehaviour
 
     private void CreateScoreboardEntryTransform(PlayerScoreEntry playerScoreEntry, Transform container, List<Transform> transformList, Transform entryTemplateNeutral)
     {
-        float templateHeight = 30f;
+        float templateHeight = 35f;
         Transform entryTransform = Instantiate(entryTemplateNeutral, container);
         RectTransform entryRectTransform = entryTransform.GetComponent<RectTransform>();
         entryRectTransform.anchoredPosition = new Vector2(0f, -templateHeight * transformList.Count);
