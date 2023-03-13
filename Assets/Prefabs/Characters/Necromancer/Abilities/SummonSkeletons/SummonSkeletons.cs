@@ -30,7 +30,7 @@ public class SummonSkeletons : Ability
         {
             StartCoroutine(CastSummonSkeletons());
             nextFireTime = Time.time + cooldownTime;
-                TriggerFireEvent();
+            TriggerFireEvent();
         }
     }
 
@@ -67,7 +67,7 @@ public class SummonSkeletons : Ability
     private IEnumerator DestroySkeleton(GameObject skeletonObject)
     {
         yield return new WaitForSeconds(10f);
-        Destroy (skeletonObject);
+        PhotonNetwork.Destroy(skeletonObject);
         skeletonCount--;
     }
 }
