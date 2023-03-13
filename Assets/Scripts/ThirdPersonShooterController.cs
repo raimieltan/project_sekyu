@@ -84,7 +84,8 @@ public class ThirdPersonShooterController : MonoBehaviour
                     transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime * 20f);
                     Vector3 aimDir = (mouseWorldPosition - spawnBulletPos.position).normalized;
 
-                    if(starterAssetsInputs.shoot && canAttack && inCombat) {
+                    if(starterAssetsInputs.shoot && canAttack && inCombat) { 
+                        view.RPC("spellAttackAnim", RpcTarget.All);
                         StartCoroutine(attackMagic(aimDir)); 
                     }
                 }
@@ -101,7 +102,7 @@ public class ThirdPersonShooterController : MonoBehaviour
                         animator.SetTrigger(_animIDAttack);
                     }   
                 
-                    StartCoroutine(attackMelee());
+                    StartCoroutine(attackMelee());  
                     
                 }
             }
@@ -110,7 +111,6 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     
     }
-
 
     IEnumerator attackMelee() {
         if (view.IsMine) {
@@ -125,17 +125,20 @@ public class ThirdPersonShooterController : MonoBehaviour
     IEnumerator attackMagic(Vector3 aimDir) {
         if (view.IsMine) {
         canAttack = false;
-
-        animator.Play("SpellAttack", 0, 0.15f);
         yield return new WaitForSeconds(0.3f);
 
         PhotonNetwork.Instantiate(pfBulletProj.name, spawnBulletPos.position, Quaternion.LookRotation(aimDir, Vector3.up), 0, new object[] { "team", PhotonNetwork.LocalPlayer.CustomProperties["team"].ToString()  });
         starterAssetsInputs.shoot = false;
-     
 
         canAttack = true;
         }
 
+    }
+
+    [PunRPC]
+    void spellAttackAnim() 
+    {
+        animator.Play("SpellAttack", 0, 0.15f);
     }
 
     IEnumerator attackMeleeIncreased()

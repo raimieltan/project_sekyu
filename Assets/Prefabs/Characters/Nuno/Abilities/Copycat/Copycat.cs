@@ -172,28 +172,4 @@ private IEnumerator AddNewAnimator(float delayTime)
         _animator = newAnim;
     }
 }
-
-// void EnableCharacter(int index)
-// {
-// for (int characterPosition = 0; characterPosition < possibleTransformations.Count; characterPosition++)
-// {
-//     Debug.Log("CHARACTER POSITION: " + characterPosition);
-//     Debug.Log(_characters[characterPosition].gameObject.name);
-
-//     Transform currentCharacter = _characters[characterPosition];
-//     currentCharacter.gameObject.SetActive(characterPosition == index);
-// }
-// }
-
-// void ShowPanel()
-// {
-//     panel.gameObject.SetActive(true);        
-// }
-
-// public void SelectCharacter(int index)
-// {
-//     panel.gameObject.SetActive(false);
-//     selectedCharacter = index;
-//     Swap(index);
-// }
 }

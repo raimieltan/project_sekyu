@@ -16,89 +16,58 @@ using StarterAssets;
 
 public class Stun : Ability
 {
-    
     public float range = 7f;
 
     private StarterAssetsInputs starterAssetsInputs;
     public PhotonView view;
-    private ParticleSystem WhiteAura; 
-    private ThirdPersonController player;
+    private ParticleSystem whiteAura;
+    private AbilitiesEffect abilitiesEffect;
     void Awake()
     {
         cooldownTime = 3;
         nextFireTime = 0;
-        player = GetComponent<ThirdPersonController>();
         starterAssetsInputs = GetComponent<StarterAssetsInputs>();
-
-        WhiteAura = transform.Find("Geometry/WhiteAura").GetComponent<ParticleSystem>();
+        abilitiesEffect = GetComponent<AbilitiesEffect>();
+        whiteAura = this.gameObject.transform.Find("Geometry/WhiteAura").GetComponent<ParticleSystem>();
     }
-
     void Update()
     {
         if (Time.time > nextFireTime && starterAssetsInputs.secondAbility)
         {   
             if (view.IsMine){
-                view.RPC("emitAura", RpcTarget.All);
-                view.RPC("StunNearbyEnemies", RpcTarget.All);
+                view.RPC("StunEnemies", RpcTarget.All);
             }      
         }
     }
 
     [PunRPC]
-    private void StunNearbyEnemies()
+    private void StunEnemies()
     {
         nextFireTime = Time.time + cooldownTime;
         TriggerFireEvent();
         Collider[] colliders = Physics.OverlapSphere(transform.position, range);
-        
+
+        view.RPC("emitAura", RpcTarget.All);
+
+        string ownerTeam = (string)this.gameObject.GetComponent<PhotonView>().Owner.CustomProperties["team"];
         //TODO: REFACTOR ANIMATION AND COLLIDERS
-        foreach (Collider c in colliders)
-        {
-            if (c.TryGetComponent<TeamTag>(out var allyTeamScript))
-            {
-                Team playerTeam = starterAssetsInputs.gameObject.GetComponent<TeamTag>().team;
-
-                if (allyTeamScript.team != playerTeam)
-                {
-                    
-                    
-
-                    if (c.GetComponent<CharacterController>())
-                    {
-                        ParticleSystem otherSleepAura = c.transform.Find("Geometry/SleepAura").GetComponent<ParticleSystem>();
-                        Animator animator = c.transform.GetComponent<Animator>();
-                        animator.Play("Stun", 0, 3.0f);
-                        otherSleepAura.Play();
-                        StartCoroutine(StopAura(otherSleepAura));
-                        StartCoroutine(StunEnemy(otherSleepAura, c.gameObject.GetComponent<PlayerInput>(), c.gameObject.GetComponent<CharacterController>())); 
-                    }    
-                }
+        foreach (Collider collider in colliders)
+        {  
+            if(collider.gameObject.GetComponent<PhotonView>()) {
+                AbilitiesEffect effect = collider.gameObject.GetComponent<AbilitiesEffect>();
+                effect.RPC_Stun(ownerTeam);
             }
         }
     }
 
     [PunRPC]
     private void emitAura() {
-        nextFireTime = Time.time + cooldownTime;
-        TriggerFireEvent();
-        WhiteAura.Play();
-        StartCoroutine(StopAura(WhiteAura));
+        whiteAura.Play();
+        StartCoroutine(StopAura());
     }
 
-    // [PunRPC]
-    IEnumerator StunEnemy(ParticleSystem sleepAura, PlayerInput player, CharacterController characterController)
-    {  
-        sleepAura.Play();
-        player.enabled = false;
-        characterController.enabled = false;
-        yield return new WaitForSeconds(2f);
-        sleepAura.Stop();
-        player.enabled = true;
-        characterController.enabled = true;
-    }
-
-    IEnumerator StopAura(ParticleSystem aura) {
-        yield return new WaitForSeconds(2f);
-        aura.Stop();
+    IEnumerator StopAura() {
+        yield return new WaitForSeconds(3f);
+        whiteAura.Stop();
     }
 }

@@ -18,16 +18,16 @@ public class hit : MonoBehaviour
     private float originalRadius;
     private StarterAssets.ThirdPersonController thirdPersonController;
     public GameObject playerHud;
-
     public Copycat copyCat;
-
     public Animator animator;
+    private AbilitiesEffect abilitiesEffect;
 
     void Awake(){
         animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
         originalRadius = health.originalRadius;
         copyCat = GetComponent<Copycat>();
+        abilitiesEffect = this.gameObject.GetComponent<AbilitiesEffect>();
 
         bloodAura = transform.Find("Geometry/BloodAura")?.GetComponent<ParticleSystem>();
         if (bloodAura == null) {
@@ -42,10 +42,6 @@ public class hit : MonoBehaviour
 
         if (other.gameObject.tag == "Weapon")
         {
-
-            Debug.Log("Test");
-            Debug.Log("PHOTON VIEW: " + other.gameObject.transform.root.gameObject.GetComponent<PhotonView>());
-
 
             Player player = other.gameObject.transform.root.gameObject.GetComponent<PhotonView>().Owner;
 
@@ -65,47 +61,28 @@ public class hit : MonoBehaviour
                 }
             }
 
-            if (copyCat && copyCat.characterIndex != 0) {
-                copyCat.Revert();
-            }
+            // if (copyCat && copyCat.characterIndex != 0) {
+            //     copyCat.Revert();
+            // }
         }
 
         if (other.gameObject.tag == "revive")
         {
-            Player player = other.gameObject.transform.root.gameObject.GetComponent<PhotonView>().Owner;
+            Player otherPlayer = other.gameObject.transform.root.gameObject.GetComponent<PhotonView>().Owner;
 
-            if (player.CustomProperties != null)
+            if (otherPlayer.CustomProperties != null)
             {
-                object targetTeam = player.CustomProperties["team"];
-
+                string otherTeam = (string)otherPlayer.CustomProperties["team"];
                 // Do something with the custom property value
-                if((string)PhotonNetwork.LocalPlayer.CustomProperties["team"] == (string)targetTeam ) {
+                if((string)PhotonNetwork.LocalPlayer.CustomProperties["team"] == (string)otherTeam) {
                     if(health.isDead) {
-                        revivePlayer();
+                        abilitiesEffect.RPC_Revive();
                     }
                 }
             }
         }
     }
 
-    private void revivePlayer()
-    {
-        health.RestoreHealth(100);
-        health.isDead = false;
-        isDead = false;
-
-        animator.SetBool("isDead", false);
-        animator.SetBool("isRevive", true);
-        thirdPersonController.enabled = true;
-        playerHud.SetActive(true);
-
-        // characterController.direction = 1;
-            
-        characterController.radius = originalRadius;
-        // animator.SetBool("isDead", false);
-        // animator.SetBool("isRevive", false);
-
-    }
 
     private void applyDamage(float value)
     {

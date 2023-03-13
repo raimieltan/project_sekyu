@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using StarterAssets;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.InputSystem;
 
 public class Invisibility : Ability
 {    
@@ -14,6 +15,8 @@ public class Invisibility : Ability
     public bool isVisible;
     public Material transparentMaterial;
     private StarterAssetsInputs starterAssetsInputs;
+    private ThirdPersonController player;
+
     // public Image abilityImage;
     // private Copycat copycat;
     private List<Material[]> _materials;
@@ -21,11 +24,10 @@ public class Invisibility : Ability
 
     void Start()
     {
-        cooldownTime = 8;
+        cooldownTime = 9;
         nextFireTime = 0;
         isVisible = true;
-        // copycat = gameObject.GetComponent<Copycat>();
-        // abilityImage.fillAmount = 0;
+        player = GetComponent<ThirdPersonController>();
         starterAssetsInputs = GetComponent<StarterAssetsInputs>();
         copycat = GetComponent<Copycat>();
         _materials = GetAllObjectsWithMeshMaterial();
@@ -38,60 +40,18 @@ public class Invisibility : Ability
         {
             if (copycat.characterIndex == 0 && starterAssetsInputs.secondAbility)
             {
-                view.RPC("emitInvi",RpcTarget.All);
+                view.RPC("GoInvisible",RpcTarget.All);
 
-                // starterAssetsInputs.secondAbility = false;           
-                // if (copycat.isSwapped)
-                // {
-                //     // TODO: Show panel? Ask Sean
-                //     copycat.Swap(0);
-                // }
-                // nextInvisibilityTime = Time.time + cooldownTime;
-                // abilityImage.fillAmount = 1;
-                // GoInvisible();
             }
-            //  else {
-            // if (!copycat.isSwapped)
-            // {
-            //     RemoveInvisibility();
-            // }
-            // RemoveInvisibility();
-            // starterAssetsInputs.secondAbility = false;
-            // }
-        }
-
-        view.RPC("emitRemove",RpcTarget.All);
-
-        // else
-        // {
-        //     abilityImage.fillAmount -= 1 / cooldownTime * Time.deltaTime;
-
-        //     if (abilityImage.fillAmount <= 0)
-        //     {
-        //         abilityImage.fillAmount = 0;
-        //         RemoveInvisibility();
-        //     }
-        // }
-    }
-
-    [PunRPC]
-    void emitRemove() {
-        if (Time.time > (nextFireTime - (cooldownTime - invisibilityDuration)))
-        {
-           RemoveInvisibility();
-        
         }
     }
         
 
-    [PunRPC]
-    void emitInvi(){
-        Debug.Log(copycat.characterIndex);
-        nextFireTime = Time.time + cooldownTime;
-        GoInvisible();
-           
-        TriggerFireEvent();
-    }
+    // [PunRPC]
+    // void emitInvi(){
+    //     Debug.Log(copycat.characterIndex);
+        
+    // }
 
     private List<Material[]> GetAllObjectsWithMeshMaterial()
     {
@@ -117,8 +77,10 @@ public class Invisibility : Ability
     }
 
     [PunRPC]
-    private void RemoveInvisibility()
+    IEnumerator RemoveInvisibility()
     {
+        yield return new WaitForSeconds(8f);
+
         Transform[] limbs = GetComponentsInChildren<Transform>();
 
         for (int child = 0; child < limbs.Length; child++)
@@ -137,6 +99,9 @@ public class Invisibility : Ability
     [PunRPC]
     private void GoInvisible()
     {
+        nextFireTime = Time.time + cooldownTime;
+        TriggerFireEvent();
+
         Transform[] limbs = GetComponentsInChildren<Transform>();
         Material[] _replacement = new Material[1] { transparentMaterial };
 
@@ -151,5 +116,7 @@ public class Invisibility : Ability
         }
 
         isVisible = false;
+
+        StartCoroutine(RemoveInvisibility());
     }
 }
