@@ -50,7 +50,7 @@ public class Berserk : Ability
     void emitAura()
     {
         berserk = true;
-        player.MoveSpeed = 5.0f;
+        player.MoveSpeed = 10.0f;
         player.SprintSpeed = 8.335f;
 
         fireAura.Play();

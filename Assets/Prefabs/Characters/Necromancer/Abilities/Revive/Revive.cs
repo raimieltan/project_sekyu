@@ -20,6 +20,8 @@ public class Revive : Ability
     private float normalSensitivity;
     private float aimSensitivity;
     private ParticleSystem reviveAura;
+
+    private Animator animator;
     public PhotonView view;
 
 
@@ -32,6 +34,7 @@ public class Revive : Ability
         aimVirtualCamera = thirdPersonShooterController.aimVirtualCamera;
         normalSensitivity = thirdPersonShooterController.normalSensitivity;
         aimSensitivity = thirdPersonShooterController.aimSensitivity;
+        animator = GetComponent<Animator>();
         cooldownTime = 5;
         nextFireTime = 0;
         reviveAura = this.gameObject.transform.Find("Geometry/DarknessAura").GetComponent<ParticleSystem>();
@@ -96,6 +99,7 @@ public class Revive : Ability
 
                 if (starterAssetsInputs.shoot)
                 {
+                    view.RPC("spellAttackAnim", RpcTarget.All);
                     nextFireTime = Time.time + cooldownTime;
                     TriggerFireEvent();
 
@@ -103,6 +107,7 @@ public class Revive : Ability
                     // Instantiate(reviveOrb, spawnReviveOrb.position, Quaternion.LookRotation(aimDir, Vector3.up));
                     PhotonNetwork.Instantiate(reviveOrb.name, spawnReviveOrb.position, Quaternion.LookRotation(aimDir, Vector3.up));
                     view.RPC("stopAura", RpcTarget.All);
+                    
                     starterAssetsInputs.shoot = false;
                     thirdPersonShooterController.inCombat = true;
                     aimVirtualCamera.gameObject.SetActive(false);
@@ -125,5 +130,12 @@ public class Revive : Ability
     [PunRPC]
     public void stopAura(){
         reviveAura.Stop();
+    }
+
+    [PunRPC]
+
+    public void castSpellAnim() 
+    {
+        animator.Play("SpellAttack", 0, 0.15f);
     }
 }
