@@ -14,7 +14,7 @@ public class MockTimer : MonoBehaviourPun, IPunObservable
 
     public TMP_Text roundText;
 
-    public float timeLimit = 180f;
+    public float timeLimit = 300f;
 
     float currentTime;
     private bool timerIsRunning = true;
@@ -50,7 +50,18 @@ public class MockTimer : MonoBehaviourPun, IPunObservable
                     int rounds = (int)currentProperties["game_rounds"];
                     currentProperties["game_rounds"] = rounds + 1;
                     PhotonNetwork.CurrentRoom.SetCustomProperties(currentProperties);
-                    PhotonNetwork.LoadLevel("Game");
+
+                    if(rounds >= 5)
+                    {
+                        PhotonNetwork.LoadLevel("ScoreBoard");
+                        Cursor.lockState = CursorLockMode.Locked;
+                        Cursor.visible = true;
+
+                    }
+                    else
+                    {
+                        PhotonNetwork.LoadLevel("Game");
+                    }
                     
                 }
 

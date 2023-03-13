@@ -37,7 +37,7 @@ public class PlayerAreaCapture : MonoBehaviour
         _input = GetComponent<StarterAssetsInputs>();
         tagPlayer = GetComponent<TeamTag>().team;
         progressImage = mapAreaCapturingUI.GetComponentInChildren<Slider>();
-        
+
     }
 
     void Update()
@@ -53,7 +53,7 @@ public class PlayerAreaCapture : MonoBehaviour
         {
             pressF.SetActive(false);
         }
-      
+
     }
 
     void CaptureArea()
@@ -64,20 +64,20 @@ public class PlayerAreaCapture : MonoBehaviour
 
             if (progressImage.value == 1)
             {
-             
-    
+
+
             ExitGames.Client.Photon.Hashtable currentProperties = PhotonNetwork.CurrentRoom.CustomProperties;
-           
+
             string winningTeamName = (string)PhotonNetwork.LocalPlayer.CustomProperties["team"];
-            
-   
+
+
             currentProperties["WinningTeamID"] = winningTeamName;
             PhotonNetwork.CurrentRoom.SetCustomProperties(currentProperties);
             PhotonNetwork.CurrentRoom.CustomProperties["WinningTeamID"] = winningTeamName;
 
-                    
+
                 view.RPC("activateCanvas", RpcTarget.All);
-                     
+
                 gameWon = true;
                 Hide();
             }
@@ -93,17 +93,17 @@ public class PlayerAreaCapture : MonoBehaviour
     }
     [PunRPC]
     void activateCanvas() {
-    
+
         ExitGames.Client.Photon.Hashtable currentProperties = PhotonNetwork.CurrentRoom.CustomProperties;
         string winningTeamName = (string)PhotonNetwork.LocalPlayer.CustomProperties["team"];
-        if(PhotonNetwork.CurrentRoom.CustomProperties["WinningTeamID"] == PhotonNetwork.LocalPlayer.CustomProperties["team"] as string) {
-          
+        if((string)PhotonNetwork.CurrentRoom.CustomProperties["WinningTeamID"] == (string)PhotonNetwork.LocalPlayer.CustomProperties["team"]) {
+
             victoryUI.SetActive(true);
-            
+
         } else {
-           
+
             defeatUI.SetActive(true);
-          
+
         }
 
         // currentProperties.Add("Team_1_score", 0);
@@ -123,22 +123,34 @@ public class PlayerAreaCapture : MonoBehaviour
      PhotonNetwork.CurrentRoom.SetCustomProperties(currentProperties);
       StartCoroutine(DelayedFunction(5f));
 
-     
+
     }
 
-   
 
-    IEnumerator DelayedFunction(float delayTime)
+
+IEnumerator DelayedFunction(float delayTime)
+{
+    yield return new WaitForSeconds(delayTime);
+
+    int team1Score = (int)PhotonNetwork.CurrentRoom.CustomProperties["Team_1_score"];
+    int team2Score = (int)PhotonNetwork.CurrentRoom.CustomProperties["Team_2_score"];
+    int totalRounds = team1Score + team2Score;
+
+    if (team1Score >= 3 || team2Score >= 3 || totalRounds >= 5)
     {
-        yield return new WaitForSeconds(delayTime);
-        if((int)PhotonNetwork.CurrentRoom.CustomProperties["game_rounds"] >= 5 ) {
-            PhotonNetwork.LoadLevel("ScoreBoard");
-        } else {
-            PhotonNetwork.LoadLevel("Game");
-        }
-    }
+        PhotonNetwork.LoadLevel("ScoreBoard");
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = true;
 
-    
+    }
+    else
+    {
+        PhotonNetwork.LoadLevel("Game");
+    }
+}
+
+
+
     private void Show()
     {
         mapAreaCapturingUI.gameObject.SetActive(true);
