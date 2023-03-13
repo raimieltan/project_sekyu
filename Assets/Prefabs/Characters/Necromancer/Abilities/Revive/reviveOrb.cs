@@ -70,24 +70,16 @@ public class reviveOrb : MonoBehaviourPun
         // Debug.Log("Hit");
         if (view.IsMine) {
             PhotonNetwork.Destroy(gameObject);
+            // string ownerTeam = (string)this.gameObject.GetComponent<PhotonView>().Owner.CustomProperties["team"];
+            // Debug.Log(other.gameObject.name);
+
+            // if (other.gameObject.GetComponent<PhotonView>()) {
+                
+            //     AbilitiesEffect effect = other.gameObject.GetComponent<AbilitiesEffect>();
+            //     effect.RPC_Revive(ownerTeam);
+            // }
         }
+        
     }
 
-    // [PunRPC]
-    // private void Revive(Collider other) {
-    //     if(other.gameObject.GetComponent<Health>().isDead) {
-            
-    //         Debug.Log("TRUE");
-            // Animator animator = other.GetComponent<Animator>();
-
-            // other.gameObject.GetComponent<Health>().isDead = false;
-            // other.gameObject.GetComponent<StarterAssets.ThirdPersonController>().enabled = true;
-            // other.gameObject.GetComponent<Health>().playerHud.SetActive(true);
-            // animator.SetBool("isRevive", true);                      
-    //     }
-    // }
-    // public void Revive(Collider other)
-    // {
-    //     view.RPC(nameof(RPC_Revive), RpcTarget.All, other);
-    // }
 }

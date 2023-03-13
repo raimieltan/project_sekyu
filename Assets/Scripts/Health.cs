@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+using StarterAssets;
+using UnityEngine.InputSystem;
 
 public class Health : MonoBehaviour
 {
@@ -23,12 +25,14 @@ public class Health : MonoBehaviour
 
     private PlayerInventory playerInventory;
 
+    private ParticleSystem healthAura;
+
     private PhotonView view;
 
     private CharacterController characterController;
     private float radius;
-
     public float originalRadius;
+    private PlayerInput player;
     private Animator animator;
     private StarterAssets.ThirdPersonController thirdPersonController;
     [SerializeField] private GameObject playerHud;
@@ -50,9 +54,9 @@ public class Health : MonoBehaviour
         thirdPersonController = GetComponent<StarterAssets.ThirdPersonController>();
         view = GetComponent<PhotonView>();
         characterController = GetComponent<CharacterController>();
-        radius = characterController.radius;
-        originalRadius = characterController.radius;
         isDead = false;
+        player = GetComponent<PlayerInput>();
+        // healthAura = this.gameObject.transform.Find("Geometry/HealingAura").GetComponent<ParticleSystem>();
         // isRevive = false;
 
         // StartCoroutine(ApplyArmor());
@@ -66,13 +70,13 @@ public class Health : MonoBehaviour
             animator.SetBool("isDead", true);
             animator.SetBool("isRevive", false);
             isDead = true;
+            // characterController.enabled = false;
             thirdPersonController.enabled = false;
+            player.enabled = false;
             playerHud.SetActive(false);
-            radius = 1.05f;
-            
-            characterController.radius = radius;
+            // deathCollider.enabled = true;
 
-            Debug.Log("RADIUS: " + characterController.radius);
+            // Debug.Log("COLLIDER:" + deathCollider.enabled);
             // Debug.Log("ISDEAD: " + isDead);
         }
         // Debug.Log("CURRENT HEALTH: " + currentHealth);
@@ -99,8 +103,6 @@ public class Health : MonoBehaviour
             currentHealth -= damage;
         }
 
-        Debug.Log("TAKE DAMAGE:" + currentHealth);
-
         TriggerUpdateHealth(currentHealth);
     }
 
@@ -122,16 +124,12 @@ public class Health : MonoBehaviour
             }
        }
 
-       Debug.Log("RESTORED HEALTH: " + healAmount);
-
         TriggerUpdateHealth(currentHealth);
+        
     }
 
-    // [PunRPC]
     public void AddArmor(float armorAmount)
     {
-        Debug.Log("ARMOR AMOUNT: " + armorAmount);
-
         if (currentHealth + armorAmount >= maxHealth)
         {
             currentHealth = maxHealth;

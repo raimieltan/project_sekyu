@@ -1,3 +1,24 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:34cca07f27af8914589938533a6863c4e83a4e5f9811d6913a619d52477df08b
-size 544
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Smoke : MonoBehaviour
+{
+    [SerializeField] private Transform pfSmokeProj;
+    [SerializeField] private Transform spawnSmokePos;
+
+ 
+    public float timer;
+
+    void Update()
+    {
+        timer -= 1.0F * Time.deltaTime;
+      
+        if (Input.GetKeyDown("x") && timer <= 0)
+            {
+                Instantiate(pfSmokeProj, spawnSmokePos.position, spawnSmokePos.rotation);
+                timer = 5;
+                
+            }   
+    }
+}

@@ -1,3 +1,35 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:08d5dbe1a94b803999e29b5a8c150145e1f9d3e2896140c3eb6f32b3087ee2cf
-size 588
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+
+public class PlayerHudVariables : MonoBehaviour
+{
+    [SerializeField]
+    public Ability Ability1;
+
+    [SerializeField]
+    public Sprite Ability1Image;
+
+    public Sprite PlayerIcon;
+
+    [SerializeField]
+    public Ability Ability2;
+
+    [SerializeField]
+    public Sprite Ability2Image;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+}

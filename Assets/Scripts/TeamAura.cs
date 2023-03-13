@@ -24,12 +24,9 @@ public class TeamAura : MonoBehaviourPunCallbacks
     [PunRPC]
     void activateAura() {
         
-                if (photonView.IsMine)
+        if (photonView.IsMine)
         {
-            Debug.Log("Photon view owner: ");
-            Debug.Log(photonView.Owner.CustomProperties["team"]);
             if((string)photonView.Owner.CustomProperties["team"] == "team1") {
-                Debug.Log("Set to blue");
                 particleSystem.startColor = Color.blue;
                 
             } else {
