@@ -50,7 +50,18 @@ public class MockTimer : MonoBehaviourPun, IPunObservable
                     int rounds = (int)currentProperties["game_rounds"];
                     currentProperties["game_rounds"] = rounds + 1;
                     PhotonNetwork.CurrentRoom.SetCustomProperties(currentProperties);
-                    PhotonNetwork.LoadLevel("Game");
+
+                    if(rounds >= 5)
+                    {
+                        PhotonNetwork.LoadLevel("ScoreBoard");
+                        Cursor.lockState = CursorLockMode.Locked;
+                        Cursor.visible = true;
+
+                    }
+                    else
+                    {
+                        PhotonNetwork.LoadLevel("Game");
+                    }
                     
                 }
 

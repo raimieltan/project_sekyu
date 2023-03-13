@@ -26,8 +26,6 @@ public class MapAreaCollider : MonoBehaviour
     public Team baseTeam;
     public bool damageTaken;
     private PlayerAreaCapture playerAreaCapture;
-    private bool isCaptured = false;
-    private Collider capturingPlayerCollider;
 
     void Start() {
 
@@ -42,49 +40,38 @@ public class MapAreaCollider : MonoBehaviour
         // }
     }
 
-void OnTriggerEnter(Collider collider)
-{
-    if (isCaptured) {
-        return; // Base already captured, ignore other players
-    }
-
-    if (collider.TryGetComponent<TeamTag>(out var teamTag))
+    void OnTriggerEnter(Collider collider)
     {
-        if (teamTag.team == baseTeam)
+        if (collider.TryGetComponent<TeamTag>(out var teamTag))
         {
-            PlayerAreaCapture playerAreaCapture = collider.GetComponent<PlayerAreaCapture>();
-
-            if (playerAreaCapture != null && !playerAreaCapture.playerInside)
+            if (teamTag.team == baseTeam)
             {
+                playerAreaCapture = collider.GetComponent<PlayerAreaCapture>();
+
+                if(playerAreaCapture != null){
                 playerAreaCapture.playerInside = true;
-                capturingPlayerCollider = collider;
-                // Update UI or other game elements to indicate the base is being captured
+                // _input = collider.GetComponent<StarterAssetsInputs>();
+                // player = collider.GetComponent<ThirdPersonController>();
+                // animator = collider.GetComponent<Animator>();
+                // playerAreaCapture.playerInside = true;
+                // progressImage = mapAreaCapturingUI.GetComponentInChildren<Slider>();
+                // damageTaken = collider.GetComponent<hit>().damageTaken;
+                // playerAreaCapture = collider.GetComponent<PlayerAreaCapture>();
+                }
             }
         }
     }
-}
 
-
-void OnTriggerExit(Collider collider)
-{
-    if (collider == capturingPlayerCollider)
+    void OnTriggerExit(Collider collider)
     {
-        isCaptured = true;
-        // Update game elements to indicate the base is captured
-    }
-    else if (collider.TryGetComponent<TeamTag>(out var teamTag))
-    {
-        if (teamTag.team == baseTeam)
+        if (collider.TryGetComponent<TeamTag>(out var teamTag))
         {
-            PlayerAreaCapture playerAreaCapture = collider.GetComponent<PlayerAreaCapture>();
-            if (playerAreaCapture != null)
+            if (teamTag.team == baseTeam)
             {
                 playerAreaCapture.playerInside = false;
             }
         }
     }
-}
-
 
     // void CaptureArea()
     // {
