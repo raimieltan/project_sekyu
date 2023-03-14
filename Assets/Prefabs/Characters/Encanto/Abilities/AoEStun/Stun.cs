@@ -24,6 +24,8 @@ public class Stun : Ability
     private AbilitiesEffect abilitiesEffect;
     private ParticleSystem whiteAura;
     private AbilitiesEffect abilitiesEffect;
+    private ParticleSystem whiteAura;
+    private AbilitiesEffect abilitiesEffect;
     void Awake()
     {
         cooldownTime = 3f;
@@ -40,7 +42,6 @@ public class Stun : Ability
         {   
             if (view.IsMine){
                 view.RPC("StunEnemies", RpcTarget.All);
-                view.RPC("StunEnemies", RpcTarget.All);
             }      
         }
     }
@@ -51,10 +52,6 @@ public class Stun : Ability
         nextFireTime = Time.time + cooldownTime;
         TriggerFireEvent();
         Collider[] colliders = Physics.OverlapSphere(transform.position, range);
-
-        view.RPC("emitAura", RpcTarget.All);
-
-        string ownerTeam = (string)this.gameObject.GetComponent<PhotonView>().Owner.CustomProperties["team"];
 
         view.RPC("emitAura", RpcTarget.All);
 
@@ -80,14 +77,8 @@ public class Stun : Ability
     private void emitAura() {
         whiteAura.Play();
         StartCoroutine(StopAura());
-        whiteAura.Play();
-        StartCoroutine(StopAura());
     }
 
-    IEnumerator StopAura() {
-        yield return new WaitForSeconds(3f);
-        whiteAura.Stop();
-    }
     IEnumerator StopAura() {
         yield return new WaitForSeconds(3f);
         whiteAura.Stop();
