@@ -42,27 +42,28 @@ public class DisplayPlayer : MonoBehaviourPunCallbacks
         UpdatePlayerList();
     }
 
-    void UpdatePlayerList()
+void UpdatePlayerList()
+{
+    List<Player> players = PhotonNetwork.PlayerList.ToList();
+    tubigPlayers.text = "";
+    dugoPlayers.text = "";
+    foreach (Player player in players)
     {
-        List<Player> players = PhotonNetwork.PlayerList.ToList();
-        tubigPlayers.text = "";
-        dugoPlayers.text = "";
-        foreach (Player player in players)
+        if (player.CustomProperties["team"] != null)
         {
-            if(player.CustomProperties["team"] != null) {
-               
-                if((string)player.CustomProperties["team"] == "team1") {
-                 
-                    tubigPlayers.text += player.NickName + "\n";
-                } else if((string)player.CustomProperties["team"] == "team2") {
-                    dugoPlayers.text += player.NickName + "\n";
-                }
-                
+            string team = (string)player.CustomProperties["team"];
+            string nickname = player.NickName.Substring(0, Mathf.Min(player.NickName.Length, 2)).ToUpper();
+            if (team == "team1")
+            {
+                tubigPlayers.text += nickname + "   ";
             }
-        
+            else if (team == "team2")
+            {
+                dugoPlayers.text += nickname + "   ";
+            }
         }
-        
     }
+}
 
     public void ChooseTeam1() {
         tubigPlayers.text = "";
@@ -150,4 +151,3 @@ private IEnumerator HideErrorMessage()
 
 
 }
-

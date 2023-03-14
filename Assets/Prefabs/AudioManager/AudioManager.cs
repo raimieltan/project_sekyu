@@ -36,6 +36,8 @@ public class AudioManager : MonoBehaviour
 
         // Get the AudioSource component
         audioSource = GetComponent<AudioSource>();
+
+        PlayBackgroundSound(0);
     }
 
     public void PlayBackgroundSound(int index)
