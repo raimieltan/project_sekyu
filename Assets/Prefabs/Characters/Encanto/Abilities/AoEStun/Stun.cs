@@ -22,6 +22,7 @@ public class Stun : Ability
     public PhotonView view;
     private ParticleSystem whiteAura;
     private AbilitiesEffect abilitiesEffect;
+    
     void Awake()
     {
         cooldownTime = 3f;
