@@ -22,17 +22,12 @@ public class Stun : Ability
     public PhotonView view;
     private ParticleSystem whiteAura;
     private AbilitiesEffect abilitiesEffect;
-    private ParticleSystem whiteAura;
-    private AbilitiesEffect abilitiesEffect;
-    private ParticleSystem whiteAura;
-    private AbilitiesEffect abilitiesEffect;
+    
     void Awake()
     {
         cooldownTime = 3f;
         nextFireTime = 0;
         starterAssetsInputs = GetComponent<StarterAssetsInputs>();
-        abilitiesEffect = GetComponent<AbilitiesEffect>();
-        whiteAura = this.gameObject.transform.Find("Geometry/WhiteAura").GetComponent<ParticleSystem>();
         abilitiesEffect = GetComponent<AbilitiesEffect>();
         whiteAura = this.gameObject.transform.Find("Geometry/WhiteAura").GetComponent<ParticleSystem>();
     }
@@ -62,13 +57,6 @@ public class Stun : Ability
             if(collider.gameObject.GetComponent<PhotonView>()) {
                 AbilitiesEffect effect = collider.gameObject.GetComponent<AbilitiesEffect>();
                 effect.RPC_Stun(ownerTeam);
-                foreach (Collider collider in colliders)
-                {  
-                    if(collider.gameObject.GetComponent<PhotonView>()) {
-                        AbilitiesEffect effect = collider.gameObject.GetComponent<AbilitiesEffect>();
-                        effect.RPC_Stun(ownerTeam);
-                    }
-                }
             }
         }
     }
