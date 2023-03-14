@@ -47,7 +47,6 @@ public class Stun : Ability
 
     [PunRPC]
     private void StunEnemies()
-    private void StunEnemies()
     {
         nextFireTime = Time.time + cooldownTime;
         TriggerFireEvent();
@@ -66,11 +65,13 @@ public class Stun : Ability
             if(collider.gameObject.GetComponent<PhotonView>()) {
                 AbilitiesEffect effect = collider.gameObject.GetComponent<AbilitiesEffect>();
                 effect.RPC_Stun(ownerTeam);
-        foreach (Collider collider in colliders)
-        {  
-            if(collider.gameObject.GetComponent<PhotonView>()) {
-                AbilitiesEffect effect = collider.gameObject.GetComponent<AbilitiesEffect>();
-                effect.RPC_Stun(ownerTeam);
+                foreach (Collider collider in colliders)
+                {  
+                    if(collider.gameObject.GetComponent<PhotonView>()) {
+                        AbilitiesEffect effect = collider.gameObject.GetComponent<AbilitiesEffect>();
+                        effect.RPC_Stun(ownerTeam);
+                    }
+                }
             }
         }
     }
@@ -86,8 +87,9 @@ public class Stun : Ability
     IEnumerator StopAura() {
         yield return new WaitForSeconds(3f);
         whiteAura.Stop();
+    }
     IEnumerator StopAura() {
         yield return new WaitForSeconds(3f);
         whiteAura.Stop();
     }
-}
+}   
