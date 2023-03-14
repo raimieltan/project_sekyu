@@ -14,48 +14,38 @@ using StarterAssets;
 // Ability class has variables such as cooldownTime and nextFireTime
 // also declared an event which is triggered when pressing the button
 
-public class Stun : Ability
+public class Curse : Ability
 {
-    public float range = 9f;
+    public float range = 7f;
 
     private StarterAssetsInputs starterAssetsInputs;
     public PhotonView view;
-    private ParticleSystem whiteAura;
-    private AbilitiesEffect abilitiesEffect;
-    private ParticleSystem whiteAura;
+    private ParticleSystem curseAura;
     private AbilitiesEffect abilitiesEffect;
     void Awake()
     {
-        cooldownTime = 3f;
+        cooldownTime = 12f;
         nextFireTime = 0;
         starterAssetsInputs = GetComponent<StarterAssetsInputs>();
         abilitiesEffect = GetComponent<AbilitiesEffect>();
-        whiteAura = this.gameObject.transform.Find("Geometry/WhiteAura").GetComponent<ParticleSystem>();
-        abilitiesEffect = GetComponent<AbilitiesEffect>();
-        whiteAura = this.gameObject.transform.Find("Geometry/WhiteAura").GetComponent<ParticleSystem>();
+        curseAura = this.gameObject.transform.Find("Geometry/DarknessAura").GetComponent<ParticleSystem>();
     }
     void Update()
     {
-        if (Time.time > nextFireTime && starterAssetsInputs.secondAbility)
+        if (Time.time > nextFireTime && starterAssetsInputs.firstAbility)
         {   
             if (view.IsMine){
-                view.RPC("StunEnemies", RpcTarget.All);
-                view.RPC("StunEnemies", RpcTarget.All);
+                view.RPC("CurseEnemies", RpcTarget.All);
             }      
         }
     }
 
     [PunRPC]
-    private void StunEnemies()
-    private void StunEnemies()
+    private void CurseEnemies()
     {
         nextFireTime = Time.time + cooldownTime;
         TriggerFireEvent();
         Collider[] colliders = Physics.OverlapSphere(transform.position, range);
-
-        view.RPC("emitAura", RpcTarget.All);
-
-        string ownerTeam = (string)this.gameObject.GetComponent<PhotonView>().Owner.CustomProperties["team"];
 
         view.RPC("emitAura", RpcTarget.All);
 
@@ -65,29 +55,19 @@ public class Stun : Ability
         {  
             if(collider.gameObject.GetComponent<PhotonView>()) {
                 AbilitiesEffect effect = collider.gameObject.GetComponent<AbilitiesEffect>();
-                effect.RPC_Stun(ownerTeam);
-        foreach (Collider collider in colliders)
-        {  
-            if(collider.gameObject.GetComponent<PhotonView>()) {
-                AbilitiesEffect effect = collider.gameObject.GetComponent<AbilitiesEffect>();
-                effect.RPC_Stun(ownerTeam);
+                effect.RPC_Curse(ownerTeam);
             }
         }
     }
 
     [PunRPC]
     private void emitAura() {
-        whiteAura.Play();
-        StartCoroutine(StopAura());
-        whiteAura.Play();
+        curseAura.Play();
         StartCoroutine(StopAura());
     }
 
     IEnumerator StopAura() {
         yield return new WaitForSeconds(3f);
-        whiteAura.Stop();
-    IEnumerator StopAura() {
-        yield return new WaitForSeconds(3f);
-        whiteAura.Stop();
+        curseAura.Stop();
     }
 }
