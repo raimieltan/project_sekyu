@@ -10,8 +10,6 @@ using UnityEngine.InputSystem;
 public class Invisibility : Ability
 {    
     private float invisibilityDuration = 5;
-
-    private Copycat copycat;
     public bool isVisible;
     public Material transparentMaterial;
     private StarterAssetsInputs starterAssetsInputs;
@@ -24,12 +22,11 @@ public class Invisibility : Ability
 
     void Start()
     {
-        cooldownTime = 9;
+        cooldownTime = 12;
         nextFireTime = 0;
         isVisible = true;
         player = GetComponent<ThirdPersonController>();
         starterAssetsInputs = GetComponent<StarterAssetsInputs>();
-        copycat = GetComponent<Copycat>();
         _materials = GetAllObjectsWithMeshMaterial();
     }
 
@@ -38,20 +35,13 @@ public class Invisibility : Ability
 
         if (Time.time > nextFireTime)
         {
-            if (copycat.characterIndex == 0 && starterAssetsInputs.secondAbility)
+            if (starterAssetsInputs.secondAbility)
             {
                 view.RPC("GoInvisible",RpcTarget.All);
 
             }
         }
     }
-        
-
-    // [PunRPC]
-    // void emitInvi(){
-    //     Debug.Log(copycat.characterIndex);
-        
-    // }
 
     private List<Material[]> GetAllObjectsWithMeshMaterial()
     {
@@ -79,7 +69,9 @@ public class Invisibility : Ability
     [PunRPC]
     IEnumerator RemoveInvisibility()
     {
-        yield return new WaitForSeconds(8f);
+        yield return new WaitForSeconds(7f);
+
+        isVisible = true;
 
         Transform[] limbs = GetComponentsInChildren<Transform>();
 
@@ -92,8 +84,6 @@ public class Invisibility : Ability
                 renderer.materials = _materials[child];
             }
         }
-
-        isVisible = true;
     }
 
     [PunRPC]

@@ -16,7 +16,7 @@ using StarterAssets;
 
 public class Stun : Ability
 {
-    public float range = 7f;
+    public float range = 9f;
 
     private StarterAssetsInputs starterAssetsInputs;
     public PhotonView view;
@@ -24,7 +24,7 @@ public class Stun : Ability
     private AbilitiesEffect abilitiesEffect;
     void Awake()
     {
-        cooldownTime = 3;
+        cooldownTime = 3f;
         nextFireTime = 0;
         starterAssetsInputs = GetComponent<StarterAssetsInputs>();
         abilitiesEffect = GetComponent<AbilitiesEffect>();
