@@ -18,23 +18,23 @@ public class hit : MonoBehaviour
     private float originalRadius;
     private StarterAssets.ThirdPersonController thirdPersonController;
     public GameObject playerHud;
-    public Copycat copyCat;
     public Animator animator;
     private AbilitiesEffect abilitiesEffect;
+    public bool isCurse;
 
     void Awake(){
         animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
         originalRadius = health.originalRadius;
-        copyCat = GetComponent<Copycat>();
         abilitiesEffect = this.gameObject.GetComponent<AbilitiesEffect>();
+        isCurse = false;
 
-        bloodAura = transform.Find("Geometry/BloodAura")?.GetComponent<ParticleSystem>();
-        if (bloodAura == null) {
-            Debug.LogError("Failed to find BloodAura particle system");
-        }
-
+        bloodAura = this.gameObject.transform.Find("Geometry/BloodAura").GetComponent<ParticleSystem>();
         thirdPersonController = GetComponent<StarterAssets.ThirdPersonController>();
+    }
+
+    void Update() {
+        Debug.Log("CURSED: " + isCurse);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -57,13 +57,15 @@ public class hit : MonoBehaviour
                     StartCoroutine(EndDamageTaken());
                     PhotonView attackerView = other.transform.root.GetComponent<PhotonView>();
                     sender = attackerView.Owner;
-                    applyDamage(damage.value);
+                    
+                    if (isCurse) {
+                        applyDamage(damage.value * 2);
+                    } else {
+                        applyDamage(damage.value);
+                    }
                 }
             }
 
-            // if (copyCat && copyCat.characterIndex != 0) {
-            //     copyCat.Revert();
-            // }
         }
 
         if (other.gameObject.tag == "revive")
@@ -94,7 +96,7 @@ public class hit : MonoBehaviour
     {
 
         Debug.Log(health.currentHealth);
-        // view.RPC("emitAuraBlood",RpcTarget.All);
+        view.RPC("emitAuraBlood",RpcTarget.All);
 
         health.TakeDamage(value);
 
@@ -118,5 +120,16 @@ public class hit : MonoBehaviour
         damageTaken = true;
         yield return new WaitForSeconds(2.0f);
         damageTaken = false;
+    }
+
+    [PunRPC]
+    private void emitBlood() {
+        bloodAura.Play();
+        StartCoroutine(StopAura());
+    }
+
+    IEnumerator StopAura() {
+        yield return new WaitForSeconds(1.0f);
+        bloodAura.Stop();
     }
 }
