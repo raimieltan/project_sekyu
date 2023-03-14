@@ -24,6 +24,8 @@ public class Stun : Ability
     private AbilitiesEffect abilitiesEffect;
     private ParticleSystem whiteAura;
     private AbilitiesEffect abilitiesEffect;
+    private ParticleSystem whiteAura;
+    private AbilitiesEffect abilitiesEffect;
     void Awake()
     {
         cooldownTime = 3f;
@@ -40,22 +42,16 @@ public class Stun : Ability
         {   
             if (view.IsMine){
                 view.RPC("StunEnemies", RpcTarget.All);
-                view.RPC("StunEnemies", RpcTarget.All);
             }      
         }
     }
 
     [PunRPC]
     private void StunEnemies()
-    private void StunEnemies()
     {
         nextFireTime = Time.time + cooldownTime;
         TriggerFireEvent();
         Collider[] colliders = Physics.OverlapSphere(transform.position, range);
-
-        view.RPC("emitAura", RpcTarget.All);
-
-        string ownerTeam = (string)this.gameObject.GetComponent<PhotonView>().Owner.CustomProperties["team"];
 
         view.RPC("emitAura", RpcTarget.All);
 
@@ -66,11 +62,13 @@ public class Stun : Ability
             if(collider.gameObject.GetComponent<PhotonView>()) {
                 AbilitiesEffect effect = collider.gameObject.GetComponent<AbilitiesEffect>();
                 effect.RPC_Stun(ownerTeam);
-        foreach (Collider collider in colliders)
-        {  
-            if(collider.gameObject.GetComponent<PhotonView>()) {
-                AbilitiesEffect effect = collider.gameObject.GetComponent<AbilitiesEffect>();
-                effect.RPC_Stun(ownerTeam);
+                foreach (Collider collider in colliders)
+                {  
+                    if(collider.gameObject.GetComponent<PhotonView>()) {
+                        AbilitiesEffect effect = collider.gameObject.GetComponent<AbilitiesEffect>();
+                        effect.RPC_Stun(ownerTeam);
+                    }
+                }
             }
         }
     }
@@ -79,15 +77,10 @@ public class Stun : Ability
     private void emitAura() {
         whiteAura.Play();
         StartCoroutine(StopAura());
-        whiteAura.Play();
-        StartCoroutine(StopAura());
     }
 
     IEnumerator StopAura() {
         yield return new WaitForSeconds(3f);
         whiteAura.Stop();
-    IEnumerator StopAura() {
-        yield return new WaitForSeconds(3f);
-        whiteAura.Stop();
     }
-}
+}   
