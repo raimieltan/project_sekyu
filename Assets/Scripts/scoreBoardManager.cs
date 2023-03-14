@@ -34,7 +34,7 @@ public class scoreBoardManager : MonoBehaviourPunCallbacks
             defeatUI.SetActive(false);
             drawUI.SetActive(false);
         }
-        else {
+        else if((string)PhotonNetwork.CurrentRoom.CustomProperties["WinningTeamID"] != (string)PhotonNetwork.LocalPlayer.CustomProperties["team"]){
             AudioManager.instance.PlayDefeatSound();
             defeatUI.SetActive(true);
             victoryUI.SetActive(false);
