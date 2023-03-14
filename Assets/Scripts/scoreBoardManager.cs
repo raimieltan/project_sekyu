@@ -19,6 +19,7 @@ public class scoreBoardManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        Cursor.visible = true;
         ExitGames.Client.Photon.Hashtable currentProperties = PhotonNetwork.CurrentRoom.CustomProperties;
         score1.text = (string)PhotonNetwork.CurrentRoom.CustomProperties["Team_1_score"].ToString();
         score2.text = (string)PhotonNetwork.CurrentRoom.CustomProperties["Team_2_score"].ToString();
