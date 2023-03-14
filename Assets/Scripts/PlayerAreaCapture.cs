@@ -135,7 +135,7 @@ IEnumerator DelayedFunction(float delayTime)
     int team2Score = (int)PhotonNetwork.CurrentRoom.CustomProperties["Team_2_score"];
     int totalRounds = team1Score + team2Score;
 
-    if (team1Score >= 1 || team2Score >= 1 || totalRounds >= 1)
+    if (team1Score >= 3 || team2Score >= 3 || totalRounds >= 5)
     {
         PhotonNetwork.LoadLevel("ScoreBoard");
         Cursor.lockState = CursorLockMode.Locked;
