@@ -10,7 +10,7 @@ public class AbilitiesEffect : MonoBehaviour
     public bool isHeal;
     private Health health;
     public PhotonView view;
-    public ParticleSystem healAura, stunAura, reviveAura;
+    public ParticleSystem healAura, stunAura, reviveAura, curseMark;
     private PlayerInput player;
     private Animator animator;
     private CharacterController characterController;
@@ -26,6 +26,7 @@ public class AbilitiesEffect : MonoBehaviour
         healAura = this.gameObject.transform.Find("Geometry/HealingAura").GetComponent<ParticleSystem>();
         stunAura = this.gameObject.transform.Find("Geometry/SleepAura").GetComponent<ParticleSystem>();
         reviveAura = this.gameObject.transform.Find("Geometry/WaterAura").GetComponent<ParticleSystem>();
+        curseMark = this.gameObject.transform.Find("Geometry/CurseMark").GetComponent<ParticleSystem>();
         animator = this.gameObject.GetComponent<Animator>();
         hit = GetComponent<hit>();
     }
@@ -110,18 +111,34 @@ public class AbilitiesEffect : MonoBehaviour
 
         health.RestoreHealth(100);
 
-        // Debug.Log("Health IsDead: " + health.isDead);
-        // Debug.Log("Hit IsDead: " + hit.isDead);
-        // Debug.Log("CharacterController" + characterController.enabled);
-        // Debug.Log("thirdPersonController" + thirdPersonController.enabled);
-        // Debug.Log("Player" + player.enabled);
+    }
+    
+    //CURSE EFFECTS
+    [PunRPC]
+    public void RPC_Curse(string playerTeam)
+    {
+        string ownerTeam = (string)PhotonNetwork.LocalPlayer.CustomProperties["team"];
+        
+        if (!health.isDead) {
+            if(view.IsMine && ownerTeam != playerTeam) {
+                view.RPC("Cursed", RpcTarget.All);
+            }
+        }
+    }
 
-        // playerHud.SetActive(true);
+    [PunRPC]
+    public void Cursed()
+    {
+        hit.isCurse = true;
+        curseMark.Play();
+        StartCoroutine(RemoveCurse());
+    }
 
-        // characterController.direction = 1;
-        // animator.SetBool("isDead", false);
-        // animator.SetBool("isRevive", false);
-
+    [PunRPC]
+    IEnumerator RemoveCurse() {
+        yield return new WaitForSeconds(6f);
+        hit.isCurse = false;
+        curseMark.Stop();
     }
 
     //AURAS
@@ -138,6 +155,7 @@ public class AbilitiesEffect : MonoBehaviour
         StartCoroutine(StopAura(stunAura));
     }
 
+    [PunRPC]
     void emitReviveAura() {
         reviveAura.Play();
         StartCoroutine(StopAura(reviveAura));
