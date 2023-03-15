@@ -19,6 +19,7 @@ public class scoreBoardManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         ExitGames.Client.Photon.Hashtable currentProperties = PhotonNetwork.CurrentRoom.CustomProperties;
         score1.text = (string)PhotonNetwork.CurrentRoom.CustomProperties["Team_1_score"].ToString();
@@ -27,18 +28,24 @@ public class scoreBoardManager : MonoBehaviourPunCallbacks
         {
             AudioManager.instance.PlayDefeatSound();
             drawUI.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
         else if((string)PhotonNetwork.CurrentRoom.CustomProperties["WinningTeamID"] == (string)PhotonNetwork.LocalPlayer.CustomProperties["team"]) {
             AudioManager.instance.PlayVictorySound();
             victoryUI.SetActive(true);
             defeatUI.SetActive(false);
             drawUI.SetActive(false);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
         else if((string)PhotonNetwork.CurrentRoom.CustomProperties["WinningTeamID"] != (string)PhotonNetwork.LocalPlayer.CustomProperties["team"]){
             AudioManager.instance.PlayDefeatSound();
             defeatUI.SetActive(true);
             victoryUI.SetActive(false);
             drawUI.SetActive(false);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
         PhotonNetwork.LeaveRoom();
     }
