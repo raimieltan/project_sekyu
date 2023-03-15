@@ -146,7 +146,7 @@ void UpdatePlayerList()
         character["chosen"] = 2;
 
         characterNameText.text = "NUNO";
-        ability1Text.text = "TAKIPSILIM";
+        ability1Text.text = "CURSE";
         ability2Text.text = "MALIKMATA";
 
         PhotonNetwork.SetPlayerCustomProperties (character);
