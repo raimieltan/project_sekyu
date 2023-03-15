@@ -101,15 +101,43 @@ public class ShopManagerScript : MonoBehaviour
             CoinsTxt.text = "Coins: " + coins.ToString();
             ButtonRef.GetComponent<ButtonInfo>().QuantityText.text = shopItems[3, ButtonRef.GetComponent<ButtonInfo>().ItemID].ToString();
         } 
-        else
+        
+        if(coins < shopItems[2,0])
         {
             Buy1.SetActive(false);
+        }
+
+        if(coins < shopItems[2,1])
+        {
             Buy2.SetActive(false);
+        }
+
+        if(coins < shopItems[2,2])
+        {
             Buy3.SetActive(false);
+        }
+
+        if(coins < shopItems[2,3])
+        {
             Buy4.SetActive(false);
+        }
+
+        if(coins < shopItems[2,4])
+        {
             Buy5.SetActive(false);
+        }
+
+        if(coins < shopItems[2,5])
+        {
             Buy6.SetActive(false);
+        }
+
+        if(coins < shopItems[2,6])
+        {
             Buy7.SetActive(false);
+        }
+        if(coins < shopItems[2,7])
+        {
             Buy8.SetActive(false);
         }
     }
