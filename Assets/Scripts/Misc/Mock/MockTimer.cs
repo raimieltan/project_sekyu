@@ -54,7 +54,7 @@ public class MockTimer : MonoBehaviourPun, IPunObservable
                     if(rounds >= 5)
                     {
                         PhotonNetwork.LoadLevel("ScoreBoard");
-                        Cursor.lockState = CursorLockMode.Locked;
+                        Cursor.lockState = CursorLockMode.None;
                         Cursor.visible = true;
 
                     }

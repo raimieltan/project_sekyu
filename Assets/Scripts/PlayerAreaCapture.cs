@@ -138,7 +138,7 @@ IEnumerator DelayedFunction(float delayTime)
     if (team1Score >= 3 || team2Score >= 3 || totalRounds >= 5)
     {
         PhotonNetwork.LoadLevel("ScoreBoard");
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
     }
