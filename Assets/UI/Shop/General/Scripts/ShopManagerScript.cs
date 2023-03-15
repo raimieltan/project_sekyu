@@ -25,7 +25,14 @@ public class ShopManagerScript : MonoBehaviour
     public GameObject Slow;
     public GameObject Explosive;
     public Health playerHealth;
-
+    public GameObject Buy1;
+    public GameObject Buy2;
+    public GameObject Buy3;
+    public GameObject Buy4;
+    public GameObject Buy5;
+    public GameObject Buy6;
+    public GameObject Buy7;
+    public GameObject Buy8;
     public PhotonView view;
     int itemQntyTxt;
 
@@ -93,7 +100,18 @@ public class ShopManagerScript : MonoBehaviour
             Debug.Log(shopItems[3, ButtonRef.GetComponent<ButtonInfo>().ItemID]);
             CoinsTxt.text = "Coins: " + coins.ToString();
             ButtonRef.GetComponent<ButtonInfo>().QuantityText.text = shopItems[3, ButtonRef.GetComponent<ButtonInfo>().ItemID].ToString();
-        }  
+        } 
+        else
+        {
+            Buy1.SetActive(false);
+            Buy2.SetActive(false);
+            Buy3.SetActive(false);
+            Buy4.SetActive(false);
+            Buy5.SetActive(false);
+            Buy6.SetActive(false);
+            Buy7.SetActive(false);
+            Buy8.SetActive(false);
+        }
     }
 
     void Update()
